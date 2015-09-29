@@ -1,0 +1,150 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+
+\title{14.03 Problem Set 1}
+\author{Yijun Jiang}
+%\email{yjjiang@mit.edu}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Implicit Function Theorem and Envelop Theorem}
+\subsection{Subproblem 1}
+\begin{align*}
+  \frac{\partial y}{\partial x}&=4a-14x=0\\
+  x&=x^*(a)=\frac{2}{7}a
+\end{align*}
+
+\subsection{Subproblem 2}
+\begin{equation*}
+  \frac{\partial^2y}{\partial^2x}=-14<0
+\end{equation*}
+
+Therefore, $x^*(a)$ is a maximum.
+
+\subsection{Subproblem 3}
+\begin{equation*}
+  y^*(a)=4ax^*(a)-7x^*(a)^2=\frac{4}{7}a^2
+\end{equation*}
+
+\subsection{Subproblem 4}
+\begin{align*}
+  \frac{dx^*(a)}{da}&=\frac{d}{da}\left(\frac{2}{7}a\right)=\frac{2}{7}\\
+  \frac{dy^*(a)}{da}&=\frac{d}{da}\left(\frac{4}{7}a^2\right)=\frac{8}{7}a
+\end{align*}
+
+\subsection{Subproblem 5}
+The FOC in (1) reads
+\begin{equation*}
+  g(x^*;a)=4a-14x^*=0
+\end{equation*}
+
+Therefore, according to implicit function theorem,
+
+\begin{equation*}
+  \frac{dx^*}{da}=-\frac{\partial g/\partial a}{\partial g/\partial x^*}=\frac{2}{7}
+\end{equation*}
+
+This agrees with direct calculation from the expression of $x^*(a)$.
+
+\subsection{Subproblem 6}
+According to the envelope theorem,
+\begin{equation*}
+  \frac{d^*y(a)}{da}=\left.\frac{\partial y}{\partial a}\right|_{x=x^*(a)} =4x^*(a)=\frac{8}{7}a
+\end{equation*}
+
+This theorem simplifies the calculation in that the derivative of $y$ with respect of $x$ does not appear. This is because $x$ is already optimized.
+
+\section{Minimum Wages and Employment}
+\subsection{Subproblem 1}
+\begin{equation*}
+  MRPL=p\frac{\partial Y}{\partial L}=3(-1.5L+15)=-4.5L+45
+\end{equation*}
+
+The curve is downward sloping because the constant coefficient $-4.5<0$. The general reason for $MRPL$ to be downward sloping is the important jobs are done first, so that additional labor only contributes to work that is less important.
+
+\subsection{Subproblem 2}
+Labor supply curve is $w=L+8$. In a competitive market, the firm hires labor until $MRPL$ equals $w$.
+\begin{equation*}
+  MRPL=-4.5L+45=w=L+8
+\end{equation*}
+
+The solution is
+\begin{align*}
+  &L=\frac{74}{11}\\
+  &w=\frac{162}{11}
+\end{align*}
+
+Therefore, $(w^C,L^C)=(162/11,74/11)\approx(14.73,6.73)$. This is shown in the figure below.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=12cm]{fig1.eps}\\
+  \caption{Graphical illustration of a competitive market}
+\end{figure}
+
+\subsection{Subproblem 3}
+This entity does not take the nurses' wages as given because it is a monopsony. Total cost of labor is $CL=Lw=L(L+8)$. Therefore,
+\begin{equation*}
+  MCL=\frac{\partial(CL)}{\partial L}=2L+8
+\end{equation*}
+
+$MCL$ is upward sloping because the constant coefficient $2>0$. The general reason for $MCL$ to be upward sloping is that, the firm has to pay for the additional worker as well as pay additional wages to previously hired workers. Because of this, $MCL$ should be steeper than the labor supply curve. This is true, since
+\begin{equation*}
+  \frac{dw(L)}{dL}=1<\frac{d(MCL)}{dL}=2
+\end{equation*}
+
+
+\subsection{Subproblem 4}
+In a monopsonistic market, the firm hires labor until $MRPL$ equals $MCL$.
+\begin{equation*}
+  MRPL=-4.5L+45=MCL=2L+8
+\end{equation*}
+
+The solution is
+\begin{align*}
+  &L=\frac{74}{13}\\
+  &w=\frac{178}{13}
+\end{align*}
+
+Therefore, $(w^M,L^M)=(178/13,74/13)\approx(13.69,5.69)$. This is shown in the figure below.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=12cm]{fig2.eps}\\
+  \caption{Graphical illustration of a monopsonistic market}
+\end{figure}
+
+\subsection{Subproblem 5}
+The monopsonistic market has both equilibrium wage and labor lower than the competitive market. This makes sense, since the monopsony must pay additional wages to the previously hired workers when it hires someone new, it tends to hire less than in the competitive market. And a lower equilibrium labor means a lower wage in the market.
+
+The US health care system is more like a competitive market, because there are lots of firms hiring people. Each firm is not able to hire so many workers that its hiring affects the market price of labor.
+
+\subsection{Subproblem 6}
+We notice that for both the competitive and the monopsonistic market, this minimum wage of $\$16$ is binding.
+
+For the competitive market, the firm hires until $MRPL$ equals $w_{min}$.
+\begin{equation*}
+  MRPL=-4.5L+45=w_{min}=16
+\end{equation*}
+
+The new equilibrium is $(w_{min}^C,L_{min}^C)=(16,58/9)\approx(16,6.44)$. Compared with $(w^C,L^C)\approx(14.73,6.73)$, the equilibrium wage increases but the equilibrium labor drops when a minimum wage is enforced.
+
+For the monopsonistic market, the firm is no longer a monopsony when a binding minimum wage is enforced. Then the firm just hires until $MRPL$ equals $w_{min}$, and it should reach the competitive equilibria $(w_{min}^M,L_{min}^M)=(w_{min}^C,L_{min}^C)=(16,58/9)\approx(16,6.44)$. Compared with $(w^M,L^M)\approx(13.69,5.69)$, both the equilibrium wage and labor increase. This is shown in the figure below.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=12cm]{fig3.eps}\\
+  \caption{Graphical illustration of the effect of a minimum wage}
+\end{figure}
+
+\subsection{Subproblem 7}
+The equation $MRPL=w_{min}=20$ has equilibrium solution $(w_{min},L_{min})=(20,50/9)\approx(20,5.56)$. As in the previous part, this solution holds not only for the competitive market, but also for the monopsonistic market, for the monopsonistic market becomes competitive under the binding minimum wage. For the competitive market, the wage increases but the labor drops. The same is true for the (previously) monopsonistic market. Notice that if $w_{min}$ is set too high, the monopsonistic market does not display an increasing equilibrium labor any more. This is shown in the figure below.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=12cm]{fig4.eps}\\
+  \caption{Graphical illustration of the effect of too high a minimum wage}
+\end{figure}
+
+\end{document}

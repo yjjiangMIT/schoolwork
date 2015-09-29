@@ -1,0 +1,98 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\title{8.511 Problem Set 2}
+\author{Yijun Jiang}
+%\email{yjjiang@mit.edu}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Problem 1}
+The notation below does not distinguish a vector from its endpoint. So if a vector starts from the origin $o$ and ends at some lattice point $v$, I call this vector $v$.
+
+In a Bravais lattice, a nonzero vector of the minimal length exists. Denote it by $v$. The rotation $\rho$ (by an angle $\theta$), whose axis does not necessarily pass through a lattice point, carries the origin $o$ to some lattice point $o'$. Let $u=t_{-o'}\circ\rho{v}$. Then $u$ has the same length as $v$ (its start point is translated back to $o$). 
+
+\section{Problem 2}
+\subsection{Part (a)}
+Let $\vec{k}_1=\vec{k}_W$, $\vec{k}_2=\vec{k}_W-\frac{2\pi}{a}(1,1,1)$, $\vec{k}_3=\vec{k}_W-\frac{2\pi}{a}(1,1,-1)$ and $\vec{k}_4=\vec{k}_W-\frac{2\pi}{a}(2,0,0)$. The four corresponding kinetic energies $\varepsilon_i^0$, $i=1,2,3,4$ are degenerate and equal to $\varepsilon_W$. Their couplings are determined by
+\begin{align*}
+&\vec{k}_1-\vec{k}_2=\frac{2\pi}{a}(1,1,1)\rightarrow U_{111}\\
+&\vec{k}_1-\vec{k}_3=\frac{2\pi}{a}(1,1,-1)\rightarrow U_{11\bar{1}}\\
+&\vec{k}_1-\vec{k}_4=\frac{2\pi}{a}(2,0,0)\rightarrow U_{200}\\
+&\vec{k}_2-\vec{k}_3=\frac{2\pi}{a}(0,0,-2)\rightarrow U_{00\bar{2}}\\
+&\vec{k}_2-\vec{k}_4=\frac{2\pi}{a}(1,-1,-1)\rightarrow U_{1\bar{1}\bar{1}}\\
+&\vec{k}_3-\vec{k}_4=\frac{2\pi}{a}(1,-1,1)\rightarrow U_{1\bar{1}1}
+\end{align*}
+
+According to symmetry, the Fourier components $U_{111}=U_{11\bar{1}}=U_{1\bar{1}1}=U_{\bar{1}11}=U_{1\bar{1}\bar{1}}=U_{\bar{1}1\bar{1}}=U_{\bar{1}\bar{1}1}=U_{\bar{1}\bar{1}\bar{1}}=U_1$, and $U_{200}=U_{020}=U_{002}=U_{\bar{2}00}=U_{0\bar{2}0}=U_{00\bar{2}}=U_2$. Then in the subspace spanned by the four plane waves, the Hamiltonian is
+\begin{equation*}
+H=\left(\begin{array}{cccc}\varepsilon_1^0&U_1&U_1&U_2\\U_1&\varepsilon_2^0&U_2&U_1\\U_1&U_2&\varepsilon_3^0&U_1\\U_2&U_1&U_1&\varepsilon_4^0\end{array}\right)
+\end{equation*}
+
+Schr\"{o}dinger equation requires that the eigenenergy $\varepsilon$ satisfies
+\begin{equation*}
+\left|\begin{array}{cccc}\varepsilon_1^0-\varepsilon&U_1&U_1&U_2\\U_1&\varepsilon_2^0-\varepsilon&U_2&U_1\\U_1&U_2&\varepsilon_3^0-\varepsilon&U_1\\U_2&U_1&U_1&\varepsilon_4^0-\varepsilon\end{array}\right|=0
+\end{equation*}
+
+This is equivalent to
+\begin{equation*}
+(\varepsilon_W-\varepsilon)^4-4(\varepsilon_W-\varepsilon)^2U_1^2+2(\varepsilon_W-\varepsilon)^2U_2^2+8(\varepsilon_W-\varepsilon)U_1^2U_2-4U_1^2U_2^2+U_2^4=0\\
+\end{equation*}
+
+After factorization
+\begin{equation*}
+(\varepsilon_W-\varepsilon-U_2)^2(\varepsilon_W-\varepsilon-2U_1+U_2)(\varepsilon_W-\varepsilon+2U_1+U_2)=0
+\end{equation*}
+
+Therefore, the eigenenergies are
+\begin{align*}
+\varepsilon_1&=\varepsilon_W-U_2\\
+\varepsilon_2&=\varepsilon_W-U_2\\
+\varepsilon_3&=\varepsilon_W+U_2-2U_1\\
+\varepsilon_4&=\varepsilon_W+U_2+2U_1
+\end{align*}
+
+\subsection{Part (b)}
+Point $U$ is where planes $(111)$ and $(200)$ meet. Therefore, there should be three corresponding $k$ whose energies are degenerate. Let $k_1=k_U$, $k_2=k_U-\frac{2\pi}{a}(1,1,1)$ and $k_3=\frac{2\pi}{a}(2,0,0)$. Their couplings are determined by
+\begin{align*}
+&\vec{k}_1-\vec{k}_2=\frac{2\pi}{a}(1,1,1)\rightarrow U_{111}=U_1\\
+&\vec{k}_1-\vec{k}_3=\frac{2\pi}{a}(2,0,0)\rightarrow U_{200}=U_2\\
+&\vec{k}_2-\vec{k}_3=\frac{2\pi}{a}(1,-1,-1)\rightarrow U_{1\bar{1}\bar{1}}=U_1
+\end{align*}
+
+In the subspace spanned by the three plane waves, the Hamiltonian is
+\begin{equation*}
+H=\left(\begin{array}{ccc}\varepsilon_1^0&U_1&U_2\\U_1&\varepsilon_2^0&U_1\\U_2&U_1&\varepsilon_3^0\end{array}\right)
+\end{equation*}
+
+Schr\"{o}dinger equation requires that the eigenenergy $\varepsilon$ satisfies
+\begin{equation*}
+\left|\begin{array}{ccc}\varepsilon_1^0-\varepsilon&U_1&U_2\\U_1&\varepsilon_2^0-\varepsilon&U_1\\U_2&U_1&\varepsilon_3^0-\varepsilon\end{array}\right|=0
+\end{equation*}
+
+This is equivalent to
+\begin{equation*}
+(\varepsilon_U-\varepsilon)^3-2(\varepsilon_U-\varepsilon)U_1^2-(\varepsilon_U-\varepsilon)U_2^2+2U_1^2U_2=0\\
+\end{equation*}
+
+After factorization
+\begin{equation*}
+(\varepsilon_U-\varepsilon-U_2)\left((\varepsilon_U-\varepsilon)^2+(\varepsilon_U-\varepsilon)U_2-2U_1^2\right)=0
+\end{equation*}
+
+Therefore, the eigenenergies are
+\begin{align*}
+\varepsilon_1&=\varepsilon_U-U_2\\
+\varepsilon_2&=\varepsilon_U+\frac{1}{2}U_2-\frac{1}{2}\sqrt{U_2^2+8U_1^2}\\
+\varepsilon_3&=\varepsilon_U+\frac{1}{2}U_2+\frac{1}{2}\sqrt{U_2^2+8U_1^2}\\
+\end{align*}
+
+
+
+\end{document}
