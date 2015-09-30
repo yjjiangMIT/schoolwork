@@ -146,11 +146,20 @@ The same is true for $S_2$.
 
 \section{Optical Fiber Network}
 \subsection{Part (a)}
-\noindent\underline{Proof}: By contradiction. Let $S$ be the spanning tree with second least total weight. Suppose $S$ differs from $T$ by more than one edge. Let $a,b$ be two distinct edges such that $a,b\in T$ but $a,b\notin S$. Taking $a$ off from $T$ partitions $T$ into two subtrees, $T_A$ and $T_{V-A}$, in two subspaces denoted by $A$ and $V-A$. $T_A$ is a spanning tree in $A$ and $T_{V-A}$ is a spanning tree in $V-A$.
+\noindent\underline{Proof}: 
+%By contradiction. Let $S$ be the spanning tree with second least total weight. Suppose $S$ differs from $T$ by more than one edges. Let $a,b$ be two distinct edges such that $a,b\in T$ but $a,b\notin S$. Taking $a$ off from $T$ partitions $T$ into two subtrees, $T_A$ and $T_{V-A}$, in two subspaces denoted by $A$ and $V-A$. $T_A$ is a spanning tree in $A$ and $T_{V-A}$ is a spanning tree in $V-A$.
 
-Since $S$ is a spanning tree, there is an edge $a'\in S$ joining $A$ and $V-A$. Since $a\notin S$, $a\neq a'$. If $w(a)\geqslant w(a')$, consider the spanning tree $T'=T_A\cup T_{V-A}\cup\{a'\}\neq T$. We have $w(T')\leqslant w(T)$, contradicting the fact that $T$ is the unique MST. Therefore, $w(a)<w(a')$.
+%Since $S$ is a spanning tree, there is an edge $a'\in S$ joining $A$ and $V-A$. Since $a\notin S$, $a\neq a'$. If $w(a)\geqslant w(a')$, consider the spanning tree $T'=T_A\cup T_{V-A}\cup\{a'\}\neq T$. We have $w(T')\leqslant w(T)$, contradicting the fact that $T$ is the unique MST. Therefore, $w(a)<w(a')$.
 
-Let $S_A=S\cap A$ and $S_{V-A}=S\cap(V-A)$. $S_A$ is a spanning tree in $A$ and $S_{V-A}$ is a spanning tree in $V-A$. Consider the spanning tree $S'=S_A\cup S_{V-A}\cup\{a\}$. We have $w(S')=w(S)-w(a')+w(a)<w(S)$. Moreover, since $b\notin S$ and $b\neq a$, $b\notin S'$. But $b\in T$, so $T\neq S'$. By the uniqueness of $T$, $w(T)<w(S')$. Therefore, $w(T)<w(S')<w(S)$, contradicting the fact that $S$ has the second least total weight. As a result, $S$ differs from $T$ by exactly one edge.
+%Let $S_A=S\cap A$ and $S_{V-A}=S\cap(V-A)$. $S_A$ is a spanning tree in $A$ and $S_{V-A}$ is a spanning tree in $V-A$. Consider the spanning tree $S'=S_A\cup S_{V-A}\cup\{a\}$. We have $w(S')=w(S)-w(a')+w(a)<w(S)$. Moreover, since $b\notin S$ and $b\neq a$, $b\notin S'$. But $b\in T$, so $T\neq S'$. By the uniqueness of $T$, $w(T)<w(S')$. Therefore, $w(T)<w(S')<w(S)$, contradicting the fact that $S$ has the second least total weight. As a result, $S$ differs from $T$ by exactly one edge.
+
+By contradiction. Suppose $S$ differs from $T$ by more than one edges. Consider the set $T-S$ of all edges that are in $T$ but not in $S$. Let $e_T$ be the edge of minimum weight in $T-S$. Adding $e_T$ into $S$ creates a cycle $C_S$. $T$ cannot contain cycles, so $C_S\not\subseteq T$, which means that there must be some $e_S\in S-T$ such that $e_S\in C_S$.
+
+Adding $e_S$ into $T$ creates a cycle $C_T$. By the same reasoning, there must be some $e'_T\in T-S$ such that $e'_T\in C_T$. Consider the spanning tree $T'=T-\{e'_T\}+\{e_S\}$. We have $w(T)<w(T')$ due to the uniqueness of $T$ as an MST. Therefore, $w(e'_T)<w(e_S)$. Moreover, since $e_T$ is chosen to be the lightest edge in $T-S$, $w(e_T)\leqslant w(e'_T)$. Therefore, $w(e_T)<w(e_S)$.
+
+Consider the spanning tree $S'=S-\{e_S\}+\{e_T\}$. Then $w(S')<w(S)$. Since $S'$ only differs from $S$ by one edge, $S'\neq T$. Therefore, $w(T)<w(S')<w(S)$, contradicting the fact that $S$ is the second minimum spanning tree.
+
+Consequently, when MST is unique, a second minimum spanning tree differs from MST by exactly one edge.
 
 \subsection{Part (b)}
 \noindent\underline{Description}: For convenience let $D[u,u]=\textup{NULL}$ and let its weight be $w(\textup{NULL})=-\infty$. The algorithm performs a depth-first traversal of $T$. Maintain $A$ as a subset of $V$ containing all the vertices that are visited. $A$ is initialized to contain only the root $r$. Maintain the property that $D[u_1,u_2]$ is determined for every $u_1,u_2\in A$. This is done by the following: whenever a new vertice $v$ is visited, calculate $D[u_i,v]=D[v,u_i]$ for all $u_i\in A$, before adding $v$ into $A$. This calculation is done by the equation below, where $w(u,v)$ denotes the weight of $(u,v)$.
