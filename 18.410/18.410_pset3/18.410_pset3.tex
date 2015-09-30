@@ -33,7 +33,7 @@
 \noindent\underline{Runtime}: There are $r-s+1$ possible $s$-digit substrings. The comparison against each of them takes $O(s)$ time, since it involves $s$ single-bit comparisons. The overall runtime is thus $T(r,s)=O(s(r-s+1))=O(rs)$. The simplification to $O(rs)$ is based on the fact that $s<r$.
 
 \subsection{Part (b)}
-\noindent\underline{Description}: Define a function $f:\{0,1\}\mapsto\{-1,1\}$ that maps the binary digit $0$ to coefficient $-1$ and binary digit $1$ to coefficient $1$. Now construct a polynomial
+\noindent\underline{Description}: Define a function $f:\{0,1\}\mapsto\{-1,1\}$ that maps the binary digit $0$ to coefficient $-1$ and binary digit $1$ to coefficient $1$. Now construct the following polynomials
 \begin{align*}
 P(x)&=\sum_{i=0}^{r-1}f(M[i])x^{r-i-1}\\
 Q_1(x)&=\sum_{i=0}^{s-1}f(S_1[i])x^i\\
@@ -51,6 +51,12 @@ Replacing the index in $M$ by $i$, where $i=0,1,\cdots,r-s$, and focuing on unma
 \begin{equation*}
 \textup{\# of unmatched bits of $S_1$ at $M[i]$}=\frac{1}{2}(s-c_{1,r-i-1})
 \end{equation*}
+
+Since we tolarate at most $e$ unmatches, if
+\begin{equation*}
+c_{1,r-i-1}\geqslant s-2e
+\end{equation*}
+we identify a successful match of $S_1$ at $M[i]$. Due to the range of $i$, the subscript $r-i-1$ runs from $s-1$ to $r-1$.
 
 Obviously, the same is true for $S_2$. The proof is stated below. But before that, I will show an example. This helps clarify the indexing used here.
 
@@ -93,13 +99,15 @@ Let $n^m_{1,k}=\textup{\# of matched bits of $S_1$ at $M[k]$}$, and $n^u_{1,k}=\
 n^u_{1,k}=\frac{1}{2}(s-c_{1,r-k-1})
 \end{equation*}
 
-Similarly for $S_2$,
+A successful match of $S_1$ has $n^u_{1,k}\leqslant e$. The criterion is thus
 \begin{equation*}
-n^u_{2,k}=\frac{1}{2}(s-c_{2,r-k-1})
+c_{1,r-k-1}\geqslant s-2e
 \end{equation*}
 
+The same is true for $S_2$.
+
 \subsection{Part (c)}
-\noindent\underline{Description}: See the pseudocode below.
+\noindent\underline{Description}: See the pseudocode.
 \begin{algorithm}
 \caption{Solving Eve's string matching problem in $O(r\log r)$}
 \begin{algorithmic}[1]
@@ -110,10 +118,10 @@ n^u_{2,k}=\frac{1}{2}(s-c_{2,r-k-1})
 \State{Call \textsc{IFFT} to calculate $c_{1,i}$ and $c_{2,i}$, i.e. coefficients of $C_1(x)$ and $C_2(x)$, where $i=0,\cdots,r+s-2$}
 \State{$count1,count2\gets0$}
 \For{$i=s-1:r-1$}\Comment{Counting, only coefficients of $x^{s-1},\cdots,x^{r-1}$ matters}
-	\If{$(s-c_{1,i})/2\leqslant e$}
+	\If{$c_{1,i}\geqslant s-2e$}
 		\State{$count1++$}
 	\EndIf
-	\If{$(s-c_{2,i})/2\leqslant e$}
+	\If{$c_{2,i}\geqslant s-2e$}
 		\State{$count2++$}
 	\EndIf
 \EndFor
@@ -138,9 +146,9 @@ n^u_{2,k}=\frac{1}{2}(s-c_{2,r-k-1})
 
 \section{Optical Fiber Network}
 \subsection{Part (a)}
-\noindent\underline{Proof}: Let $S$ be the spanning tree with second least total weight. Suppose $S$ differs from $T$ by more than one edge. Let $u,v\in T$ but $u,v\notin S$ be two distinct edges. Taking $u$ off from $T$ partitions $T$ into two sub-MSTs, $T_A$ and $T_{V-A}$, in the two subspaces denoted by $A$ and $V-A$. Since $S$ is a spanning tree, there is an edge $u'\in S$ joining $A$ and $V-A$. Since $u\notin S$, $u\neq u'$. Due to the uniqueness of $T$, $w(u)$ is strictly less than $w(u')$. Otherwise, $T_A\cup T_{V-A}\cup\{u'\}$ is an MST different from $T$.
+\noindent\underline{Proof}: Let $S$ be the spanning tree with second least total weight. Suppose $S$ differs from $T$ by more than one edge. Let $a,b\in T$ but $a,b\notin S$ be two distinct edges. Taking $a$ off from $T$ partitions $T$ into two sub-MSTs, $T_A$ and $T_{V-A}$, in the two subspaces denoted by $A$ and $V-A$. Since $S$ is a spanning tree, there is an edge $a'\in S$ joining $A$ and $V-A$. Since $a\notin S$, $a\neq a'$. Due to the uniqueness of $T$, $w(a)$ is strictly less than $w(a')$. Otherwise, $T_A\cup T_{V-A}\cup\{a'\}$ is an MST different from $T$.
 
-Let $S_A=S\cap A$ and $S_{V-A}=S\cap(V-A)$. Consider the spanning tree $S'=S_A\cup S_{V-A}\cup\{u\}$. We have $w(S')=w(S)-w(u')+w(u)<w(S)$. Moreover, since $v\notin S$ and $v\neq u$, $v\notin S'$. But $v\in T$, so $T\neq S'$. By the uniqueness of $T$, $w(T)<w(S')$. Therefeore, $w(T)<w(S')<w(S)$. This contradicts with the fact that $S$ has the second least total weight. So $S$ differs from $T$ from exactly one edge.
+Let $S_A=S\cap A$ and $S_{V-A}=S\cap(V-A)$. Consider the spanning tree $S'=S_A\cup S_{V-A}\cup\{a\}$. We have $w(S')=w(S)-w(a')+w(a)<w(S)$. Moreover, since $b\notin S$ and $b\neq a$, $b\notin S'$. But $b\in T$, so $T\neq S'$. By the uniqueness of $T$, $w(T)<w(S')$. Therefeore, $w(T)<w(S')<w(S)$. This contradicts with the fact that $S$ has the second least total weight. So $S$ differs from $T$ from exactly one edge.
 
 \subsection{Part (b)}
 %\noindent\underline{Description}: We maintain a subset $A$ of $V$. $A$ has the following property: $A$ is connected by a subtree $T_A$ of $T$. Moreover, for all vertex pairs $(u_1,u_2)$ where $u_1,u_2\in A$, $D(u_1,u_2)$ is already determined (in previous iterations). For convenience, let $D(u,u)=0$.
@@ -218,10 +226,10 @@ Since the new vertex $v$ connects to $A$ at $v.father\in A$, the unique path fro
 \begin{algorithmic}[1]
 \Procedure{SecondBest}{$T,E,V$}
 \State{$D=$\Call{LongestEdge}{$T$}}
-\State{$minWeight\gets\infty$}
+\State{$maxWeightReduce\gets-\infty$}
 \For{$(u,v)$ in $E$}
-	\If{$w(u,v)-w(D[u,v])<minWeight$}
-		\State{$minWeight\gets w(u,v)-w(D[u,v])$}
+	\If{$w(D[u,v])-w(u,v)>maxWeightReduce$}
+		\State{$maxWeightReduce\gets w(D[u,v])-w(u,v)$}
 		\State{$(u^*,v^*)\gets(u,v)$}
 	\EndIf
 \EndFor
