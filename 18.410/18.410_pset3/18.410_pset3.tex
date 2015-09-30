@@ -146,21 +146,13 @@ The same is true for $S_2$.
 
 \section{Optical Fiber Network}
 \subsection{Part (a)}
-\noindent\underline{Proof}: Let $S$ be the spanning tree with second least total weight. Suppose $S$ differs from $T$ by more than one edge. Let $a,b\in T$ but $a,b\notin S$ be two distinct edges. Taking $a$ off from $T$ partitions $T$ into two sub-MSTs, $T_A$ and $T_{V-A}$, in the two subspaces denoted by $A$ and $V-A$. Since $S$ is a spanning tree, there is an edge $a'\in S$ joining $A$ and $V-A$. Since $a\notin S$, $a\neq a'$. Due to the uniqueness of $T$, $w(a)$ is strictly less than $w(a')$. Otherwise, $T_A\cup T_{V-A}\cup\{a'\}$ is an MST different from $T$.
+\noindent\underline{Proof}: By contradiction. Let $S$ be the spanning tree with second least total weight. Suppose $S$ differs from $T$ by more than one edges. Let $a,b$ be two distinct edges such that $a,b\in T$ but $a,b\notin S$. Taking $a$ off from $T$ partitions $T$ into two subtrees, $T_A$ and $T_{V-A}$, in two subspaces denoted by $A$ and $V-A$. $T_A$ is a spanning tree in $A$ and $T_{V-A}$ is a spanning tree in $V-A$.
 
-Let $S_A=S\cap A$ and $S_{V-A}=S\cap(V-A)$. Consider the spanning tree $S'=S_A\cup S_{V-A}\cup\{a\}$. We have $w(S')=w(S)-w(a')+w(a)<w(S)$. Moreover, since $b\notin S$ and $b\neq a$, $b\notin S'$. But $b\in T$, so $T\neq S'$. By the uniqueness of $T$, $w(T)<w(S')$. Therefeore, $w(T)<w(S')<w(S)$. This contradicts with the fact that $S$ has the second least total weight. So $S$ differs from $T$ from exactly one edge.
+Since $S$ is a spanning tree, there is an edge $a'\in S$ joining $A$ and $V-A$. Since $a\notin S$, $a\neq a'$. If $w(a)\geqslant w(a')$, consider the spanning tree $T'=T_A\cup T_{V-A}\cup\{a'\}\neq T$. We have $w(T')\leqslant w(T)$, contradicting the fact that $T$ is the unique MST. Therefore, $w(a)<w(a')$.
+
+Let $S_A=S\cap A$ and $S_{V-A}=S\cap(V-A)$. $S_A$ is a spanning tree in $A$ and $S_{V-A}$ is a spanning tree in $V-A$. Consider the spanning tree $S'=S_A\cup S_{V-A}\cup\{a\}$. We have $w(S')=w(S)-w(a')+w(a)<w(S)$. Moreover, since $b\notin S$ and $b\neq a$, $b\notin S'$. But $b\in T$, so $T\neq S'$. By the uniqueness of $T$, $w(T)<w(S')$. Therefore, $w(T)<w(S')<w(S)$, contradicting the fact that $S$ has the second least total weight. As a result, $S$ differs from $T$ by exactly one edge.
 
 \subsection{Part (b)}
-%\noindent\underline{Description}: We maintain a subset $A$ of $V$. $A$ has the following property: $A$ is connected by a subtree $T_A$ of $T$. Moreover, for all vertex pairs $(u_1,u_2)$ where $u_1,u_2\in A$, $D(u_1,u_2)$ is already determined (in previous iterations). For convenience, let $D(u,u)=0$.
-
-%$A$ is initialized to contain only one arbitrary vertex. In order to maintain the property described above, we iterate and enlarge $A$ in the following way. In each iteration, we take a vertex $v\notin A$ that is directly connected to $T_A$ by an edge $(u,v)\in T$, where $u\in T_A$. We calculate (see the next paragraph) and store $D(u_i,v)=D(v,u_i)$ for every $u_i\in A$. Then $v$ is added into $A$.
-
-%Let $u_i$ be an arbitrary vertex in $A$. Calculation of $D$ is done by $D(u_i,v)=\max(D(u_i,u),w_{u,v})$.
-
-%In each iteration, in order to decide the $v$ and $u$ described above, we maintain a queue $Q$ containing all the edges that connect $T_A$ to $V-A$. At the beginning of each iteration, we pop out the first edge $(u,v)$ in $Q$, where $u\in A$ and $v\notin A$. At the end of each iteration, we update $Q$ in the following way. For all the vertices $w$ such that $(v,w)\in T$, if $D(v,w)$ is already filled, then discard the edge $(v,w)$ since it means $w\in A$. Otherwise, $w\notin A$, and push $(v,w)$ into $Q$.
-
-%By this algorithm, after $k$ iterations, $A$ will contain $k+1$ vertices, and $D$ will have a fully filled submatrix of size $(k+1)\times(k+1)$. The procedure terminates when all vertices are added into $A$. Meanwhile, $D$ will be completely filled.
-
 \noindent\underline{Description}: For convenience let $D[u,u]=\textup{NULL}$ and let its weight be $w(\textup{NULL})=-\infty$. The algorithm performs a depth-first traversal of $T$. Maintain $A$ as a subset of $V$ containing all the vertices that are visited. $A$ is initialized to contain only the root $r$. Maintain the property that $D[u_1,u_2]$ is determined for every $u_1,u_2\in A$. This is done by the following: whenever a new vertice $v$ is visited, calculate $D[u_i,v]=D[v,u_i]$ for all $u_i\in A$, before adding $v$ into $A$. This calculation is done by the equation below, where $w(u,v)$ denotes the weight of $(u,v)$.
 \begin{equation*}
 D[u_i,v]=\left\{\begin{array}{ll}D[u_i,v.father]&\textup{if }w(D[u_i,v.father])\geqslant w(v,v.father)\\(v,v.father)&\textup{otherwise}\end{array}\right.
