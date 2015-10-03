@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.27)  29 SEP 2015 15:07
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  30 SEP 2015 23:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -264,14 +264,20 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 ] [2] [3] [4]
-[5] [6] (./14.03_pset2.aux) ) 
+[5]
+File: figure1.eps Graphic file (type eps)
+ <figure1.eps> [6]
+File: figure2.eps Graphic file (type eps)
+ <figure2.eps> [7]
+File: figure3.eps Graphic file (type eps)
+ <figure3.eps> [8] (./14.03_pset2.aux) ) 
 Here is how much of TeX's memory you used:
- 2452 strings out of 493918
- 32771 string characters out of 6150563
- 102487 words of memory out of 5000000
- 5738 multiletter control sequences out of 15000+600000
+ 2463 strings out of 493918
+ 32865 string characters out of 6150563
+ 100511 words of memory out of 5000000
+ 5745 multiletter control sequences out of 15000+600000
  11503 words of font info for 45 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 42i,10n,26p,635b,199s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,10n,26p,635b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 14.03_pset2.pdf (6 pages).
+Output written on 14.03_pset2.pdf (8 pages).

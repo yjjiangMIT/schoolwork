@@ -24,12 +24,15 @@
 
 \subsection{Question 2}
 \noindent\underline{Conclusion}: This statement is FALSE.
+
 \noindent\underline{Explanation}: We cannot compare utility between two individuals. This is because utility function is defined up to a monotonic transformation. It makes no sense to compare the pure value of Peter's utility with John's. Even if Peter's is larger, it does not mean anything.
 
 \subsection{Question 3}
 \noindent\underline{Conclusion}: This statement is TRUE.
 
-\noindent\underline{Explanation}: \textcolor{red}{TODO}
+\noindent\underline{Explanation}: An inferior good has negative substitution effect and negative income effect. These two effects counteract. For an ordinary inferior good, substitution effect dominates over income effect, so an increase in price leads to a decrease in consumption. A Giffen good, on the other hand, is a strongly inferior good. Its income effect dominates over substitution effect, so an increase in price leads to an increase in comsumption.
+
+According to this definition, a Giffen good is a special type of inferior good. But a general inferior good does not necessarily need to be a Giffen good, and it is often not.
 
 \subsection{Question 4}
 \noindent\underline{Conclusion}: This statement is TRUE.
@@ -132,7 +135,7 @@ The income effect is
 \subsection{Part 4}
 From the Slutsky equation
 \begin{equation*}
-	\frac{\partial d_x}{\partial p_x}=\frac{\partial h_x}{\partial p_x}-\frac{\partial d_x}{\partial I}\frac{\partial E}{\partial p_x}
+	\frac{\partial d_x}{\partial p_x}=\frac{\partial h_x}{\partial p_x}-\frac{\partial d_x}{\partial I}x
 \end{equation*}
 the substitution effect can be calculated by
 \begin{align*}
@@ -271,5 +274,50 @@ This is probably wrong because the additional housing still has marginal utility
 
 \subsection{Part 3}
 \subsubsection{Subpart (a)}
+For convenience let us say one unit of housing costs $\$1$ on the market. Fig.\ref{fig1} shows the compensated demand curve for both constrained and unconstrained consumers whose optimal consumption on housing is $\$80$. Fig.\ref{fig2} shows the compensated demand curve for consumers whose optimal consumption on housing is $\$150$ (who are always unconstrained). Mathematically, for the first graph, plugging in $H=80,P=1$, we have $\gamma_1=80$. Similarly, for the second graph, $\gamma_2=150$. The deadweight loss is the shaded area.
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=12cm]{figure1.eps}\\
+	\caption{Compensated demand curve for those whose optimal consumption on housing is $\$80$}\label{fig1}
+\end{figure}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=12cm]{figure2.eps}\\
+	\caption{Compensated demand curve for those whose optimal consumption on housing is $\$150$}\label{fig2}
+\end{figure}
+
+\subsubsection{Subpart (b)}
+The estimation of deadweight loss is equivalent to estmation of the shaded area. This can be done by an integral.
+\begin{align*}
+	DWL&=\int_{80}^{100}(1-P(H))dH\\
+	&=\int_{80}^{100}(H/80)^{-4}dH\\
+	&\approx13.0
+\end{align*}
+
+Thus, the deadweight loss is approximately $\$13.0$ for those who are constrained. Since the constrained population is $50\%$ of the overall population, on average the deadweight loss is $\$6.5$ per person.
+
+\subsection{Part (4)}
+Compared with nothing, every recipient benefits. However, compared with receiving vouchers, those who originally spent $\$150$ on housing loses, since they were not constrained previously, and they receive less now. Those who originally did not spend additional money on housing benefits, since they receive more ($\$100-\$6.5=\$93.5$) than they would value the vouchers ($\$100-\$13.0=\$87.0$) under constraint.
+
+\subsection{Part (5)}
+No. Group 1 does not provide any number that is used in the calculation. It serves as a control group. It confirms the fact that half of the population are constrained.
+
+\subsection{Part (6)}
+No, I am NOT concerned. This is because the other $50\%$ people are unconstrained. As long as they spend more than $\$100$, they value the voucher as its full face value and do not contribute to DWL. So the previous calculation is unaffected.
+
+\subsection{Part (7)}
+\subsubsection{Subpart (a)}
+When the constrained people value their vouchers below $\$0.75$, they will sell them. Their loss is reduced. Part of this loss ($25\%$ face value of the vouchers sold) should not be counted into the deadweight loss, for it goes to the criminals (middlemen who trade vouchers, or unconstrained people who want to buy more housing at a low price). This is, however, a loss in targeting efficiency, and it leads to a waste of public resources.
+
+The total deadweight loss is the shaded area, which is smaller than before.
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=12cm]{figure3.eps}
+	\caption{Deadweight loss when there is a black market}\label{fig3}
+\end{figure}
+
+\subsubsection{Subpart (b)}
+Yes, I will be concerned. If so, there should be something wrong in the model. Since even the constrained people value their vouchers no less than $(80/100)^4\approx41\%$ of their face value, it cannot be that someone wants to sell his/her $\$1$ voucher at $\$0.25$.
 
 \end{document}
