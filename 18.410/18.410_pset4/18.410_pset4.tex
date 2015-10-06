@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+%\usepackage{forest}
+%\usepackage{listings}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\title{6.046/18.410 Problem Set 4}
+\author{Yijun Jiang\\Collaborator: Hengyun Zhou, Eric Lau}
+%\email{yjjiang@mit.edu}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Learn to Fuel Wisely}
+
+\section{Lazy Random Homework Solving}
+\subsection{Part (a)}
+\noindent\underline{Proof}: By induction on $k$. When $k=1$, suppose that there are $r_1$ friends working on this problem. $r_1\geqslant r$. The assignment becomes invalid when all these $r_1$ friends are assigned to TA Nirvan (N) or Kelly (K). The possibility is $P[1,\textup{invalid}]=2\times2^{-r_1}\leqslant 2^{1-r}=k2^{1-r}$. So the statement is true for the base case.
+
+When $k>1$, suppose the statement holds for $k-1$. Therefore, $P[k-1,\textup{invalid}]\leqslant(1-k)2^{1-r}$. In other words, $P[k-1,\textup{valid}]\geqslant 1-(k-1)2^{1-r}$. When we add the $k$-th problem, we have
+\begin{equation*}
+	P[k,\textup{valid}]=P[k-1,\textup{valid}]P[1,\textup{valid}|\textup{assignment valid for previous $k-1$ problems}]
+\end{equation*}
+where the second factor is a conditional probability: the probability for the assignment to be valid for the one-problem case (the $k$-th problem), under the condition that the assignment is valid for the $k-1$-problem case (the privious $k-1$ problems). If we use the unconditional probability, the equality becomes an inequality because the unconditional probability is always no larger.
+\begin{equation*}
+	P[k,\textup{valid}]\geqslant P[k-1,\textup{valid}]P[1,\textup{valid}]
+\end{equation*}
+The inequality can be further relaxed,
+\begin{align*}
+	P[k,\textup{valid}]&\geqslant(1-(k-1)2^{1-r})(1-2^{1-r})\\
+	&=1-k2^{1-r}+(k-1)2^{2-2r}\\
+	&\geqslant1-k2^{1-r}
+\end{align*}
+which means $P[k,\textup{invalid}]\leqslant k2^{1-r}$. Therefore, by induction, the statements is true for all $k$. Larry fails to choose a valid assignment with probability at most $k2^{1-r}$.
+\end{document}
