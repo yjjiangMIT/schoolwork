@@ -18,6 +18,12 @@
 \begin{document}
 \maketitle
 \section{Learn to Fuel Wisely}
+\subsection{Part (a)}
+\noindent\underline{Description}: First run APSP on the graph $G=(V,E)$ with edge weights $l(u,v)$. Construct a new unweighed undirected graph $G'=(V,E')$, using all original vertices but newly defined edges, as follows: check $\delta(u,v)$ for all pairs. If $\delta(u,v)\leqslant K$, create an edge $(u,v)$. By this construction, all the island pairs that can be reached within one fill are connected. Finally run APSP on the new graph $G'$. The longest path among all pairs shortest paths in $G'$ gives the value $t$ we want.
+
+\noindent\underline{Correctness}: We prove that in order to get from any vertex $u$ to any distinct vertex $v$, the smallest number of refills is the length of the shortest path $\delta'(u,v)$ in $G'$. Then the correctness of the algorithm follows.
+
+Given a shortest path $p'_{uv}$ from $u$ to $v$ in $G'$, we can use the following refilling strategy: start by filling at $u$, then until reaching $v$, we always go to the subsequent vertex in $p'_{uv}$ and refill there. This can always be done since, by the construction of $G'$, we can reach from a vertex in $p'_{uv}$ to its subsequent vertex in one fill.
 
 \section{Lazy Random Homework Solving}
 \subsection{Part (a)}
