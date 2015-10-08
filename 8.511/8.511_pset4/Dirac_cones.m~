@@ -1,0 +1,14 @@
+% k = linspace(-4,4,1000);
+% [kx, ky] = meshgrid(k, k);
+% E = sqrt(1+4*cos(sqrt(3)/2*ky).^2+4*cos(sqrt(3)/2*ky).*cos(3/2*kx));
+% figure;
+% hold on;
+% axis('equal');
+% mesh(kx,ky,-E);
+% mesh(kx,ky,E);
+% set(gca, 'fontsize', 30);
+% xlabel('k_x');
+% ylabel('k_y');
+% zlabel('E(k_x,k_y)');
+
+E = 1+

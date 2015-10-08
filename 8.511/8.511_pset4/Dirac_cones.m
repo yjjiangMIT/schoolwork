@@ -1,0 +1,35 @@
+% k = linspace(-4,4,1000);
+% [kx, ky] = meshgrid(k, k);
+% E = sqrt(1+4*cos(sqrt(3)/2*ky).^2+4*cos(sqrt(3)/2*ky).*cos(3/2*kx));
+% figure;
+% hold on;
+% axis('equal');
+% mesh(kx,ky,-E);
+% mesh(kx,ky,E);
+% set(gca, 'fontsize', 30);
+% xlabel('k_x');
+% ylabel('k_y');
+% zlabel('E(k_x,k_y)');
+
+% ky = linspace(-10,10,1000);
+% Et = abs(1 + 2*cos(sqrt(3)/2*ky));
+% Eb = -Et;
+% figure;
+% hold on;
+% set(gca, 'fontsize', 30);
+% xlabel('k_y');
+% ylabel('E');
+% plot(ky, Eb, 'linewidth', 2);
+% plot(ky, Et, 'linewidth', 2);
+
+% kx = linspace(-10,10,1000);
+% ky = 40*pi/31/sqrt(3);
+% Et = sqrt(1+4*cos(sqrt(3)/2*ky)^2+4*cos(sqrt(3)/2*ky)*cos(3/2*kx));
+% Eb = -Et;
+% figure;
+% hold on;
+% set(gca, 'fontsize', 30);
+% xlabel('k_x');
+% ylabel('E');
+% plot(kx, Eb, 'linewidth', 2);
+% plot(kx, Et, 'linewidth', 2);
