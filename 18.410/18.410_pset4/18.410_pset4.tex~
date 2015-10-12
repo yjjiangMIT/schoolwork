@@ -226,5 +226,5 @@ The pseudocode is shown below.
 T(n)=T(k-1)+T(n-k)+O(n)
 \end{equation*}
 
-This is the same recursion as \textsc{Quicksort}. Therefore, the expected runtime of \textsc{QuickShoeMatching} is $O(n\log n)$.
+This is the same recursion as \textsc{Quicksort}. Therefore, the runtime of \textsc{QuickShoeMatching} is $O(n\log n)$.
 \end{document}
