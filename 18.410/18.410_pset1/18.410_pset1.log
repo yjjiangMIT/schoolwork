@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.27)  13 OCT 2015 21:28
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.27)  14 OCT 2015 10:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -862,11 +862,11 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
  [3] [4]
 (./18.410_pset1.aux) ) 
 Here is how much of TeX's memory you used:
- 17711 strings out of 493918
- 379467 string characters out of 6150563
- 433257 words of memory out of 5000000
- 20723 multiletter control sequences out of 15000+600000
- 11802 words of font info for 46 fonts, out of 8000000 for 9000
+ 17709 strings out of 493918
+ 379450 string characters out of 6150563
+ 433261 words of memory out of 5000000
+ 20722 multiletter control sequences out of 15000+600000
+ 11503 words of font info for 45 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  97i,12n,119p,836b,2102s stack positions out of 5000i,500n,10000p,200000b,80000s
 

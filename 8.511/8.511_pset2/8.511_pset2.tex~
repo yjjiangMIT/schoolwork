@@ -3,6 +3,10 @@
 \usepackage{amssymb}
 \usepackage{indentfirst}
 \usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{epstopdf}
+\usepackage{indentfirst}
 \usepackage{geometry}
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
 
@@ -11,12 +15,30 @@
 %\email{yjjiang@mit.edu}
 \date{\today}
 
+\pagestyle{fancy}
+\lhead{Yijun Jiang}
+\rhead{8.511 Problem Set 2}
+
 \begin{document}
 \maketitle
 \section{Problem 1}
-The notation below does not distinguish a vector from its endpoint. So if a vector starts from the origin $o$ and ends at some lattice point $v$, I call this vector $v$.
+The notation below does not distinguish a vector from its endpoint. So if a vector starts from the origin $o$ and ends at some lattice point $u$, I call this vector $u$.
 
-In a Bravais lattice, a nonzero vector of the minimal length exists. Denote it by $v$. The rotation $\rho$ (by an angle $\theta$), whose axis does not necessarily pass through a lattice point, carries the origin $o$ to some lattice point $o'$. Let $u=t_{-o'}\circ\rho{v}$. Then $u$ has the same length as $v$ (its start point is translated back to $o$). 
+In a Bravais lattice, a nonzero vector of the minimal length exists. Denote it by $u$, and let $d=|u|$. The rotation $\rho$ (by an angle $\theta$), whose axis does not necessarily pass through a lattice point, carries the origin $o$ to some lattice point $o'$. Let $v=t_{-o'}\circ\rho(u)$. Then $v$ has the same length as $u$ (its start point is translated back to $o$). $u-v$ is also a lattice point. Its length is
+\begin{align*}
+|u-v|^2&=|u|^2+|v|^2-2|u||v|\cos\theta\\
+&=2d^2(1-\cos\theta)
+\end{align*}
+
+Since $u$ has the minimal length among all lattice points, $2d^2(1-\cos\theta)\geqslant d^2$. This means $\theta\geqslant\frac{\pi}{3}$. As a result, 7- or more-fold rotations cannot exist.
+
+The reason for 5-fold rotation to be forbidden is, let $w=t_{-o'}\circ\rho(v)$. Compared with $u$, $w$ is rotated twice, so the angle between $u$ and $w$ is $\frac{4\pi}{5}$. Now consider $u+w$. Its length is given by
+\begin{equation*}
+|u+w|=2d\cos\frac{2\pi}{5}<d
+\end{equation*}
+which contradicts with the fact that $u$ has minimal length. Therefore, 5-fold rotation cannot exist.
+
+The rest rotations exist and there are examples of them. 1-fold rotation is trivial. 2- and 4- fold rotation exist in square lattices. 3- and 6- fold rotation exist in hexagonal lattices.
 
 \section{Problem 2}
 \subsection{Part (a)}

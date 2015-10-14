@@ -2,15 +2,23 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{indentfirst}
-\usepackage{bm}
 \usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{epstopdf}
+\usepackage{indentfirst}
 \usepackage{geometry}
+\usepackage{bm}
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
 
 \title{8.511 Problem Set 4}
 \author{Yijun Jiang}
 %\email{yjjiang@mit.edu}
 \date{\today}
+
+\pagestyle{fancy}
+\lhead{Yijun Jiang}
+\rhead{8.511 Problem Set 4}
 
 \begin{document}
 \maketitle
@@ -164,7 +172,7 @@ where $N_y$ is the number of periods along the tube circumference.
 According to Bloch theorem, this means a restriction on $k_y$.
 \begin{align*}
 	&e^{\sqrt{3}iN_yk_ya}=1\\
-	&k_y=\frac{2\pi n_y}{3N_ya}
+	&k_y=\frac{2\pi n_y}{\sqrt{3}N_ya}
 \end{align*}
 where $n_y\in\mathbb{Z}$.
 

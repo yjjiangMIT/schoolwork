@@ -2,9 +2,11 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{indentfirst}
-\usepackage{color}
 \usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancyhdr}
 \usepackage{epstopdf}
+\usepackage{indentfirst}
 \usepackage{geometry}
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
 
@@ -13,31 +15,51 @@
 %\email{yjjiang@mit.edu}
 \date{\today}
 
+\pagestyle{fancy}
+\lhead{Yijun Jiang}
+\rhead{14.03 Problem Set 2}
+
 \begin{document}
 \maketitle
 
 \section{Short Questions}
 \subsection{Question 1}
-\noindent\underline{Conclusion}: This statement is FALSE.
+\noindent\textbf{Conclusion}:
 
-\noindent\underline{Explanation}: Brian cannot treat all goods to be inferior. An inferior good is demanded less when income increases. If all goods are inferior for Brian, when his income increases, he consumes everything less. Therefore, he cannot spend all of his budget. This violates non-satiation axiom. Brian must have at least one normal good on which he spends more than before.
+This statement is FALSE.
+
+\noindent\textbf{Explanation}:
+
+Brian cannot treat all goods to be inferior. An inferior good is demanded less when income increases. If all goods are inferior for Brian, when his income increases, he consumes everything less. Therefore, he cannot spend all of his budget. This violates non-satiation axiom. Brian must have at least one normal good on which he spends more than before.
 
 \subsection{Question 2}
-\noindent\underline{Conclusion}: This statement is FALSE.
+\noindent\textbf{Conclusion}:
 
-\noindent\underline{Explanation}: We cannot compare utility between two individuals. This is because utility function is defined up to a monotonic transformation. It makes no sense to compare the pure value of Peter's utility with John's. Even if Peter's is larger, it does not mean anything.
+This statement is FALSE.
+
+\noindent\textbf{Explanation}:
+
+We cannot compare utility between two individuals. This is because utility function is defined up to a monotonic transformation. It makes no sense to compare the pure value of Peter's utility with John's. Even if Peter's is larger, it does not mean anything.
 
 \subsection{Question 3}
-\noindent\underline{Conclusion}: This statement is TRUE.
+\noindent\textbf{Conclusion}:
 
-\noindent\underline{Explanation}: An inferior good has negative substitution effect and negative income effect. These two effects counteract. For an ordinary inferior good, substitution effect dominates over income effect, so an increase in price leads to a decrease in consumption. A Giffen good, on the other hand, is a strongly inferior good. Its income effect dominates over substitution effect, so an increase in price leads to an increase in comsumption.
+This statement is TRUE.
+
+\noindent\textbf{Explanation}:
+
+An inferior good has negative substitution effect and negative income effect. These two effects counteract. For an ordinary inferior good, substitution effect dominates over income effect, so an increase in price leads to a decrease in consumption. A Giffen good, on the other hand, is a strongly inferior good. Its income effect dominates over substitution effect, so an increase in price leads to an increase in comsumption.
 
 According to this definition, a Giffen good is a special type of inferior good. But a general inferior good does not necessarily need to be a Giffen good, and it is often not.
 
 \subsection{Question 4}
-\noindent\underline{Conclusion}: This statement is TRUE.
+\noindent\textbf{Conclusion}:
 
-\noindent\underline{Explanation}: For an indifference curve $U(x_1,x_2,\cdots,x_n)=U_0$, the slope in $x_1$-$x_2$ plane is given by
+This statement is TRUE.
+
+\noindent\textbf{Explanation}:
+
+For an indifference curve $U(x_1,x_2,\cdots,x_n)=U_0$, the slope in $x_1$-$x_2$ plane is given by
 \begin{equation*}
 	\left(\frac{\partial x_1}{\partial x_2}\right)_{x_3,\cdots,x_n}=-\frac{\partial U/\partial x_2}{\partial U/\partial x_1}
 \end{equation*}
@@ -54,9 +76,13 @@ which decreases with $x_1$ due to the property of deminishing MRS. This means
 Similarly $\left(\frac{\partial^2x_1}{\partial x_2^2}\right)_{x_3,\cdots,x_n}>0$. Therefore, the indifference curve is bowed towards the origin. The same is true for every other pair of goods.
 
 \subsection{Question 5}
-\noindent\underline{Conclusion}: This statement is FALSE.
+\noindent\textbf{Conclusion}:
 
-\noindent\underline{Explanation}: The relation $MRS_{x,y}=-dy/dx=p_x/p_y$ only holds for an interior solution. When the solution is binded by the non-negative constraint, i.e. $x\geqslant0$ and $y\geqslant0$, one of the goods has zero quantity. In this case, the bundle is still maximal (under non-negative constraint), though the relation $MRS_{x,y}=p_x/p_y$ no longer holds.
+This statement is FALSE.
+
+\noindent\textbf{Explanation}:
+
+The relation $MRS_{x,y}=-dy/dx=p_x/p_y$ only holds for an interior solution. When the solution is binded by the non-negative constraint, i.e. $x\geqslant0$ and $y\geqslant0$, one of the goods has zero quantity. In this case, the bundle is still maximal (under non-negative constraint), though the relation $MRS_{x,y}=p_x/p_y$ no longer holds.
 
 \section{Utility Maximization and Marshallian Demand Functions}
 \subsection{Part 1}
@@ -248,19 +274,19 @@ which means that she needs an additional income of $800-200=600$ to maintain her
 
 \section{Consumer Theory}
 \subsection{Case 1}
-\noindent\underline{Conclusion}: It violates TRANSITIVITY.
+\noindent\textbf{Conclusion}: It violates TRANSITIVITY.
 
-\noindent\underline{Explanation}: According to Sally's comparison criterion, Dyson$^P$Toshiba (power), Toshiba$^P$Hoover (Weight), and Hoover$^P$Dyson (noise). This is a loop, which violates transitivity. In other words, from the first two comparisons, transitivity axiom asks that Dyson$^P$Hoover, but the third comparison makes the opposite statement.
+\noindent\textbf{Explanation}: According to Sally's comparison criterion, Dyson$^P$Toshiba (power), Toshiba$^P$Hoover (Weight), and Hoover$^P$Dyson (noise). This is a loop, which violates transitivity. In other words, from the first two comparisons, transitivity axiom asks that Dyson$^P$Hoover, but the third comparison makes the opposite statement.
 
 \subsection{Case 2}
-\noindent\underline{Conclusion}: It violates DIMINISHING MRS.
+\noindent\textbf{Conclusion}: It violates DIMINISHING MRS.
 
-\noindent\underline{Explanation}: Suppose there is an auxiliary college Berklee2 that offers $1$ computer science class and $x$ music classes, and that Berklee2$^I$MIT. Since Berkeley$^P$MIT and utility is increasing with $x$, we have $x<8$. The midpoint bundle between MIT and Berkelee2 is $\textup{Mid}=(4.5,(x+1)/2)$. Harvard$^P$Mid since Harvard offers more courses in both subjects. If diminishing MRS holds, Mid$^P$MIT, and thus Harvard$^P$MIT. But Jess has the opposite statement. Thus diminishing MRS is violated.
+\noindent\textbf{Explanation}: Suppose there is an auxiliary college Berklee2 that offers $1$ computer science class and $x$ music classes, and that Berklee2$^I$MIT. Since Berkeley$^P$MIT and utility is increasing with $x$, we have $x<8$. The midpoint bundle between MIT and Berkelee2 is $\textup{Mid}=(4.5,(x+1)/2)$. Harvard$^P$Mid since Harvard offers more courses in both subjects. If diminishing MRS holds, Mid$^P$MIT, and thus Harvard$^P$MIT. But Jess has the opposite statement. Thus diminishing MRS is violated.
 
 \subsection{Case 3}
-\noindent\underline{Conclusion}: It violates CONTINUITY.
+\noindent\textbf{Conclusion}: It violates CONTINUITY.
 
-\noindent\underline{Explanation}: 
+\noindent\textbf{Explanation}: 
 Consider a bundle $A=(N,1)$, where the first entry $N\gg1$ is the amount of whip cream, and the second entry $1$ is ``how few raisins there are'' (so it increases when amount of raisins drops). The second bundle $B=(0,1)$ is strictly not preferred compared with $A$, and it is separated from $A$ by some distance $U_A-U_B>0$. If continuity holds, there is some $\varepsilon>0$, such that the bundle $C=(0,1+\varepsilon)$ lies between $A$ and $B$. However, according to Cindy, a tiny bit of decreasing in amount of raisins makes a bundle preferable. So $C^PA$ and $C^PB$. This contradicts with the axiom of continuity.
 
 \section{The Deadweight Loss of Housing Vouchers}
@@ -291,7 +317,7 @@ For convenience let us say one unit of housing costs $\$1$ on the market. Fig.\r
 The estimation of deadweight loss is equivalent to estmation of the shaded area. This can be done by an integral.
 \begin{align*}
 	DWL&=\int_{80}^{100}(1-P(H))dH\\
-	&=\int_{80}^{100}(H/80)^(-4)dH\\
+	&=\int_{80}^{100}(H/80)^{-4}dH\\
 	&\approx13.0
 \end{align*}
 
