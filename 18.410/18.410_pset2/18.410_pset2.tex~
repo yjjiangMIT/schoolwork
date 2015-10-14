@@ -3,20 +3,22 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{indentfirst}
-%\usepackage{forest}
-%\usepackage{listings}
+\usepackage{color}
+\usepackage{forest}
+\usepackage{fancyhdr}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{geometry}
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
-\makeatletter
-\def\BState{\State\hskip-\ALG@thistlm}
-\makeatother
 
 \title{6.046/18.410 Problem Set 2}
-\author{Yijun Jiang\\Collaborator: Eric Lau, Hengyun Zhou}
+\author{\textbf{Yijun Jiang}\\Collaborator: Hengyun Zhou, Eric Lau}
 %\email{yjjiang@mit.edu}
 \date{\today}
+
+\pagestyle{fancy}
+\lhead{\textbf{Yijun Jiang} --- 6.046/18.410 Problem Set 2}
+\rhead{\small\leftmark}
 
 \begin{document}
 \maketitle
@@ -80,9 +82,9 @@ We first go down the tree trying to reach $x$. This is done by going deeper into
 \State\Comment{If $x$ does not exist, suppose \textsc{Find} returns the deepest node that matches the prefix of $x$.}
 \State{Go up from $px$ until either (1) reaching the first node $n$, where $px$ is in left branch of $n$, and right branch of $n$ is non-empty (2) reaching $r$, but $r$ does not satisfy (1)}
 \If{Case (1)}
-\State{$y$=\textsc{MinKey}($n$)}\Comment{Find the minimum key in the sub-trie whose root is $n$}
+	\State{$y$=\textsc{MinKey}($n$)}\Comment{Find the minimum key in the sub-trie whose root is $n$}
 \Else{}
-\State{No-successor exception: $x$ is (or is greater than if $x\notin$ trie) the maximum key in the trie}
+	\State{No-successor exception: $x$ is (or is greater than if $x\notin$ trie) the maximum key in the trie}
 \EndIf
 \EndProcedure
 \end{algorithmic}

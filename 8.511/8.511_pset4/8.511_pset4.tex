@@ -60,7 +60,7 @@ Then the off diagonal matrix element of $M_{\mathbf{k}}$ is
 	&=\frac{1}{N}e^{i\mathbf{k}\cdot\bm{\tau}_2}\sum_{i,j}e^{i\mathbf{k}\cdot(\mathbf{R}_j-\mathbf{R}_i)}\langle\phi(\mathbf{r})|H|\phi(\mathbf{r}-(\mathbf{R}_j-\mathbf{R}_i+\bm{\tau}_2))\\
 	&=\frac{1}{N}e^{i\mathbf{k}\cdot\bm{\tau}_2}\sum_{i,j}\sum_{l=1}^3e^{i\mathbf{k}\cdot(\mathbf{R}_j-\mathbf{R}_i)}\langle\phi(\mathbf{r})|H|\phi(\mathbf{r}-(\mathbf{R}_j-\mathbf{R}_i+\bm{\tau}_2))\delta_{\bm{\mu}_l,\mathbf{R}_j-\mathbf{R}_i+\bm{\tau}_2}\\
 	&=\frac{1}{N}e^{i\mathbf{k}\cdot\bm{\tau}_2}\sum_i\sum_{l=1}^3e^{i\mathbf{k}\cdot(\bm{\mu}_l-\bm{\tau}_2)}\langle\phi(\mathbf{r})|H|\phi(\mathbf{r}-\bm{\mu}_l)\rangle\\
-	&=t\sum_{l=1}^3e^{i\mathbf{k}\cdot\bm{\mu}_i}\\
+	&=t\sum_{l=1}^3e^{i\mathbf{k}\cdot\bm{\mu}_l}\\
 	&=t\left(e^{ik_xa}+e^{-i\frac{1}{2}k_xa+i\frac{\sqrt{3}}{2}k_ya}+e^{-i\frac{1}{2}k_xa-i\frac{\sqrt{3}}{2}k_ya}\right)\\
 	&=t\left(\left(\cos k_xa+2\cos\frac{1}{2}k_xa\cos\frac{\sqrt{3}}{2}k_ya\right)+i\left(\sin k_xa-2\sin\frac{1}{2}k_xa\cos\frac{\sqrt{3}}{2}k_ya\right)\right)
 \end{align*}
@@ -164,7 +164,7 @@ where $N_y$ is the number of periods along the tube circumference.
 According to Bloch theorem, this means a restriction on $k_y$.
 \begin{align*}
 	&e^{\sqrt{3}iN_yk_ya}=1\\
-	&k_y=\frac{2\pi n_y}{3N_ya}
+	&k_y=\frac{2\pi n_y}{\sqrt{3}N_ya}
 \end{align*}
 where $n_y\in\mathbb{Z}$.
 

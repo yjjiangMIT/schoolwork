@@ -153,9 +153,9 @@ The same is true for $S_2$.
 
 %Let $S_A=S\cap A$ and $S_{V-A}=S\cap(V-A)$. $S_A$ is a spanning tree in $A$ and $S_{V-A}$ is a spanning tree in $V-A$. Consider the spanning tree $S'=S_A\cup S_{V-A}\cup\{a\}$. We have $w(S')=w(S)-w(a')+w(a)<w(S)$. Moreover, since $b\notin S$ and $b\neq a$, $b\notin S'$. But $b\in T$, so $T\neq S'$. By the uniqueness of $T$, $w(T)<w(S')$. Therefore, $w(T)<w(S')<w(S)$, contradicting the fact that $S$ has the second least total weight. As a result, $S$ differs from $T$ by exactly one edge.
 
-By contradiction. Suppose $S$ differs from $T$ by more than one edges. Consider the set $T-S$ of all edges that are in $T$ but not in $S$. Let $e_T$ be the edge of minimum weight in $T-S$. Adding $e_T$ into $S$ creates a cycle $C_S$. $T$ cannot contain cycles, so $C_S\not\subseteq T$, which means that there must be some $e_S\in S-T$ such that $e_S\in C_S$.
+By contradiction. Suppose $S$ differs from $T$ by more than one edges. Consider the set $T-S$ of all edges that are in $T$ but not in $S$. Let $e_T$ be the edge of minimum weight in $T-S$. Adding $e_T$ into $S$ creates a cycle $C_S$. $T$ cannot contain cycles, so $C_S\not\subseteq T$, which means that there must be some $e_S\in C_S$ such that $e_S\in S-T$.
 
-Adding $e_S$ into $T$ creates a cycle $C_T$. By the same reasoning, there must be some $e'_T\in T-S$ such that $e'_T\in C_T$. Consider the spanning tree $T'=T-\{e'_T\}+\{e_S\}$. We have $w(T)<w(T')$ due to the uniqueness of $T$ as an MST. Therefore, $w(e'_T)<w(e_S)$. Moreover, since $e_T$ is chosen to be the lightest edge in $T-S$, $w(e_T)\leqslant w(e'_T)$. Therefore, $w(e_T)<w(e_S)$.
+Adding $e_S$ into $T$ creates a cycle $C_T$. By the same reasoning, there must be some $e'_T\in C_T$ such that $e'_T\in T-S$. Consider the spanning tree $T'=T-\{e'_T\}+\{e_S\}$. We have $w(T)<w(T')$ due to the uniqueness of $T$ as an MST. Therefore, $w(e'_T)<w(e_S)$. Moreover, since $e_T$ is chosen to be the lightest edge in $T-S$, $w(e_T)\leqslant w(e'_T)$. Therefore, $w(e_T)<w(e_S)$.
 
 Consider the spanning tree $S'=S-\{e_S\}+\{e_T\}$. Then $w(S')<w(S)$. Since $S'$ only differs from $S$ by one edge, $S'\neq T$. Therefore, $w(T)<w(S')<w(S)$, contradicting the fact that $S$ is the second minimum spanning tree.
 

@@ -4,43 +4,49 @@
 \usepackage{amssymb}
 \usepackage{indentfirst}
 \usepackage{color}
-%\usepackage{forest}
-%\usepackage{listings}
+\usepackage{forest}
+\usepackage{fancyhdr}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
 \usepackage{geometry}
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
 
 \title{6.046/18.410 Problem Set 4}
-\author{Yijun Jiang\\Collaborator: Hengyun Zhou, Eric Lau}
+\author{\textbf{Yijun Jiang}\\Collaborator: Hengyun Zhou, Eric Lau}
 %\email{yjjiang@mit.edu}
 \date{\today}
+
+\pagestyle{fancy}
+\lhead{\textbf{Yijun Jiang} --- 6.046/18.410 Problem Set 4}
+\rhead{\small\leftmark}
 
 \begin{document}
 \maketitle
 \section{Learn to Fuel Wisely}
 \subsection{Part (a)}
-\noindent\underline{Description}: First run APSP on the graph $G=(V,E)$ with edge weights $l(u,v)$. Construct a new unweighted and undirected graph $G'=(V,E')$, using all original vertices but newly defined edges, as follows:
+\noindent\textbf{Description}:
+
+First run APSP on the graph $G=(V,E)$ with edge weights $l(u,v)$ (since no negative weighted edges exist, we can use $|V|$ times Dijkstra). Construct a new unweighted and undirected graph $G'=(V,E')$, using all original vertices but newly defined edges, as follows:
 
 Check $\delta(u,v)$ for all pairs. If $\delta(u,v)\leqslant K$, create an edge $(u,v)$. By this construction, all the island pairs that can be reached within one fill are connected.
 
-Run APSP on the new graph $G'$. Then pick out the longest one among all-pair shortest paths in $G'$. This gives the value $t$ we want.
+Run APSP on the new graph $G'$ (since it is unweighted, we can use $|V|$ times BFS). Then pick out the longest one among all-pair shortest paths in $G'$. This gives the value $t$ we want.
 
 The pseudocode is shown below.
 \begin{algorithm}
 \caption{Finding the smallest refilling time that guarantees travelling between any vertex pair}
 \begin{algorithmic}[1]
 \Procedure{FuelWisely}{$G$}
-\State{$\delta=\textsc{APSP}(G)$}
+\State{$\delta=\textsc{APSP-VTimesDijkstra}(G)$}
 \State{Create a new unweighted and undirected graph $G'=(V,E')$, where $E'=\varnothing$}
 \For{$u$ in $V$}
 	\For{$v$ in $V$}
 		\If{$u\neq v$ \textbf{and} $\delta(u,v)\leqslant K$}
-			\State{Add edge $(u,v)$ to $G'$}
+			\State{Add edge $(u,v)$ to $E'$}
 		\EndIf
 	\EndFor
 \EndFor
-\State{$\delta'=\textsc{APSP}(G')$}
+\State{$\delta'=\textsc{APSP-VTimesBFS}(G')$}
 \State{A double \textbf{for} loop to find $t=\max(\delta'(u,v))$}
 \State{\Return{$t$}}
 \EndProcedure
@@ -49,7 +55,9 @@ The pseudocode is shown below.
 
 ~
 
-\noindent\underline{Correctness}: We prove that in order to get from any vertex $u$ to any distinct vertex $v$ in the original graph $G$, the smallest number of refills, denoted here by $t_{uv}$, equals the length of the shortest path, $\delta'(u,v)$, in $G'$. Then $t=\displaystyle{\max_{u,v}}(t_{uv})=\displaystyle{\max_{u,v}}(\delta'(u,v))$ is the smallest number of refills that guarantees travelling between any vertex pair.
+\noindent\textbf{Correctness}:
+
+We prove that in order to get from any vertex $u$ to any distinct vertex $v$ in the original graph $G$, the smallest number of refills, denoted here by $t_{uv}$, equals the length of the shortest path, $\delta'(u,v)$, in $G'$. Then $t=\displaystyle{\max_{u,v}}(t_{uv})=\displaystyle{\max_{u,v}}(\delta'(u,v))$ is the smallest number of refills that guarantees travelling between any vertex pair.
 
 Given a shortest path $p'_{uv}$ from $u$ to $v$ in $G'$, we can use the following refilling strategy: start by filling at $u$, then until reaching $v$, we always go to the subsequent vertex in $p'_{uv}$ and refill there. This can always be done since, by the construction of $G'$, we can reach from a vertex in $p'_{uv}$ to its subsequent vertex in one fill. This strategy thus involves $\delta'(u,v)$ refills. Since $t_{uv}$ is the smallest number of refills from $u$ to $v$, $t_{uv}\leqslant\delta'(u,v)$.
 
@@ -59,18 +67,23 @@ In conclusion, $t_{uv}=\delta'(u,v)$. Then the correctness of this algorithm fol
 
 ~
 
-\noindent\underline{Runtime}: Notice that $G$ does not contain negative weighted edges. So we can run the first APSP on $G$ by $|V|$ times Dijkstra, which costs $O(V^2\log V+VE)$ time.
+\noindent\textbf{Runtime}:
+
+The first APSP on $G$ by $|V|$ times Dijkstra costs $V\times O(E+V\log V)=O(VE+V^2\log V)$ time.
 
 The construction of $G'$ is of $O(V^2)$ time because all the vertex pairs need to be checked.
 
-Since $G'$ is unweighted, $|V|$ times BFS is enough for the second APSP, which costs $O(V^2+VE')$ time. In the worst case, $G'$ is dense and this time becomes $O(V^3)$.
+The second APSP by BFS costs $V\times O(E'+V)=O(VE'+V^2)$ time, where $E'$ is the set of newly defined edges. In the worst case, $G'$ is dense and this time becomes $O(V^3)$.
 
 Finally, finding the maximum among all $\delta'(u,v)$ is of $O(V^2)$ time.
 
-In all, this algorithm runs in $O(V^3)$ time.
+In all, this algorithm runs in $O(V^3)=O(N^3)$ time.
 
 \subsection{Part (b)}
-\noindent\underline{Description}: First calculate the shortest path between this new island $L$ (denoted by $s_L$ as a vertex) and other previously existing islands (denoted by $u,v,\cdots$ as vertices). Assign $\delta(s_L,s_L)=0$ and $\delta(s_L,u)=\infty$ for all previously existing vertices $u$. Then for all $u$ directly connected to $s_L$ and all $v$, use $w(s_L,u)+\delta(u,v)$ to relax $\delta(s_L,v)$. Since the graph is undirected, we also get $\delta(v,s_L)$ for all $v$.
+\noindent\textbf{Description}:
+
+First calculate the shortest path between this new island $L$ (denoted by $s_L$ as a vertex) and other previously existing islands (denoted by $u,v,\cdots$ as vertices). %Assign $\delta(s_L,s_L)=0$ and $\delta(s_L,u)=\infty$ for all previously existing vertices $u$. Then for all $u$ directly connected to $s_L$ and all $v$, use $w(s_L,u)+\delta(u,v)$ to relax $\delta(s_L,v)$. Since the graph is undirected, we also get $\delta(v,s_L)$ for all $v$.
+This can be done by running Dijkstra's algorithm since no negative weighted edges exist.
 
 Then update the shortest path between the previously existing islands. For each vertex pair $u,v$, relax $\delta(u,v)$ by $\delta(u,s_L)+\delta(s_L,v)$.
 
@@ -78,19 +91,21 @@ The pseudocode is shown below.
 \begin{algorithm}
 \caption{Updating APSP after adding another vertex}
 \begin{algorithmic}[1]
-\Procedure{UpdateASAP}{$G,s_L,A_{s2G}$}
-\State{\Comment{Assume $G=(V,E)$ is the old graph; $A_{s2G}$ stores all $u\in V$ that are connected to $s_L$, as well as $w(s_L,u)$}}
-\State{$\delta(s_L,s_L)\gets0$}
-\For{$u$ in $V$}
-	\State{$\delta(s_L,u)\gets\infty$}
-\EndFor
-\For{$u$ in $A_{s2G}$}
-	\For{$v$ in $V$}
-		\If{$w(s_L,u)+\delta(u,v)<\delta(s_L,v)$}
-			\State{$\delta(s_L,v)\gets w(s_L,u)+\delta(u,v)$, $\delta(v,s_L)\gets\delta(s_L,v)$}
-		\EndIf
-	\EndFor
-\EndFor
+\Procedure{UpdateASAP}{$G,s_L$}%,A_{s2G}$}
+%\State{\Comment{Assume $G=(V,E)$ is the old graph}}
+%\State{\Comment{Assume $A_{s2G}$ stores all $u\in V$ that are connected to $s_L$, as well as $w(s_L,u)$}}
+%\State{$\delta(s_L,s_L)\gets0$}
+%\For{$u$ in $V$}
+%	\State{$\delta(s_L,u)\gets\infty$}
+%\EndFor
+\State{Run Dijkstra to find $\delta(s_L,u)=\delta(u,s_L)$ for all $u\in V$}
+%\For{$u$ in $A_{s2G}$}
+%	\For{$v$ in $V$}
+%		\If{$w(s_L,u)+\delta(u,v)<\delta(s_L,v)$}
+%			\State{$\delta(s_L,v)\gets w(s_L,u)+\delta(u,v)$, $\delta(v,s_L)\gets\delta(s_L,v)$}
+%		\EndIf
+%	\EndFor
+%\EndFor
 \For{$u$ in $V$}
 	\For{$v$ in $V$}
 		\If{$\delta(u,s_L)+\delta(s_L,v)<\delta(u,v)$}
@@ -104,17 +119,23 @@ The pseudocode is shown below.
 
 ~
 
-\noindent\underline{Correctness}: (1) [Calculation of $\delta(s_L,v)$] The shortest path from $s_L$ to a previously existing vertex $v$ can only visit $s_L$ once, otherwise there will be a cycle and the path becomes longer (unless it is a zero weight cycle, then $s_L$ can be but does not need to be visited multiple times; for practical reasons, fuel consumption should be positive anyway). Thus, this path first contains $(s_L,u)$ for some vertex $u\in V$ and then stays inside the old graph $G=(V,E)$: $p_{s_L,v}=\{(s_L,u)\}\cup p^G_{u,v}$. Therefore, when relaxing $\delta(s_L,v)$ by some $u$ directly connected to $s_L$, we can use $\delta(u,v)$ of the old graph. Since we loop over all such $u$ for relaxation, for each $v\in V$, the optimal $u$ is selected such that $w(s_L,u)+\delta(u,v)$ is minimized. Then this must be the shortest path from $s_L$ to $v$.
+\noindent\textbf{Correctness}:
+
+(1) [Calculation of $\delta(s_L,v)$] 
+%The shortest path from $s_L$ to a previously existing vertex $v$ can only visit $s_L$ once, otherwise there will be a cycle and the path becomes longer (unless it is a zero weight cycle, then $s_L$ can be but does not need to be visited multiple times; for practical reasons, fuel consumption should be positive anyway). Thus, this path first contains $(s_L,u)$ for some vertex $u\in V$ and then stays inside the old graph $G=(V,E)$: $p_{s_L,v}=\{(s_L,u)\}\cup p^G_{u,v}$. Therefore, when relaxing $\delta(s_L,v)$ by some $u$ directly connected to $s_L$, we can use $\delta(u,v)$ of the old graph. Since we loop over all such $u$ for relaxation, for each $v\in V$, the optimal $u$ is selected such that $w(s_L,u)+\delta(u,v)$ is minimized. Then this must be the shortest path from $s_L$ to $v$.
+The correctness is guaranteed by the validity of Dijkstra's algorithm.
 
 (2) [Calculation of $\delta(u,v)$] The only possibility to reduce $\delta(u,v)$ is to use $s_L$ as an intermediate vertex. Therefore, by trying to relax $\delta(u,v)$ using $\delta(u,s_L)+\delta(s_L,v)$ (both are calculated previously), we can decide whether using $s_L$ as an intermediate vertex shortens the path. Then we are guaranteed to get the shortest paths between all previously existing vertex pairs.
 
 ~
 
-\noindent\underline{Runtime}: Both $\delta(s_L,v)$ and $\delta(u,v)$ require doubly nested loops. Thus the total runtime is $O(V^2)$.
+\noindent\textbf{Runtime}:
+
+Dijkstra takes $O(E+V\log V)$. $\delta(u,v)$ require doubly nested loops, which costs $O(V^2)$. Thus the total runtime is $O(V^2)=O(N^2)$.
 
 \section{Lazy Random Homework Solving}
 \subsection{Part (a)}
-\noindent\underline{Proof}: By induction on $k$. When $k=1$, suppose that there are $r_1$ friends working on this problem. $r_1\geqslant r$. The assignment becomes invalid when all these $r_1$ friends are assigned to TA Nirvan or TA Kelly. The possibility is $P[1,\textup{invalid}]=2\times2^{-r_1}\leqslant 2^{1-r}=k2^{1-r}$. So the statement is true for the base case.
+\noindent\textbf{Proof}: By induction on $k$. When $k=1$, suppose that there are $r_1$ friends working on this problem. $r_1\geqslant r$. The assignment becomes invalid when all these $r_1$ friends are assigned to TA Nirvan or TA Kelly. The possibility is $P[1,\textup{invalid}]=2\times2^{-r_1}\leqslant 2^{1-r}=k2^{1-r}$. So the statement is true for the base case.
 
 When $k>1$, suppose the statement holds for $k-1$. Therefore, $P[k-1,\textup{invalid}]\leqslant(1-k)2^{1-r}$. In other words, $P[k-1,\textup{valid}]\geqslant 1-(k-1)2^{1-r}$. When we add the $k$-th problem, we have
 \begin{equation*}
@@ -132,15 +153,23 @@ The inequality can be further relaxed,
 \end{align*}
 which means $P[k,\textup{invalid}]\leqslant k2^{1-r}$. Therefore, by induction, the statements is true for all $k$. Larry fails to choose a valid assignment with probability at most $k2^{1-r}$.
 
+There is, however, a much simpler way to interprete this result. I will write it in the following part.
+
 \subsection{Part (b)}
-We need $k2^{1-r}<1$, which means $k<2^{r-1}$. This guarantees that valid assignments exist. However, this bound can be relaxed, since the inequality $P[k,\textup{invalid}]\leqslant k2^{1-r}$ derived in the previous part is quite loose. I feel that the tightest (highest) bound is $k<\binom{2r-1}{r}$. I cannot prove this. However, I can show that if $k\geqslant\binom{2r-1}{r}$, there is a choice of Larry's friends (who does which problem) that makes it impossible for a valid assignment to exist. \textcolor{red}{TODO}
+We need $k2^{1-r}<1$, which means $k<2^{r-1}$. This guarantees that valid assignments exist. 
+%However, this bound can be relaxed, since the inequality $P[k,\textup{invalid}]\leqslant k2^{1-r}$ derived in the previous part is quite loose. I feel that the tightest (highest) bound is $k<\binom{2r-1}{r}$. I cannot prove this. However, I can show that if $k\geqslant\binom{2r-1}{r}$, there is a choice of Larry's friends (who does which problem) that makes it impossible for a valid assignment to exist. \textcolor{red}{TODO}
+
+In order to intuitively justify its correctness, we first think of how one problem might make an assignment invalid. This happens when all friends working on it are assigned to the same TA. For $k$ problems, there are at most $2k\times 2^{n-r}$ such invalid assignments, where the factor $2$ comes from two TAs and the factor $2^{n-r}$ assigns all irrevalant friends (at most $n-r$ of them) to TAs. Since there are in total $2^n$ assignments, we must make sure that $2k\times 2^{n-r}<2^n$, which means $k<2^{r-1}$.
+
 
 \subsection{Part (c)}
 Suppose $k\leqslant 2^{r-2}$, then $P[k,\textup{invalid}]\leqslant k2^{1-r}\leqslant\frac{1}{2}$. The chance for a random assignment to be valid is more than a half. We can thus use the following Las Vegas algorithm:
 
 ~
 
-\noindent\underline{Description}: We use two arrays of length $k$, $T\!A_0$ and $T\!A_1$, to store if Larry can get feedback from either TA on each problem. For example, if he gets feedback on problem $i$ from TA Nirvan but not from TA Kelly, then $T\!A_0[i]=1$ and $T\!A_1[i]=0$. We use two integers $count_0$ and $count_1$ to store the sum of all elements in $T\!A_0$ and $T\!A_1$, respectively. If eventually $count_0=count_1=k$, then the assignment is valid. Also, we use an array of length $n$, called $A$, to record the assignment.
+\noindent\textbf{Description}:
+
+We use two arrays of length $k$, $T\!A_0$ and $T\!A_1$, to store if Larry can get feedback from either TA on each problem. For example, if he gets feedback on problem $i$ from TA Nirvan but not from TA Kelly, then $T\!A_0[i]=1$ and $T\!A_1[i]=0$. We use two integers $count_0$ and $count_1$ to store the sum of all elements in $T\!A_0$ and $T\!A_1$, respectively. If eventually $count_0=count_1=k$, then the assignment is valid. Also, we use an array of length $n$, called $A$, to record the assignment.
 
 We begin a loop by randomly assign friends to TAs. This is done by generating a random bit for each friend, with equal probability being $0$ or $1$. Store this bit in the corresponding entry of $A$. If a friend is assigned $0$, then check his/her done problems in $T\!A_0$. If the corresponding entry is $0$, set it to $1$ and update $count_0$ by adding $1$. If a friend is assigned $1$, then do the same thing to $T\!A_1$ and $count_1$.
 
@@ -185,15 +214,21 @@ The pesudocode is shown below.
 
 ~
 
-\noindent\underline{Correctness}: Unless a valid assignment is obtained, the procedure will not break the while loop. Therefore, if it terminates, it must give the correct output. If $k\leqslant 2^{r-2}$, then the expectation of number of while loops is no larger than $2$. So the algorithm is expected to terminate in finite time.
+\noindent\textbf{Correctness}:
+
+Unless a valid assignment is obtained, the procedure will not break the while loop. Therefore, if it terminates, it must give the correct output. If $k\leqslant 2^{r-2}$, then the expectation of number of while loops is no larger than $2$. So the algorithm is expected to terminate in finite time.
 
 ~
 
-\noindent\underline{Runtime}: In each while loop, every friend is assigned a random bit, which costs $O(n)$. Moreover, for each friend, all the problems that he/she does are visited. The total number of problems being considered is $\Theta(kr)$, since $\Theta(r)$ friends are doing each of the $k$ problems. So altogether, the for loop in the main while loop costs $O(n+kr)$. The rest part of the while loop costs constant time.
+\noindent\textbf{Runtime}:
 
-The while loop is expected to be executed twice. Therefore, the overall expected runtime is $O(n+kr)$, which is linear in terms of the input size (notice that $size(F)=O(n+kr)$).
+In each while loop, every friend is assigned a random bit, which costs $O(n)$. Moreover, for each friend, all the problems that he/she does are visited. The total number of problems being considered is $O(kn)$, since $O(n)$ friends are doing each of the $k$ problems (no less than $r$ means $O(r+n)=O(n)$). So altogether, the for loop in the main while loop costs $O(kn)$. The rest part of the while loop costs constant time.
+
+The while loop is expected to be executed twice. Therefore, the overall expected runtime is $O(kn)$, which is linear in terms of the input size (notice that $size(F)=O(kn)$).
 
 \subsection{Part (d)}
+\noindent\textbf{Description}:
+
 Randomly find a friend $f$ and let him/her try all the shoes. By doing this we find the correct shoe $s$ for $f$, and we can also partition all the shoes around $s$. Then for every other friend, let him/her try $s$. By doing this we partition them around $f$. Then we have a subset of shoes smaller than $s$ and a subset of friends whose feet are smaller than $f$, as well as a subset of shoes larger than $s$ and a subset of friends whose feet are larger than $f$. We recurse on both the smaller subset and the larger subset.
 
 The pseudocode is shown below.
@@ -217,14 +252,19 @@ The pseudocode is shown below.
 
 ~
 
-\noindent\underline{Correctness}: Say friend $f$ has shoe $s$. By partitioning the shoes around $f$, all the shoes smaller than $s$ are picked out as $S_1$. By partitioning the friends around $s$, all the friends whose feet are smaller than $f$ are picked out as $F_1$. Shoes smaller than $s$ must belong to friends whose feet are smaller than $f$. The same is true on the larger side. Therefore, matches are constrained within either the smaller side or the larger side. So recursively calling \textsc{QuickShoeMatching} finds all the matches.
+\noindent\textbf{Correctness}:
+
+Say friend $f$ has shoe $s$. By partitioning the shoes around $f$, all the shoes smaller than $s$ are picked out as $S_1$. By partitioning the friends around $s$, all the friends whose feet are smaller than $f$ are picked out as $F_1$. Shoes smaller than $s$ must belong to friends whose feet are smaller than $f$. The same is true on the larger side. Therefore, matches are constrained within either the smaller side or the larger side. So recursively calling \textsc{QuickShoeMatching} finds all the matches.
 
 ~
 
-\noindent\underline{Runtime}: Say partition of $F$ and $S$ happens at the rank-$k$ element, where $k$ is uniformly distributed. Then
+\noindent\textbf{Runtime}:
+
+Say partition of $F$ and $S$ happens at the rank-$k$ element, where $k$ is uniformly distributed. Then
 \begin{equation*}
 T(n)=T(k-1)+T(n-k)+O(n)
 \end{equation*}
 
-This is the same recursion as \textsc{Quicksort}. Therefore, the runtime of \textsc{QuickShoeMatching} is $O(n\log n)$.
+This is the same recursion as \textsc{Quicksort}. Therefore, the expected runtime of \textsc{QuickShoeMatching} is $O(n\log n)$.
+
 \end{document}

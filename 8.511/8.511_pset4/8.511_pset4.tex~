@@ -60,7 +60,7 @@ Then the off diagonal matrix element of $M_{\mathbf{k}}$ is
 	&=\frac{1}{N}e^{i\mathbf{k}\cdot\bm{\tau}_2}\sum_{i,j}e^{i\mathbf{k}\cdot(\mathbf{R}_j-\mathbf{R}_i)}\langle\phi(\mathbf{r})|H|\phi(\mathbf{r}-(\mathbf{R}_j-\mathbf{R}_i+\bm{\tau}_2))\\
 	&=\frac{1}{N}e^{i\mathbf{k}\cdot\bm{\tau}_2}\sum_{i,j}\sum_{l=1}^3e^{i\mathbf{k}\cdot(\mathbf{R}_j-\mathbf{R}_i)}\langle\phi(\mathbf{r})|H|\phi(\mathbf{r}-(\mathbf{R}_j-\mathbf{R}_i+\bm{\tau}_2))\delta_{\bm{\mu}_l,\mathbf{R}_j-\mathbf{R}_i+\bm{\tau}_2}\\
 	&=\frac{1}{N}e^{i\mathbf{k}\cdot\bm{\tau}_2}\sum_i\sum_{l=1}^3e^{i\mathbf{k}\cdot(\bm{\mu}_l-\bm{\tau}_2)}\langle\phi(\mathbf{r})|H|\phi(\mathbf{r}-\bm{\mu}_l)\rangle\\
-	&=t\sum_{l=1}^3e^{i\mathbf{k}\cdot\bm{\mu}_i}\\
+	&=t\sum_{l=1}^3e^{i\mathbf{k}\cdot\bm{\mu}_l}\\
 	&=t\left(e^{ik_xa}+e^{-i\frac{1}{2}k_xa+i\frac{\sqrt{3}}{2}k_ya}+e^{-i\frac{1}{2}k_xa-i\frac{\sqrt{3}}{2}k_ya}\right)\\
 	&=t\left(\left(\cos k_xa+2\cos\frac{1}{2}k_xa\cos\frac{\sqrt{3}}{2}k_ya\right)+i\left(\sin k_xa-2\sin\frac{1}{2}k_xa\cos\frac{\sqrt{3}}{2}k_ya\right)\right)
 \end{align*}
@@ -209,7 +209,7 @@ In other words,
 n_y=\frac{2}{3}N_y\textup{ or }\frac{4}{3}N_y
 \end{equation*}
 
-So $N_y$, i.e. the number of periods along the circumference, must be a multiple of $3$. If $N_y$ is a large multiple of $3$ plus a small remainder, the line can be very close to some Dirac points, producing some small band gaps that enable semiconducting. For example, let $N_y=31$ and $n_y=20$. Then $k_y=\frac{40\pi}{31\sqrt{3}}a\approx\frac{4\pi}{3\sqrt{3}a}$. Fig.\ref{zigzag} shows this case.
+So $N_y$, the number of periods along the circumference, must be a multiple of $3$. If $N_y$ is a large multiple of $3$ plus a small remainder, the line can be very close to some Dirac points, producing some small band gaps that enable semiconducting. For example, let $N_y=31$ and $n_y=20$. Then $k_y=\frac{40\pi}{31\sqrt{3}}a\approx\frac{4\pi}{3\sqrt{3}a}$. Fig.\ref{zigzag} shows this case.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=12cm]{zigzag.eps}\\
