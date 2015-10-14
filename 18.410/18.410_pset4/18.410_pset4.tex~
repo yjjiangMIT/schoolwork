@@ -135,7 +135,9 @@ Dijkstra takes $O(E+V\log V)$. $\delta(u,v)$ require doubly nested loops, which 
 
 \section{Lazy Random Homework Solving}
 \subsection{Part (a)}
-\noindent\textbf{Proof}: By induction on $k$. When $k=1$, suppose that there are $r_1$ friends working on this problem. $r_1\geqslant r$. The assignment becomes invalid when all these $r_1$ friends are assigned to TA Nirvan or TA Kelly. The possibility is $P[1,\textup{invalid}]=2\times2^{-r_1}\leqslant 2^{1-r}=k2^{1-r}$. So the statement is true for the base case.
+\noindent\textbf{Proof}:
+
+By induction on $k$. When $k=1$, suppose that there are $r_1$ friends working on this problem. $r_1\geqslant r$. The assignment becomes invalid when all these $r_1$ friends are assigned to TA Nirvan or TA Kelly. The possibility is $P[1,\textup{invalid}]=2\times2^{-r_1}\leqslant 2^{1-r}=k2^{1-r}$. So the statement is true for the base case.
 
 When $k>1$, suppose the statement holds for $k-1$. Therefore, $P[k-1,\textup{invalid}]\leqslant(1-k)2^{1-r}$. In other words, $P[k-1,\textup{valid}]\geqslant 1-(k-1)2^{1-r}$. When we add the $k$-th problem, we have
 \begin{equation*}
@@ -222,9 +224,7 @@ Unless a valid assignment is obtained, the procedure will not break the while lo
 
 \noindent\textbf{Runtime}:
 
-In each while loop, every friend is assigned a random bit, which costs $O(n)$. Moreover, for each friend, all the problems that he/she does are visited. The total number of problems being considered is $O(kn)$, since $O(n)$ friends are doing each of the $k$ problems (no less than $r$ means $O(r+n)=O(n)$). So altogether, the for loop in the main while loop costs $O(kn)$. The rest part of the while loop costs constant time.
-
-The while loop is expected to be executed twice. Therefore, the overall expected runtime is $O(kn)$, which is linear in terms of the input size (notice that $size(F)=O(kn)$).
+In each while loop, every friend is assigned a random bit, which costs $O(n)$. Moreover, for each friend, all the problems that he/she does are visited. The total number of problems being considered is $O(kn)$, since $O(n)$ friends are doing each of the $k$ problems (although $r$ may be far less than $n$, $O(n)$ is a safe bound for ``no less than $r$"). So altogether, the for loop in the main while loop costs $O(kn)$. The rest part of the while loop costs constant time. The while loop is expected to be executed twice. Therefore, the overall expected runtime is $O(kn)$, which is linear in terms of the input size (notice that $size(F)=O(kn)$).
 
 \subsection{Part (d)}
 \noindent\textbf{Description}:

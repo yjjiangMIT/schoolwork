@@ -224,9 +224,7 @@ Unless a valid assignment is obtained, the procedure will not break the while lo
 
 \noindent\textbf{Runtime}:
 
-In each while loop, every friend is assigned a random bit, which costs $O(n)$. Moreover, for each friend, all the problems that he/she does are visited. The total number of problems being considered is $O(kn)$, since $O(n)$ friends are doing each of the $k$ problems (no less than $r$ means $O(r+n)=O(n)$). So altogether, the for loop in the main while loop costs $O(kn)$. The rest part of the while loop costs constant time.
-
-The while loop is expected to be executed twice. Therefore, the overall expected runtime is $O(kn)$, which is linear in terms of the input size (notice that $size(F)=O(kn)$).
+In each while loop, every friend is assigned a random bit, which costs $O(n)$. Moreover, for each friend, all the problems that he/she does are visited. The total number of problems being considered is $O(kn)$, since $O(n)$ friends are doing each of the $k$ problems (although $r$ may be far less than $n$, $O(n)$ is a safe bound for ``no less than $r$"). So altogether, the for loop in the main while loop costs $O(kn)$. The rest part of the while loop costs constant time. The while loop is expected to be executed twice. Therefore, the overall expected runtime is $O(kn)$, which is linear in terms of the input size, which is also $O(kn)$.
 
 \subsection{Part (d)}
 \noindent\textbf{Description}:
