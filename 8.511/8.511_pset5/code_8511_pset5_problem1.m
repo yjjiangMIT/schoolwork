@@ -1,0 +1,11 @@
+Ed = 10;
+Ep = 8;
+U = 1;
+[kx, ky] = meshgrid(linspace(-pi,pi,100), linspace(-pi,pi,100));
+E = sqrt((Ed-Ep)^2 + 16*U^2*(sin(kx/2).^2+sin(ky/2).^2));
+Eplus = (Ed+Ep)/2 + E;
+Eminus = (Ed+Ep)/2 - E;
+figure;
+hold on;
+mesh(kx, ky, Eplus);
+% mesh(kx, ky, Eminus);
