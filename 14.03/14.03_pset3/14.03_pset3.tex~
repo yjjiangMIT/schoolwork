@@ -160,4 +160,19 @@ The diagram is shown in Fig.\ref{blank}, in which we can see that the cost of th
 	\label{blank}
 \end{figure}
 
+\section{General Equilibrium in a Pure Exchange Economy}
+\subsection{Part 1}
+The Edgeworth box is shown in Fig.\ref{Edgeworth}. Feasible allocations are all the points in the rectangular region $0\leqslant x\leqslant8$, $0\leqslant y\leqslant8$. If $x$ and $y$ must take integer values due to indivisibility of the goods, then feasible allocations are all the integer-coordinated grid points in this rectangle. The initial allocation is marked as a circle.
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=12cm]{figure3.eps}\\
+	\caption{Edgeworth box of Ann and Bob}
+	\label{Edgeworth}
+\end{figure}
+
+
+\subsection{Part 2}
+The Perato optimal allocations happen when Ann's and Bob's indifference curves become tangent. Here since Ann's indifference curve has a kink, being tangent means that Bob's indifferenc curve passes the corner of Ann's curve. Therefore, the contract curve contains all the points having $x=y$. At these points, it is impossible to make both Ann and Bob better off by exchanging goods. The contrast curve is drawn in Fig.\ref{Edgeworth}.
+
+
 \end{document}

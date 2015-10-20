@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  15 OCT 2015 00:38
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.27)  19 OCT 2015 10:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -283,7 +283,7 @@ File: figure2.eps Graphic file (type eps)
 File: blank.png Graphic file (type QTm)
  <use  "blank.png" >
 File: figure3.eps Graphic file (type eps)
- <figure3.eps> [4] [5]
+ <figure3.eps> [4] [5] [6]
 (./14.03_pset3.aux) ) 
 Here is how much of TeX's memory you used:
  2594 strings out of 493918
@@ -294,4 +294,4 @@ Here is how much of TeX's memory you used:
  1144 hyphenation exceptions out of 8191
  42i,12n,43p,589b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 14.03_pset3.pdf (5 pages).
+Output written on 14.03_pset3.pdf (6 pages).
