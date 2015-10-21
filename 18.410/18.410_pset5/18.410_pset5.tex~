@@ -123,12 +123,40 @@ E[T]\leqslant2kT_{\textsc{Sqrt}}(n)+O(kn^2)
 
 \subsection{Part (b)}
 \subsubsection{Subpart i}
-The running time is $T_{\textsc{Successor}}=O(1)$. This is because each leaf node (except for the rightmost one who does not have a successor) is directly linked to its successor by a pointer.
+The runtime is $T_{\textsc{Successor}}=O(1)$. This is because each leaf node (except for the rightmost one who does not have a successor) is directly linked to its successor by a pointer.
 
 \subsubsection{Subpart iii}
 \noindent\textbf{Description}:
+
+Assume the trie is nonempty. First we try to find $x$ in the trie by calling $\textsc{H}_h(x)$, where $h=\log u$ is the height of the trie and length of a key. If $x$ is in the trie, hashing returns a pointer to $x$ and we have access to its successor (or if $x$ is the largest key in the trie, we know $x$ does not have a successor) in $O(1)$ time.
+
+If $x$ is not in the trie, we bisect its digits to find the internal node $n$ who has the longest prefix matched with $x$. Specifically, we keep a ``matched prefix" $m$ which is initially set to empty. We also keep an ``unchecked substring" $uc$ which is a substring of $x$ and is initially set as $x$ (no need to store as an extra copy, just pin down the start and end on $x$). Each time we cut $uc$ in half: $uc=uc_1+uc_2$. If $m+uc_1$ is in the trie (we check this by hashing), append $uc_1$ to $m$ and set $uc_2$ as the new $uc$. Otherwise, set $uc_1$ as the new $uc$. This bisection is done until the base case where $uc$ has only one digit (in the base case if $m+uc$ is in the trie, append $uc$ to $m$). Then we can locate $n$ by hashing with $m$ (or if $m$ is empty, $n$ is the root $r$).
+
+$n$ must have only one branch. So it also has a pointer connecting to a leaf node $l$. If the branch that $n$ has is the left branch, the successor of $l$ is the successor of $x$ (or if $l$ does not have a successor, neither does $x$). Otherwise, $l$ itself is the successor of $x$.
+
+\textcolor{red}{The pseudocode is shown below.}
+
+~
+
 \noindent\textbf{Correctness}:
+
+If $x$ is in the trie, hashing returns a pointer to $x$ and we can locate its successor by the pointer from $x$ to its successor.
+
+We focus on the case where $x$ is not in the trie. Since $m$ is initially empty and is extended by appending $uc_1$ to it, $m$ is the substring of $x$ that directly precedes $uc$. Since each time $uc_2$ is discarded only when $m+uc_1$ does not match $x$, the discarded substring (the substring that follows $uc$) cannot contribute to extend the prefix match. Therefore, in each bisection, the longest matched prefix of $x$ is a substring of $m+uc$.
+
+Since $uc$ is bisected in each iteration, it takes finite number of iterations to cut $uc$ down to the base case. After dealing with the base case, the longest matched prefix of $x$ is a substring of $m$. But $m$ itself is a matched prefix. So $m$ is the longest matched prefix. So the node $n$ acquired by hashing with $m$ is the internal node with the longest prefix matched with $x$.
+
+$n$ does not have the branch corresponding to $x$, otherwise one of its children will match $x$ with a longer prefix. Therefore, $n$ has a pointer connecting either to the minimum key in its right subtree or the maximum key in its left subtree, depending on which subtree it has. If it has a left subtree, then $x$ corresponds to its right subtree. This means that the maximum key in its left subtree is the largest key in the trie that is smaller than $x$. So its successor is the successor of $x$ (if this node does not have a successor, neither does $x$). If it has a right subtree, then $x$ corresponds to its left subtree. This means that the minimum key in its right subtree is the smallest key in the trie that is larger than $x$. So it is the successor of $x$. This proves the correctness of the algorithm.
+
+~
+
 \noindent\textbf{Runtime}:
+
+When $x$ is in the trie, the runtime is $O(1)$. When $x$ is not in the trie, the runtime recursion is the same as bisection search.
+\begin{equation*}
+T(h)=T(h/2)+O(1)
+\end{equation*}
+which implies that $T(h)=O(\log h)$. Since $h=\log u$, we have $T_{\textsc{Successor}}(u)=O(\log\log u)$.
 
 \subsection{Part (c)}
 \subsubsection{Subpart i}
