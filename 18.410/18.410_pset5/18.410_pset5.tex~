@@ -49,21 +49,25 @@ We must assume $p\neq q$ to make every quadratic residue mod $N$ have exactly fo
 
 We first pick a random $x$ from all positive integers less than $N$ (i.e. $\mathbb{Z}_N-\{0\}$). Then we check if $\textup{gcd}(x,N)=1$. If so, $a=x^2$ is a quadratic residue. Notice: this coprimality check only serves to make sure that $a$ is a valid first parameter of $\textsc{Sqrt}$. It becomes unnecessary if $\textsc{Sqrt}$ can take care of general inputs from $\mathbb{Z}_N$ rather than $\mathbb{Z}_N^*$.
 
-Calculate $y=\textsc{Sqrt}(a,N)$. If $y\equiv\pm x\textup{ (mod }N)$, then discard $x$ and start all over (pick another random integer). Otherwise, $p=\textup{gcd}(x-y,N)$ and $q=\textup{gcd}(x+y,N)$ are the two distinct nontrivial prime factors of $N$.
+Calculate $y=\textsc{Sqrt}(a,N)$. If $y\equiv\pm x\textup{ (mod }N)$, then discard $x$ and start all over (pick another random integer). Otherwise, $p=\textup{gcd}(x-y,N)$ is a nontrivial prime factor of $N$.
 
-If the coprimality check is applied and $\textup{gcd}(x,N)\neq1$, then we can either discard this $x$ and restart, or store $p=\textup{gcd}(x,N)$ and jump out of the loop. $p$ is one of the two nontrivial prime factors of $N$. The other one can be calculated by division (e.g. long integer division).
+If the coprimality check is applied and $\textup{gcd}(x,N)\neq1$, then we can either discard this $x$ and restart, or store $p=\textup{gcd}(x,N)$ and jump out of the loop. $p$ is a nontrivial prime factor of $N$.
+
+The other nontrivial prime factor $q$ can be calculated by division, $q=N/p$ (e.g. long integer division).
 
 ~
 
 \noindent\textbf{Correctness}:
 
-For a randomly chosen $x$, if $\textup{gcd}(x,N)=1$, $x$ is coprime with $N$ and so is $a=x^2$. Thus $a\in\mathbb{Z}_p^*$ and we can call $\textsc{Sqrt}(a,N)$ to deterministically calculate one of its four square roots. By the theorem, $a$ has 4 distinct square roots. No matter which one is chosen as $x$, $\textsc{Sqrt}(a,N)$ gives the same $y$. Therefore, there exists an $x$ such that $y\not\equiv\pm x\textup{ (mod }N)$. Moreover, conditioned on $x$ being coprime with $N$, the probability of $y\not\equiv\pm x\textup{ (mod }N)$ is $\frac{1}{2}$.
+For a randomly chosen $x$, if $\textup{gcd}(x,N)=1$, $x$ is coprime with $N$ and so is $a=x^2$. Thus $a\in\mathbb{Z}_p^*$ and we can call $\textsc{Sqrt}(a,N)$ to deterministically calculate one of its four square roots. By the theorem, $a$ has 4 distinct square roots. No matter which one is chosen as $x$, $\textsc{Sqrt}(a,N)$ gives the same $y$. Therefore, there exists an $x$ such that $y\not\equiv\pm x\textup{ (mod }N)$. Moreover, conditioned on $x$ being coprime with $N$, the probability of $y\not\equiv\pm x\textup{ (mod }N)$ is $1/2$.
 
-$y\not\equiv\pm x\textup{ (mod }N)$ implies that $x-y\not\equiv0\textup{ (mod }N)$ and $x+y\not\equiv0\textup{ (mod }N)$. Since $x^2\equiv y^2\textup{ (mod }N)$, $N|(x-y)(x+y)$. Yet both $x-y$ and $x+y$ are not multiples of $N=pq$. Since $p,q$ are distinct prime numbers, WLOG, $p|(x-y)$ and $q|(x+y)$. So $p|\textup{gcd}(x-y,N)$. Moreover, $q\!\!\not|(x-y)$, otherwise it contradicts with the fact that $N\!\!\not|(x-y)$. Thus $\textup{gcd}(x-y,q)=1$. This implies that $\textup{gcd}(x-y,N)=\textup{gcd}(x-y,\frac{N}{q})=\textup{gcd}(x-y,p)$. Combining with $p|\textup{gcd}(x-y,N)$, we get $p=\textup{gcd}(x-y,N)$. Similarly, $q=\textup{gcd}(x+y,N)$. This completes the factorization of $N$.
+Suppose a randomly generated $x$ satisfies $y\not\equiv\pm x\textup{ (mod }N)$. Since $x^2\equiv y^2\textup{ (mod }N)$, $N|(x-y)(x+y)$. If $\textup{gcd}(x-y,N)=1$, $N|(x+y)$, which contradicts with $y\not\equiv-x\textup{ (mod }N)$. And $\textup{gcd}(x-y,N)=N$ contradicts with $y\not\equiv x\textup{ (mod }N)$. Therefore, $\textup{gcd}(x-y,N)$ must be a nontrivial factor of $N$. WLOG, $p=\textup{gcd}(x-y,N)$.
 
-On the other hand, if the coprimality check gives $\textup{gcd}(x,N)\neq1$, we can obviously discard $x$ and restart until we pass the coprimality check. A simpler way is to notice that, since $x<N$, $\textup{gcd}(x,N)<N$ and thus can only be $1$ or $p,q$. If $x$ is not coprime with $N$, WLOG, $\textup{gcd}(x,N)=p$, we can immediately calculate $q$ by division, thus completing the factorization of $N$.
+On the other hand, if the coprimality check gives $\textup{gcd}(x,N)\neq1$, we can discard $x$ and restart until we pass the coprimality check. A more efficient way is to notice that, since $0<x<N$ and $x$ is not coprime with $N$, $\textup{gcd}(x,N)\neq 1,N$ and is thus a nontrivial factor of $N$. WLOG, $p=\textup{gcd}(x,N)$.
 
-Due to the finite probability of getting $y\not\equiv\pm x\textup{ (mod }N)$, this algorithm terminates in finite time. Once it terminates, it always outputs the correct result, as we have discussed above.
+Once we get a nontrivial factor $p$, it is straightforward to calculate $q$ by division. Since $N$ is the product of exactly two primes, we complete the factorization of $N$.
+
+Due to the finite probability of getting $y\not\equiv\pm x\textup{ (mod }N)$, this algorithm terminates in finite time. Once it terminates, it always outputs the correct result. Therefore, the correctness of this algorithm is proved.
 
 ~
 
@@ -86,31 +90,34 @@ Now I can answer the questions raised in this part.
 \item{Q: Relative difficulty of computing square roots modulo $N$ and factoring $N$?\\A: Once the square roots of quadratic residues are calculated, it becomes much easier to factor $N$. Since factoring is extremely difficult, calculating square roots modulo $N$ must be equally difficult.}
 \end{enumerate}
 
-%On the other hand, if $\textsc{Sqrt}$ can take care of general inputs from $\mathbb{Z}_N$ rather than $\mathbb{Z}_N^*$ such that the coprimality check is not necessary, $P[bad]$ should include $x$ being not coprime with $N$. This gives $E[n]=\frac{2(N-1)}{(N-1)-(p+q-2)}\geqslant2$. In this case, when $N$ is sufficiently large and $p,q\gg1$, we have $N\gg p,q$. So $E[n]$ becomes very close to $2$. In the worse case, however, $p=\frac{N}{2}$ and $q=2$, $E[n]=4\frac{N-1}{N-2}$ is bounded by $4+\epsilon$ when $N>2+\frac{4}{\epsilon}$.
-
 \subsection{Part (c)}
 \noindent\textbf{Description}:
 
-We use the same idea to factor $N$ multiple times until we get all prime factors. In other words, in the $i$-th round of factorization, we take all the composite factors of $N$ that are calculated in the $(i-1)$-th round as inputs and factor them. We check primality on the resulting smaller factors, separating prime ones and composite ones. The prime factors are eventually returned as outputs, while the composite ones are used as inputs of the next round. The algorithm terminates when all factors are prime.
+We first factor out powers of $2$ from $N$ until we get an odd $N'$. Check if $N'$ is a prime. If so, the algorithm terminates.
 
-In each round of factorization (say $N'$ is being factored using a good $x'$ and a $y'$), the only difference from the previous part is, although $y'\neq\pm x'\textup{ (mod }N)$ and $N'|(x'-y')(x'+y')$ still holds, we cannot reach the conclusion that $\textup{gcd}(x'-y',N')\times\textup{gcd}(x'+y',N')=N'$. We can take $\textup{gcd}(x'-y',N')$ as the first nontrivial factor of $N'$, and do a division to find the second nontrivial factor.
+Otherwise, check if $N'$ is a prime power. This is done by the following: set the initial base $b$ as (at least) $2\lfloor\sqrt{N'}/2\rfloor+1$ and initial power $i$ as $2$. Iterate as follows: reduce $b$ by 2 until $b$ is prime. Calculate $b^i$. If $b^i>N'$, reduce $b$ by $2$. If $b^i<N'$, increase $i$ by 1. If $b^i=N'$, $N'$ is a prime power and break the loop. If the loop is not broken, it goes on until $b$ becomes smaller than 3 (since 2 is factored out, base 3 is sufficient).
+
+Another way to check prime power is, for all intergers $i$ ranging from $2$ to $\log_3N$, calculate the $i$-th root of $N'$, call it $\alpha_i$. This can be done by the fast converging $n$-th root algorithm. Compare $\lfloor\alpha_i\rfloor^i$ with $N'$. But for now we stick to the first method.
+
+We then use essentially the same algorithm as the previous part (\textsc{Factor}) to factor $N'$. The difference is, this time the two factors may not be prime. So primality checks are performed. For every composite factor of $N'$, we do a prime power check. If a composite factor is a prime power, this check automatically factors it. Otherwise, we recursively factor it with \textsc{Factor}. This process goes on until every output factor of \textsc{Factor} is either a prime or a prime power.
+
+The pseudocode is shown below.
 
 ~
 
 \noindent\textbf{Correctness}:
 
-Each round of factorization breaks the remaining composite factors of $N$ down to smaller prime or composite factors. Once a factor is confirmed to be prime, it no longer goes through the next round of factorization. Since $N$ is finite, its unique factorization contains finite number of prime factors. So this algorithm will terminate after finite rounds of factorization. The correctness of the entire factorization relies on the correctness of a single round.
+As long as we make sure that the input of \textsc{Factor} is odd and is neither a prime nor a prime power, \textsc{Factor} works and thus we can recursively call it on composite factors output by the previous run.
 
-In a certain factorization of a certain round, identical to the reasoning in the previous part, when $x'$ is chosen such that $x'^2\equiv y'^2\textup{ (mod }p)$ but $y'\neq\pm x'\textup{ (mod }N)$, we have $N'|(x'-y')(x'+y')$. $\textup{gcd}(x'-y',N')$ cannot be the trivial $1$ or $N'$ because both $x'-y'$ and $x'+y'$ are not multiples of $N'$. Then we factor $N'$ into $\textup{gcd}(x'-y',N')$ and $N'/\textup{gcd}(x'-y',N')$. The division can be done in $O(n'^2)$ time by long division, where $n'=\log N'$.
+Factoring out all the powers of 2 at the beginning guarantees that all subsequent inputs are odd. Therefore, before recursively calling \textsc{Factor}, all we need to do is a primality check and a prime power check. If the input is a prime, we do not need to factor it anymore. If the input is a prime power, it is automatically factored in the check. If neither holds, \textsc{Factor} factors the input down to two small integers. Since $N$ is finite, we only need finite number of recursions. So the algorithm will terminate. And by then all prime factors of $N$ are calculated.
+
+The 
 
 ~
 
 \noindent\textbf{Runtime}:
 
-Suppose $N$ has $k$ prime factors (including repeated powers), then in this algorithm $k-1$ factorizations are performed. Therefore, \textsc{Sqrt} is expected to be called $2(k-1)\approx2k$ times, with the input size shrinking over iterations. We can thus give the following upper bound for the runtime, where $n=\log N$:
-\begin{equation*}
-E[T]\leqslant2kT_{\textsc{Sqrt}}(n)+O(kn^2)
-\end{equation*}
+
 
 \section{Fun with the Skiplist}
 \subsection{Part (a)}
@@ -133,8 +140,6 @@ Assume the trie is nonempty. First we try to find $x$ in the trie by calling $\t
 If $x$ is not in the trie, we bisect its digits to find the internal node $n$ who has the longest prefix matched with $x$. Specifically, we keep a ``matched prefix" $m$ which is initially set to empty. We also keep an ``unchecked substring" $uc$ which is a substring of $x$ and is initially set as $x$ (no need to store as an extra copy, just pin down the start and end on $x$). Each time we cut $uc$ in half: $uc=uc_1+uc_2$. If $m+uc_1$ is in the trie (we check this by hashing), append $uc_1$ to $m$ and set $uc_2$ as the new $uc$. Otherwise, set $uc_1$ as the new $uc$. This bisection is done until the base case where $uc$ has only one digit (in the base case if $m+uc$ is in the trie, append $uc$ to $m$). Then we can locate $n$ by hashing with $m$ (or if $m$ is empty, $n$ is the root $r$).
 
 $n$ must have only one branch. So it also has a pointer connecting to a leaf node $l$. If the branch that $n$ has is the left branch, the successor of $l$ is the successor of $x$ (or if $l$ does not have a successor, neither does $x$). Otherwise, $l$ itself is the successor of $x$.
-
-\textcolor{red}{The pseudocode is shown below.}
 
 ~
 
@@ -167,13 +172,16 @@ Since $\frac{n}{\log u}$ keys are expected to rise to the top level of the skipl
 
 To deal with edge cases, suppose the skiplist has $-\infty$ nodes on its far left and $\infty$ nodes on its far right.
 
-First call $\textsc{TrieFind}(x)$ for the trie. If $x$ is in the trie, this is an $O(1)$ operation. The algorithm returns a pointer to $x$ and terminates. If $\textsc{TrieFind}(x)$ reports that $x$ does not exist in the trie, call $\textsc{TriePredecessor}(x)$. This returns a node $y$ on the top level of the skiplist (suppose \textsc{Predecessor}(x) returns the pointer to $-\infty$ if $x$ does not have a predecessor in the trie).
+First call $\textsc{TrieFind}(x)$, which simply uses the hash table on the bottom level of the trie. If $x$ is in the trie, this is an $O(1)$ operation. The algorithm returns a pointer to $x$ and terminates. If $\textsc{TrieFind}(x)$ reports that $x$ does not exist in the trie, call $\textsc{TriePredecessor}(x)$. This returns a node $y$ on the bottom level of the trie, which is also the top level of the skiplist (suppose \textsc{TriePredecessor}(x) returns the pointer to $-\infty$ if $x$ does not have a predecessor in the trie).
 
-We enter the second level of the skiplist from $y$ and do a regular key search inside the skiplist. In other words, on each level we go right until we either find $x$ or find a key larger than $x$. In the first case the algorithm returns a pointer to $x$ and terminates. In the second case we go down a level from the rightmost node in the current level whose key is smaller than $x$. We keep doing this until we either find $x$ or find that $x$ does not exist down to the bottom level.
+We enter the second level of the skiplist from $y$ and do a regular key search inside the skiplist. In other words, on each level we go to the next node until we either find $x$ or find a key larger than $x$. In the first case the algorithm returns a pointer to $x$ and terminates. In the second case we go down a level from the rightmost node in the current level whose key is smaller than $x$. We keep doing this until we either find $x$ or find that $x$ does not exist down to the bottom level (in which case we can give a warning and return the predecessor of $x$ on the bottom level of the skiplist).
 
 ~
 
 \noindent\textbf{Correctness}:
+
+
+If $x$ is in the trie, its pointer can be obtained by hashing in constant time, which completes \textsc{Find}. Otherwise, symmetric to \textsc{TrieSuccessor} described above, we can use \textsc{TriePredecessor} to obtain the predecessor of $x$ in the trie, which is named $y$. The successor of $y$ in the trie, as well as on the top level of the skiplist, must be larger than $x$. Therefore, $y$ is the node from which we should go down a level in the skiplist. After that, we go back to the usual searching strategy in a skiplist.
 
 ~
 
@@ -184,5 +192,91 @@ If $x$ is in the trie, $\textsc{TrieFind}(x)$ finishes the job in $O(1)$ time du
 When searching inside the skiplist, since the entrance from the top level to the second level is already determined by $\textsc{TrieSuccessor}(x)$, we save $O(\frac{n}{\log u})$ time finding this entrance. On each level constant number of nodes (2 nodes) are visited on expectation. And there are $O(\log\log u)$ levels. Therefore, the search time inside the skiplist is also $O(\log\log u)$.
 
 The probability for an $O(1)$ runtime is $\frac{1}{\log u}$, while the probability for an $O(\log\log u)$ runtime is $1-\frac{1}{\log u}$. Therefore, the expected runtime is $E[T_\textsc{Find}]=\frac{1}{\log u}O(1)+(1-\frac{1}{\log u})O(\log\log u)=O(\log\log u)$.
+
+
+\subsubsection{Subpart iii}
+\noindent\textbf{Description}:
+
+For simplicity assume the structure is doubly linked.
+
+First call \textsc{Find}$(x)$. If $x$ already exists in the structure, there is no need to insert it. Otherwise we can get the predecessor of $x$ on the bottom level of the skiplist. We do the usual skiplist inserting procedure. Specifically, insert $x$ on the bottom level (create a new node and set the pointers correctly). Decide by a random value if $x$ should be promoted to the level above. If so, trace back to the first existing node that is promoted to the level above and insert $x$ right after it on the level above. Keep doing this until either in a random value generation $x$ is not promoted further up, or $x$ has reached the top level of the skiplist. In the first case, the algorithm terminates. In the second case, we need to add $x$ into the trie.
+
+When $x$ is inserted into the top level of the skiplist, it automatically appears on the bottom level of the trie. Add $x$ to the bottom-level hash table. Keep tract of the newly created subtree, which for now is just the leaf $x$. Let the root of this subtree be $y$. Do the following procedure to enlarge this subtree. Take off the last digit in the prefix and use the hash table to detect if this new prefix node exists on the level above. If so, call it $n$. Delete the augmented node-leaf link that connects $n$ to either the minimum key of its rightmost subtree or the maximum key of its leftmost subtree, and link $n$ to $y$. Otherwise, create a new node $z$ with the shortened prefix and add it to the hash table on the level above. Link $z$ with $y$ and create an augmented pointer from $z$ to $x$. Then update $y$ to be $z$. Repeat this procedure until the prefix node already exists.
+
+Once we get the pre-existing node $n$, we need to update the augmented pointers on the path from the root $r$ to $n$. Start from $n$ and go upwards. Keep tract of whether $x$ is the minimum key or the maximum key of the current node by two flags $isMin$ and $isMax$. For $n$, if $x$ is in its left subtree, $isMin$ is set True and $isMax$ is set False. Otherwise $isMin$ is set False and $isMax$ is set True. Say we go up to node $m$ along this path. If $m$ has two children, $isMin$ and $isMax$ are updated in the following way: if $x$ is in the left subtree and $isMax$ is \textsc{True}, update $isMax$ to \textsc{False}; if $x$ is in the right subtree and $isMin$ is \textsc{True}, update $isMin$ to \textsc{False}. If $m$ has only one child, $isMin$ and $isMax$ do not need to be updated, but the augmented pointer is updated in the following way: if $m$ has a left child and $isMax$ is \textsc{True}, or if $m$ has a right child and $isMin$ is \textsc{True}, update the augmented pointer of $m$ to $x$.
+
+The pseudocode is shown below.
+\begin{algorithm}
+\caption{Inserting into the combined structure}
+\begin{algorithmic}[1]
+\Procedure{Insert}{$x$}
+\State{$y\gets\textsc{Find}(x)$}
+\If{$y=x$} {Report $x$ already exists}
+\Else{} {Insert $x$ into the skiplist bottom-up}
+\EndIf
+\If{$x$ is promoted to the top level}
+	\State{$pre\gets\textup{the key stored in }x$, add $pre$ into the hash table of level $\textsc{Len}(pre)$}
+	\State{$y\gets x$, $n\gets\textup{NULL}$}
+	\While{$n=\textup{NULL}$}\Comment{Create a new branch containing $x$}
+		\State{$last\gets\textup{last digit of }pre$}
+		\State{$pre\gets\textup{first $\textsc{Len}(pre)-1$ digits of }pre$}
+		\If{$\textsc{Len}(pre)=0$} {$n\gets r$}
+		\Else{} {$n\gets\textsc{Hash}_{\textsc{Len}(pre)}(pre)$}
+		\EndIf
+		\If{$n=\textup{NULL}$}
+			\State{Add $pre$ into the hash table of level $\textsc{Len}(pre)$ and create a corresponding node $z$}
+			\If{$last=0$} {$z.leftChild=y$}
+			\Else{} {$z.rightChild=y$}
+			
+			\EndIf
+			\State{$z.augPointer\gets x$}
+			\State{$y\gets z$}
+		\EndIf
+	\EndWhile
+	\State{$n.augPointer\gets\textup{NULL}$}
+	\If{$last=0$}\State{$n.leftChild\gets y$, $isMin\gets\textup{True}$, $isMax\gets\textup{False}$}
+	\Else{}\State{$n.leftChild\gets y$, $isMin\gets\textup{False}$, $isMax\gets\textup{True}$}
+	\EndIf
+	\While{$n\neq r$}\Comment{Update the augmented pointers}
+		\State{$m\gets n.father$}
+		\If{$m.leftChild\neq\textup{NULL}$ \textbf{and} $m.rightChild\neq\textup{NULL}$}
+			\If{$n=m.leftChild$ \textbf{and} $isMax=\textup{True}$} {$isMax\gets\textup{False}$}
+			\ElsIf{$n=m.rightChild$ \textbf{and} $isMin=\textup{True}$} {$isMin\gets\textup{False}$}
+			\EndIf
+		\Else{}
+			\If{$n=m.leftChild$ \textbf{and} $isMax=\textup{True}$} {$m.augPointer\gets x$}
+			\ElsIf{$n=m.rightChild$ \textbf{and} $isMin=\textup{True}$} {$m.augPointer\gets x$}
+			\EndIf
+		\EndIf
+	\EndWhile
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+~
+
+\noindent\textbf{Correctness}:
+
+Suppose $x$ does not exist in the structure. Then $\textsc{Find}(x)$ returns the predecessor of $x$ on the bottom level of the skiplist. Inserting $x$ into the skiplist is just as usual: a bottom-up insertion using randomness to decide if $x$ is promoted to the level above. If $x$ gets promoted into the topmost level of the skiplist, it must be further inserted into the trie. This is also done in a bottom-up fashion. Besides the leaf node $x$, all the internal nodes that previously do not exist have to be created. The algorithm guarantees that these nodes are linked in the correct order. Moreover, all such nodes have only path to go down to the leaf level. So their augmented pointers should all point to $x$.
+
+Since we do this bottom-up, we eventually get to the pre-existing node $n$ whose prefix has the longest match with $x$. The newly created subtree must be a branch of $n$. By adding this subtree, $n$ has now two children and no longer needs an augmented pointer. So the algorithm deletes it.
+
+Finally, all the nodes above $n$ that contains this new subtree are updated in terms of their augmented pointers. This is necesssary when a node has exactly one child (so it needs such a pointer) and if either $x$ becomes the new maximum key in the left subtree, or $x$ becomes the new minimum key in the right subtree. This is the reason why we keep two flags $isMin$ and $isMax$. These two flags are updated only if there is another branch whose leaf takes over $x$ as the minimum key or the maximum key.
+
+After all these steps, it is guaranteed that (a) a path is established from $r$ to $x$ (b) all the nodes on this path with only one child has the correct augmented pointer. The nodes not on this path are not affected because their subtrees do not contain $x$. This proves the correctness of the algorithm.
+
+~
+
+\noindent\textbf{Runtime}:
+
+If $x$ is not promoted to the top level of the skiplist, the insertion only happens in the skiplist. The expected rumtime in this case is proportional to its height, $O(\log\log u)$. The probability for this case is $1-\frac{1}{\log u}$
+
+If $x$ is promoted to the top level of the skiplist, then besides $O(\log\log u)$ time inserting inside the skiplist, additional time is spent inserting $x$ into the trie. Since the algorithm does this bottom-up, spending only constant time in each level, the additional runtime is linear in the trie height, $O(\log u)$. The probability for this case is $\frac{1}{\log u}$.
+
+Therefore, the overall expected runtime is
+\begin{equation*}
+E[T_{\textsc{Insert}}]=\left(1-\frac{1}{\log u}\right)O(\log\log u)+\frac{1}{\log u}(O(\log\log u)+O(\log u))=O(\log\log u)
+\end{equation*}
 
 \end{document}
