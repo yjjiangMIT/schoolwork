@@ -174,5 +174,39 @@ The Edgeworth box is shown in Fig.\ref{Edgeworth}. Feasible allocations are all 
 \subsection{Part 2}
 The Perato optimal allocations happen when Ann's and Bob's indifference curves become tangent. Here since Ann's indifference curve has a kink, being tangent means that Bob's indifferenc curve passes the corner of Ann's curve. Therefore, the contract curve contains all the points having $x=y$. At these points, it is impossible to make both Ann and Bob better off by exchanging goods. The contrast curve is drawn in Fig.\ref{Edgeworth}.
 
+\subsection{Part 3}
+For Ann, we need to maximize $U_A=\min(x_A,y_A)$ subject to the constraint that $x_AP_x+y_AP_y=I_A$. Due to the perfect complement property of $x_A$ and $y_A$, utility maximization happens when $x_A=y_A$. Therefore, we have $x_A=y_A=I_A/(P_x+P_y)$.
+
+For Bob, we need to maximize $U_B=x_B+y_B$ subject to the constraint that $x_BP_x+y_BP_y=I_B$. Since $\frac{\partial U_B/\partial x_B}{\partial U_B/\partial y_B}=-1$ is fixed, only when $P_x/P_y=1$ do we have an interior solution. Otherwise, we have corner solutions.
+
+When $P_x=P_y=P$, the budget constraint becomes $x_B+y_B=I_B/p$. In this case, no matter what values $x_B$ and $y_B$ take (as long as both are non-negative), the utility is fixed at $U_B=I_B/P$. When $P_x<P_y$, Bob will only consume $x$. So $x_B=I_B/p_x$ and $y_B=0$. When $p_x>p_y$, Bob will only consume $y$. So $x_B=0$ and $y_B=I_B/p_y$.
+
+In conclusion, Ann's uncompensated demand is $d_{x_A}(P_x,P_y,I_A)=d_{y_A}(P_x,P_y,I_A)=I_A/(P_x+P_y)$. Bob's uncompensated demand is $d_{x_B}(P_x,P_y,I_B)=\displaystyle\left\{\begin{array}{ll}I_B/P_x&(P_x<P_y)\\C&(P_x=P_y)\\0&(P_x>P_y)\end{array}\right.$ and $d_{y_B}(P_x,P_y,I_B)=\displaystyle\left\{\begin{array}{ll}0&(P_x<P_y)\\I_B/p-C&(P_x=P_y)\\I_B/P_y&(P_x>P_y)\end{array}\right.$, where $C$ is an arbitrary value in $[0,I_B/P]$ when $P_x=P_y=P$.
+
+\subsection{Part 4}
+The equilibrium point must be on the contract curve, i.e., the diagonal of the Edgeworth box. Moreover, it is on the budget constaint curve that passes through the initial endowment. This curve should be tangent to both Ann's and Bob's indifference curve at the same tangent point. This tangent point is exactly the equilibrium point.
+
+Since Bob's indifference curve is constant sloped, the budget constraint curve tangent to it must overlap with it. Thus this curve has a slope of $-1$. Since it passes through $(x_B,y_B)=(6,2)$, its formula is $x_B+y_B=8$. Expressed in terms of $x_A$ and $y_A$, its formula is $x_A+y_A=8$. The price ratio is $P_x/P_y=-dy/dx=1$.
+
+The equilibrium consumption of Ann is obtained by setting $x_A=y_A$, which gives $(x_A,y_A)=(4,4)$. Since the market is cleared, the equilibrium consumption of Bob is $(x_B,y_B)=(4,4)$.
+
+\subsection{Part 5}
+I re-draw the Edgeworth box below, indicating the competitive equilibrium prices, and indifference curves through the initial endowments and through the equilibrium consumption bundles.
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=12cm]{figure4.eps}\\
+	\caption{Edgeworth box of Ann and Bob}
+	\label{Edgeworth}
+\end{figure}
+
+\subsection{Part 6}
+Since both Ann's and Bob's indifference curves are tangent with the budget constraint curve at the equilibrium point, there is no ``lens" enclosed. Thus, there cannot be further changes in allocation that make both of them (weakly) better off. As a result, the equilibrium allocation is Pareto efficient.
+
+\section{Price Distortion and Welfare}
+\subsection{Part 1}
+\begin{align*}
+L^S&=E[commission]\times 1000\\
+&=\frac{N}{L^S}cp^i
+\end{align*}
 
 \end{document}

@@ -189,7 +189,7 @@ E[T_{\textsc{GeneralFactor}}]&=O(n)(T_{\textsc{SpecialFactor}}+T_{\textsc{IsPrim
 &=O(n)T_{\textsc{Sqrt}}+O(n)T_{\textsc{IsPrime}}+O(n^4)\\
 &=O(n)T_{\textsc{Sqrt}}+O(n^\alpha)
 \end{align*}
-where $\alpha\geqslant4$ is some constant determined by $T_{\textsc{IsPrime}}$ and $n=\log N$.
+where $\alpha\geqslant4$ is a constant determined by $T_{\textsc{IsPrime}}$ and $n=\log N$.
 
 \section{Fun with the Skiplist}
 \subsection{Part (a)}
