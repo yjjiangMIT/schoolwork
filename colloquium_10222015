@@ -1,0 +1,57 @@
+Joerg Schmiedmayer
+Vienna Center for Quantum Science and Technology
+
+Does an isolated quantum system relax?
+
+One dimensional systems
+
+Bose gas in elongated trap
+Uniform density, fluctuating phase
+Longitudinal phase fluctuations are key
+
+Lieb-Liniger model: exactly solvable
+
+Luttinger-liquid
+Excitations are phonons
+Linear dispersion
+
+Sine-Gordon
+Long-lived excitations
+
+Atom chip
+
+Interference of phase
+create a copy by splitting / create two independent samples
+quantum connected / classically separated
+narrow dist of phase / random phase
+
+Repeat measurement many times and plot as circular stats
+Full distribution function of phase & contrast
+
+Independently created 1d condensates
+Aver = 0, Var > 0
+
+Split n1,phi1 and n2,phi2
+sym combination and antisym combination
+sym is thermally populated
+antisym is populated by quantum fluctuations
+
+Thermal equibrium
+equal populations sym and antisym
+
+Mean squared contrast initial rapid decay
+
+Short length scale: phase diffusion regime
+Long length scale: contrast decay regime
+
+Generalized Gibbs ensemble
+a Lagrange multiplier for every mode
+
+Correlations outside the light cone imprinted by the quench
+8 mode model describes the relaxed state
+
+Relaxation in quantum systems does not procees through a simple path: prethermalization
+
+Relaxed state emerges locally and spreads thruout the system in a light cone
+
+Prethermalized state is associated with a Generalized Gibbs Ensemble

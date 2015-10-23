@@ -95,13 +95,58 @@ Now I can answer the questions raised in this part.
 
 We first factor out powers of $2$ from $N$ until we get an odd $N'$. Check if $N'$ is a prime. If so, the algorithm terminates.
 
-Otherwise, check if $N'$ is a prime power. This is done by the following: set the initial base $b$ as (at least) $2\lfloor\sqrt{N'}/2\rfloor+1$ and initial power $i$ as $2$. Iterate as follows: reduce $b$ by 2 until $b$ is prime. Calculate $b^i$. If $b^i>N'$, reduce $b$ by $2$. If $b^i<N'$, increase $i$ by 1. If $b^i=N'$, $N'$ is a prime power and break the loop. If the loop is not broken, it goes on until $b$ becomes smaller than 3 (since 2 is factored out, base 3 is sufficient).
+Otherwise, check if $N'$ is a prime power. This is done by the following: set the initial base $b$ as (at least) $2\lfloor\sqrt{N'}/2\rfloor+1$ and initial power $i$ as $2$. Iterate as follows: reduce $b$ by 2 until $b$ is prime. Calculate $b^i$. If $b^i>N'$, reduce $b$ by $2$. If $b^i<N'$, increase $i$ by 1. If $b^i=N'$, $N'$ is a prime power and break the loop. If the loop is not broken, it goes on until $b<3$ (since 2 is factored out, base 3 is sufficient). Breaking of the loop identifies a prime power.
 
-Another way to check prime power is, for all intergers $i$ ranging from $2$ to $\log_3N$, calculate the $i$-th root of $N'$, call it $\alpha_i$. This can be done by the fast converging $n$-th root algorithm. Compare $\lfloor\alpha_i\rfloor^i$ with $N'$. But for now we stick to the first method.
+Another way to check prime power is, for all intergers $i$ ranging from $2$ to $\log_3N$, calculate the $i$-th root of $N'$, call it $\alpha_i$. This can be done by the fast converging $n$-th root algorithm. If $(\textsc{Round}(\alpha_i))^i=N'$, then $N'$ is a prime power. This method is faster than the previous one. But it involves more mathematics in the square root operation (see Wikipedia), making the analysis harder. Therefore, in the pseudocode and the proof of correctness below, I will refer to the first method, which does not involve taking square roots.
 
-We then use essentially the same algorithm as the previous part (\textsc{Factor}) to factor $N'$. The difference is, this time the two factors may not be prime. So primality checks are performed. For every composite factor of $N'$, we do a prime power check. If a composite factor is a prime power, this check automatically factors it. Otherwise, we recursively factor it with \textsc{Factor}. This process goes on until every output factor of \textsc{Factor} is either a prime or a prime power.
+We then use the algorithm in the previous part (\textsc{SpecialFactor}) to factor $N'$. The difference is, this time the two factors may not be prime. So primality checks are performed. For every composite factor of $N'$, we also do a prime power check. If a composite factor is a prime power, this check automatically factors it. Otherwise, we recursively factor it with \textsc{SpecialFactor}. This process goes on until every output of \textsc{SpecialFactor} is either a prime or a prime power.
 
 The pseudocode is shown below.
+\begin{algorithm}
+\caption{Factoring a general integer}
+\begin{algorithmic}[1]
+\Procedure{PrimePower}{$N$}
+\State{$b\gets2\lfloor\sqrt{N}/2\rfloor+1$}
+\State{$i\gets2$}
+\While{$b\geqslant3$}
+	\If{\textbf{not} $\textsc{IsPrime}(b)$}
+		\State{$b\gets b-2$, \textbf{continue}}
+	\EndIf
+	\If{$b^i=N$} \Return{$(b,i)$}
+	\EndIf
+	\If{$b^i>N$} {$b\gets b-2$}
+	\Else{} {$i\gets i+1$}
+	\EndIf
+\EndWhile
+\State{\Return{NULL}}
+\EndProcedure
+\Procedure{OddFactor}{$N$}
+\State{$factors\gets[~]$}
+\If{$\textsc{IsPrime}(N)$}
+	\State{$factors.append(N)$}
+	\State{\Return{$factors$}}
+\EndIf
+\State{$biPair=\textsc{PrimePower}(N)$}
+\If{$biPair=\textup{NULL}$}\Comment{$N$ is not a prime power}
+	\State{$(N1,N2)=\textsc{SpecialFactor}(N)$}
+	\State{$factors.append(\textsc{OddFactor}(N1))$}
+	\State{$factors.append(\textsc{OddFactor}(N2))$}
+\Else{}\Comment{$N$ is a prime power}
+	\State{$(b,i)\gets biPair$}
+	\State{Append $b$ to $factors$ for $i$ times}
+\EndIf
+\State{\Return{$factors$}}
+\EndProcedure
+\Procedure{GeneralFactor}{$N$}
+\State{$factors\gets[~]$}
+\State{Factor all powers of 2 out of $N$ and get an odd number $N'$, append all factors of 2 to $factors$}
+\If{$N'>1$}
+	\State{$factors.append(\textsc{OddFactor}(N'))$}
+\EndIf
+\State{\Return{$factors$}}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 ~
 
@@ -109,15 +154,42 @@ The pseudocode is shown below.
 
 As long as we make sure that the input of \textsc{Factor} is odd and is neither a prime nor a prime power, \textsc{Factor} works and thus we can recursively call it on composite factors output by the previous run.
 
-Factoring out all the powers of 2 at the beginning guarantees that all subsequent inputs are odd. Therefore, before recursively calling \textsc{Factor}, all we need to do is a primality check and a prime power check. If the input is a prime, we do not need to factor it anymore. If the input is a prime power, it is automatically factored in the check. If neither holds, \textsc{Factor} factors the input down to two small integers. Since $N$ is finite, we only need finite number of recursions. So the algorithm will terminate. And by then all prime factors of $N$ are calculated.
+Factoring out all the powers of 2 at the beginning guarantees that all subsequent inputs of \textsc{Factor} are odd. Therefore, before recursively calling \textsc{Factor}, all we need to do is a primality check and a prime power check. If the input is a prime, we do not need to factor it anymore. If the input is a prime power, it is automatically factored in the check. If neither holds, \textsc{Factor} factors the input down to two small integers. Since $N$ is finite, we only need finite number of recursions. So the algorithm will terminate. And by then all prime factors of $N$ are calculated.
 
-The 
+The algorithm then relies on the correctness of the primality check and the prime power check. The former is given. The latter is proved here by induction.
+
+Claim: when the $k$-th iteration of the prime power check starts, where the base is $b_k$ and the power is $i_k$, (a) for every prime base $b>b_k$ and every power $i>1$, $b^i\neq N'$; (b) for every prime base $b$ and every power $1<i<i_k$, $b^i\neq N'$. This claim guarantees that in the end we do not miss any $(b,i)$ pair unchecked.
+
+At the beginning, $b_0=2\lfloor\sqrt{N'}/2\rfloor+1$ and $i_0=2$. So (a) for every prime base $b>b_0$ and every power $i>1$, $b^i>b_0^2\geqslant N'$; (b) there is no integer $i$ satisfying $1<i<2$. So the claim is true.
+
+If the claim is true at the $(k-1)$-th iteration, we prove that it continues to hold at the $k$-th iteration, provided that the loop is not broken by $b_{k-1}^{i_{k-1}}=N'$.
+
+Case 1: if in the $(k-1)$-th iteration, $b_{k-1}^{i_{k-1}}>N'$, then $b_k$ is assigned the prime that is smaller than and closest to $b_{k-1}$. So for every prime base $b>b_k$ (which means $b\geqslant b_{k-1}$) and every power $i\geqslant i_{k-1}$, $b^i\geqslant b_{k-1}^{i_{k-1}}>N'$. We also know from the induction hypothesis that for every prime base $b$ (thus including all $b>b_k$) and every power $1<i<i_{k-1}$, $b^i\neq N'$. Therefore, (a) holds, i.e., for every prime base $b>b_k$ and every power $i>1$, $b^i\neq N'$. Notice that $i_k=i_{k-1}$, so (b) also holds due to the induction hypothesis, i.e., for every prime base $b$ and every power $1<i<i_k$, $b^i\neq N'$.
+
+
+Case 2: if in the $(k-1)$-th iteration, $b_{k-1}^{i_{k-1}}<N'$, then $i_k=i_{k-1}+1$. So for every prime base $b\leqslant b_{k-1}$ and every power $1<i<i_k$ (which means $1<i\leqslant i_{k-1}$), $b^i\leqslant b_{k-1}^{i_{k-1}}<N'$. We also know from the induction hypothesis that for every prime base $b>b_{k-1}$ and every power $i>1$ (thus including all $1<i<i_k$), $b^i\neq N'$. Therefore, (b) holds, i.e., for every prime base $b$ and every power $1<i<i_k$, $b^i\neq N'$. Notice that $b_k=b_{k-1}$, so (a) also holds due to the induction hypothesis, i.e., for every prime base $b>b_k$ and every power $i>1$, $b^i\neq N'$.
+
+Therefore, if the loop is not broken, when it ends at $b<3$, according to part (a) of the claim, every $(b,i)$ pair is checked. So $N'$ cannot be a prime power. On the other hand, if the loop is broken, $N'$ must be a prime power.
 
 ~
 
 \noindent\textbf{Runtime}:
 
+Suppose $N$ has $k$ prime factors. $k$ is upper bounded by $\log N$. $\textsc{OddFactor}$ is called $O(k)$ times. Besides, in each $\textsc{OddFactor}$ call, we have to do \textsc{IsPrime}, \textsc{PrimePower} and some other work like list appending. Putting \textsc{IsPrime} and \textsc{PrimePower} aside, the other work is upper bounded by $O(n)$ time, where $n=\log N$.
 
+As is discussed in class, the deterministic \textsc{IsPrime} runs in polynomial time.
+
+\textsc{PrimePower} in the pseudocode is not polynomial time in $n$, since all odd numbers from 3 to $2\lfloor\sqrt{N'}/2\rfloor+1$ are checked. This gives $O(\sqrt{N'})=O(\sqrt{N})$ time, which is exponential in terms of $n$. However, if we use square root calculations, we no longer loop over the base, but over the power. Then we only have $O(n)$ iterations. In each iteration, taking square root and exponentiation both cost polynomial time. The degree of this polynomial is in reality not important, because no matter how large it is, \textsc{PrimePower} always runs aymptotically faster than \textsc{SpecialFactor}.
+
+Here we give a rough upper bound for the polynomial $T_{\textsc{PrimePower}}$. For the exponentiation by squaring step, since the power is $O(n)$, $O(\log n)$ squarings are done. Each $n$-digit squaring costs $O(n\log n\log\log n)$ by some FFT tricks. So it costs $O(n\log^2n\log\log n)$ time. For the square root calculation step, say we use Newton's method. In each iteration, the most expensive step is still an exponentiation of power $O(n)$, which costs $O(n\log^2n\log\log n)$ time. Without rigorously proving here, sublinear iterations are required to reach convergence (we only require precision down to the first decimal point; Wikipedia provides more details). Therefore, we can take $O(n^2)$ as an upper bound for a single iteration in \textsc{PrimePower}. There are $O(n)$ iterations. Therefore, $T_{\textsc{PrimePower}}=O(n^3)$.
+
+In conclusion, the overall runtime is
+\begin{align*}
+E[T_{\textsc{GeneralFactor}}]&=O(n)(T_{\textsc{SpecialFactor}}+T_{\textsc{IsPrime}}+T_{\textsc{PrimePower}})\\
+&=O(n)T_{\textsc{Sqrt}}+O(n)T_{\textsc{IsPrime}}+O(n^4)\\
+&=O(n)T_{\textsc{Sqrt}}+O(n^\alpha)
+\end{align*}
+where $\alpha\geqslant4$ is some constant determined by $T_{\textsc{IsPrime}}$ and $n=\log N$.
 
 \section{Fun with the Skiplist}
 \subsection{Part (a)}
