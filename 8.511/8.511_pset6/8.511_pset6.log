@@ -1,9 +1,9 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  25 OCT 2015 12:56
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  24 OCT 2015 16:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**14.03_pset3.tex
-(./14.03_pset3.tex
+**8.511_pset6.tex
+(./8.511_pset6.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -214,21 +214,28 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen121
 \Gm@dimlist=\toks20
 )
-(./14.03_pset3.aux)
-\openout1 = `14.03_pset3.aux'.
+(/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2004/02/26 v1.1c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 138.
+LaTeX Info: Redefining \bm on input line 204.
+) (./8.511_pset6.aux)
+\openout1 = `8.511_pset6.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
+LaTeX Font Info:    ... okay on input line 23.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -264,43 +271,29 @@ LaTeX Font Info:    ... okay on input line 22.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 23.
+LaTeX Font Info:    Try loading font information for U+msa on input line 24.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 23.
+LaTeX Font Info:    Try loading font information for U+msb on input line 24.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-File: figure1.eps Graphic file (type eps)
- <figure1.eps>
-File: figure2.eps Graphic file (type eps)
+) [1
 
-<figure2.eps> [1
-
-] [2] [3]
-File: blank.png Graphic file (type QTm)
- <use  "blank.png" >
-File: figure3.eps Graphic file (type eps)
- <figure3.eps> [4] [5]
-Overfull \hbox (43.34087pt too wide) in paragraph at lines 184--185
-\OT1/cmr/m/n/10 un-com-pen-sated de-mand is $\OML/cmm/m/it/10 d[]\OT1/cmr/m/n/1
-0 (\OML/cmm/m/it/10 P[]; P[]; I[]\OT1/cmr/m/n/10 ) = []$ and $\OML/cmm/m/it/10 
-d[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 P[]; P[]; I[]\OT1/cmr/m/n/10 ) = []$,
- []
-
-File: figure4.eps Graphic file (type eps)
-<figure4.eps> [6] [7]
-File: figure5.eps Graphic file (type eps)
- <figure5.eps> [8] (./14.03_pset3.aux) ) 
+] [2]
+File: bands.eps Graphic file (type eps)
+ <bands.eps>
+[3]
+File: Fermi.eps Graphic file (type eps)
+ <Fermi.eps> [4] (./8.511_pset6.aux) ) 
 Here is how much of TeX's memory you used:
- 2600 strings out of 493918
- 34304 string characters out of 6150563
- 102486 words of memory out of 5000000
- 5874 multiletter control sequences out of 15000+600000
- 11195 words of font info for 44 fonts, out of 8000000 for 9000
+ 2682 strings out of 493918
+ 35182 string characters out of 6150563
+ 103688 words of memory out of 5000000
+ 5943 multiletter control sequences out of 15000+600000
+ 16414 words of font info for 61 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 42i,12n,43p,589b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,15n,43p,337b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 14.03_pset3.pdf (8 pages).
+Output written on 8.511_pset6.pdf (4 pages).

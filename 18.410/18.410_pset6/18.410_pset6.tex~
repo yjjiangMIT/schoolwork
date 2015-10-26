@@ -11,344 +11,123 @@
 \usepackage{geometry}
 \geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
 
-\title{6.046/18.410 Problem Set 5}
+\title{6.046/18.410 Problem Set 6}
 \author{Yijun Jiang\vspace{3pt}\\Collaborator: Hengyun Zhou, Eric Lau}
 %\email{yjjiang@mit.edu}
 \date{\today}
 
 \pagestyle{fancy}
 \lhead{Yijun Jiang}
-\rhead{6.046/18.410 Problem Set 5}
+\rhead{6.046/18.410 Problem Set 6}
 
 \begin{document}
 \maketitle
-\section{Fun Factoring}
+\section{Shipping to Save the World}
 \subsection{Part (a)}
-\noindent\textbf{Remark}:
+\subsubsection{Subpart (i)}
+\noindent\textbf{Description}:
 
-In order to make the statement true, we need to assume $p>2$.
+Create a tripartite graph $G=(V,E)$, where $V=D\cup S\cup C$. $D$ is the set of day vertices, $S$ the set of ship vertices and $C$ the set of city vertices. $|D|=7,|S|=m$ and $|C|=n$. If on day $d_i$ a ship $s_j$ can operate, create a directed edge $(d_i,s_j)$. If a ship $s_j$ can reach the city $c_k$, create a directed edge $(s_j,c_k)$.
+
+Construct a flow network by adding a source $s$ and a sink $t$. For every $d_i\in D$, create a directed edge $(s,d_i)$ with capacity $c(s,d_i)=v_i$. For every $c_k\in C$, create a directed edge $(c_k,t)$ with capacity $c(c_k,t)=f_k$. Let $V'$ and $E'$ be the new sets of vertices and edges, and $G'=(V',E')$. All edges between $D$ and $S$ as well as between $S$ and $C$ have capacity $\infty$.
+
+Run a maximum flow algorithm (e.g. Edmonds-Karp) on $G'$. If $|f|=\sum_kf_k$, a shipping plan exists such that each city $c_k$ receives exactly $f_k$ supplies.
 
 ~
 
-\noindent\textbf{Proof}:
+\noindent\textbf{Correctness}:
 
-Let $x_1,x_2\in(0,p)$ be two integer solutions to $a\equiv x^2\textup{ (mod }p)$, where $a\in\mathbb{Z}_p^*$. Then $x_1^2\equiv x_2^2\textup{ (mod }p)$, which means $p|(x_1-x_2)(x_1+x_2)$. Since $p$ is prime, either $p|(x_1-x_2)$ or $p|(x_1+x_2)$. Therefore, $x_1\equiv x_2\textup{ (mod }p)$ or $x_1\equiv-x_2\textup{ (mod }p)$. Since $x_1,x_2\in(0,p)$, in the first case, $x_1=x_2$, and in the second case, $x_2=p-x_1$. Any two solutions can be classified into these two cases, so the total number of solutions is no more than 2.
+A flow in $G'$ is equivalent to a shipping plan subject to the constraints that (a) each ship can operate on certain days and can reach certain cities (b) on day $d_i$ no more than $v_i$ supplies are sent (c) for city $c_k$ NO MORE THAN $f_i$ supplies are received. Among these constraints, (a) is enforced by the structure of $G'$, while (b) and (c) are enforced by the finite capacities of $(s,d_i)$ and $(c_k,t)$, respectively. If a flow exists such that $f(c_k,t)=c(c_k,t)=f_k$ for all $c_k$, each city $c_k$ gets exactly $f_k$ supplies. This requirement is equivalent to $|f|=\sum_kf_k$. Such a flow must be a maximum flow because it saturates the cut $(V'/\{t\})$-$\{t\}$. Therefore, to determine the existence of a shipping plan, where the constraint (c) is strengthened to ``for city $c_k$ EXACTLY $f_i$ supplies are received", we can solve the maximum flow problem of $G'$ and see if $|f|=\sum_kf_k$. If so, such a shipping plan exists and can be determined by $f$ (see the following subpart). Otherwise, such a shipping plan does not exist. This proves the correctness of the algorithm.
 
-Now we show that the number of solutions is exactly 2. Since $a$ is a quadratic residue, it has at least one square root $x$. Then according to the previous argument, $p-x$ is also a solution. If $x=p-x$, $p$ must be even, which contradicts with the assumption that $p>2$ is prime. Therefore, $x\neq p-x$ and there are exactly 2 solutions.
+~
 
-In the proof above we only assumed $x\in\mathbb{Z}_p$, the group of integers under addition modulo $p$. We do not need to use the stronger assumption that $x\in\mathbb{Z}_p^*$.
+\noindent\textbf{Runtime}:
+
+$|V'|=O(|D|+|S|+|C|)=O(m+n)$. Notice that $|D|=7$ and each $s_j$ can only reach $|Y_j|\leqslant5$ cities. Therefore, $|E'|=O(7|S|+5|S|+|D|+|C|)=O(m+n)$. Construction of $G'$ costs $O(V'+E')=O(m+n)$ time. Solving the maximum flow problem costs $O(V'E'^2)=O((m+n)^3)$ by Edmonds-Karp, or $O(V'^3)=O((m+n)^3)$ by relabel-to-front. Finally, checking if $|f|=\sum_kf_k$ costs $O(n)$. Therefore, the total runtime is limited by the maximum flow solver. Since $m<n$, the runtime is simplified as $T=O(n^3)$.
+
+\subsubsection{Subpart (ii)}
+\noindent\textbf{Description}:
+
+The algorithm described above (named \textsc{IfPlanExists}) not only determines whether a valid shipping plan exists, but also returns the maximum flow $f$ in the graph $G'$. Suppose a valid shipping plan
+exists. On day $d_i$, ship $s_j$ delivers in total $f(d_i,s_j)$ supplies. We determine this plan by specifying how the $f(d_i,s_j)$ supplies are distributed to $c_k$.
+
+For a given $s_j$, construct a flow network $G_j=(V_j,E_j)$ as the following. Create 7 vertices corresponding to $d_i$, and $|Y_j|\leqslant5$ vertices corresponding to all the cities $c_{k_\alpha}$ that are reachable from $s_j$, where $\alpha=1,2,\cdots,|Y_j|$. For every $i$ and every $\alpha$, create a directed edge $(d_i,c_{k_\alpha})$ of capacity $\infty$. We also introduce a source $s$ and a sink $t$. For every $i$, create a directed edge $(s,d_i)$ whose capacity is $c^j(s,d_i)=f(d_i,s_j)$. For every $\alpha$, create a directed edge $(c_{k_\alpha},t)$ whose capacity is $c^j(c_{k_\alpha},t)=f(s_j,c_{k_\alpha})$. Solve the maximum flow problem in this network. Let the resulting flow be $f^j$. Then $f^j(d_i,c_{k_\alpha})$ gives the amount of supplies delivered on day $d_i$ by ship $s_j$ to city $c_{k_\alpha}$.
+
+Iterating over all $s_j$ produces a valid shipping plan.
+
+%We keep a list of length $n$ storing the shortage of supplies in each city. Call this list $A$. Initially set $A[k]=f_k$ for all $k$. Also, for each edge $(d_i,s_j)$, keep a list $B_{ij}$ of length $n$ such that $B_{ij}[k]$ stores the amount of supplies that are delivered to city $c_k$ by ship $s_j$ on day $d_i$. $B_{ij}[k]$ can be conveniently stored in a 3D matrix of size $7\times m\times n$. Initially set $B_{ij}[k]=0$ for all $i,j,k$.
+
+%Loop over $D=\{d_i\}$. Run an inner loop over $S=\{s_j\}$. Inside this inner loop where $d_i$ and $s_j$ are fixed, use a variable $x$ to keep tract of how many supplies are still available for this ship on this day. Initially set $x=f(d_i,s_j)$. Run an innermost loop over $C=\{c_k\}$. For each $k$, set $B_{ij}[k]=\min(A[k],x)$ and update $A[k]$ as well as $x$ by subtracting $B_{ij}[k]$ from them. For efficiency, we do not need to loop over all $k$: once $x$ is exhausted, we can stop iterating over $k$.
+
+%When the outer loop goes through all 7 days, the shipping plan is determined. Namely, $B_{ij}[k]$ specifies on day $d_i$, how many supplies does ship $s_j$ deliver to city $c_k$.
+
+~
+
+\noindent\textbf{Correctness}:
+
+For the flow $f$ determined by \textsc{IfPlanExists}, $\sum_if(d_i,s_j)=\sum_kf(s_j,c_k)=\sum_\alpha f(s_j,c_{k_\alpha})$ due to flux conservation at $s_j$.
+
+In the flow network $G_j$ corresponding to $s_j$, no capacity constraint is exerted on any $(d_i,c_{k_\alpha})$. Therefore, the only cuts with finite capacities are $\{s\}$-$(V_j/\{s\})$ and $(V_j/\{t\})$-$\{t\}$. The former has capacity $\sum_if(d_i,s_j)$ and the latter has capacity $\sum_\alpha f(s_j,c_{k_\alpha})$. These two values are equal and thus determine the minimal cut capacity, which is also the maximum flow. Therefore, all edges coming out of $s$ and all edges going into $t$ are saturated.
+
+Because of this, $\sum_\alpha f^j(d_i,c_{k_\alpha})=f^j(s,d_i)=c^j(s,d_i)=f(d_i,s_j)$ and $\sum_if^j(d_i,c_{k_\alpha})=f^j(c_{k_\alpha},t)=c^j(c_{k_\alpha},t)=f(s_j,c_{k_\alpha})$. We can then think of $f^j(d_i,c_{k_\alpha})$ as the flow in the original network going from $d_i$ to $c_{k_\alpha}$ via $s_j$. So $f^j(d_i,c_{k_\alpha})$ gives the amount of supplies delivered on day $d_i$ by ship $s_j$ to city $c_{k_\alpha}$. It follows that iterating over all $s_j$ produces a valid shipping plan.
+
+~
+
+\noindent\textbf{Runtime}:
+
+Suppose \textsc{IfPlanExists} returns a valid $f$. Notice that for every $s_j$, the flow network $G_j$ is of constant size: at most $7+5+2=14$ vertices. Therefore, solving the maximum flow problem in $G_j$ costs $O(1)$ time. Since we iterate over all $s_j$, the total runtime is $T=O(m)$. We see that determining a shipping plan is of linear time once \textsc{IfPlanExists} is already executed. If not, or if somehow $f$ is discarded, we have to run \textsc{IfPlanExists} first and altogher $O(n^3)$ time is required.
 
 \subsection{Part (b)}
-\noindent\textbf{Remark}:
-
-We must assume $p\neq q$ to make every quadratic residue mod $N$ have exactly four distinct square roots. Otherwise, say $N=9=3^2$, the quadratic residue $1$ only has two square roots, namely $1$ and $8$.
-
-~
-
 \noindent\textbf{Description}:
 
-We first pick a random $x$ from all positive integers less than $N$ (i.e. $\mathbb{Z}_N-\{0\}$). Then we check if $\textup{gcd}(x,N)=1$. If so, $a=x^2$ is a quadratic residue. Notice: this coprimality check only serves to make sure that $a$ is a valid first parameter of $\textsc{Sqrt}$. It becomes unnecessary if $\textsc{Sqrt}$ can take care of general inputs from $\mathbb{Z}_N$ rather than $\mathbb{Z}_N^*$.
+WLOG, let $s_1$ be the ship that cannot be operated. We know the previously valid maximum flow $f_{old}$. Now create a new flow in the network without $s_1$ as well as edges to and from $s_1$. Call this network $G_{new}$. Let $f_{new}(s,d_i)=f_{old}(s,d_i)-f_{old}(d_i,s_1)$ for all $i$ and $f_{new}(c_k,t)=f_{old}(c_k,t)-f_{old}(s_1,c_k)$ for all $k$ (it is sufficient to consider only $c_k$ reachable from $s_1$). And $f_{new}(e)=f_{old}(e)$ if $e$ goes to or from some $s_i$ other than $s_1$.
 
-Calculate $y=\textsc{Sqrt}(a,N)$. If $y\equiv\pm x\textup{ (mod }N)$, then discard $x$ and start all over (pick another random integer). Otherwise, $p=\textup{gcd}(x-y,N)$ is a nontrivial prime factor of $N$.
-
-If the coprimality check is applied and $\textup{gcd}(x,N)\neq1$, then we can either discard this $x$ and restart, or store $p=\textup{gcd}(x,N)$ and jump out of the loop. $p$ is a nontrivial prime factor of $N$.
-
-The other nontrivial prime factor $q$ can be calculated by division, $q=N/p$ (e.g. long integer division).
+It is proved in the correctness part that $G_{new}$ is a flow network and $f_{new}$ is a flow in $G_{new}$. But $f_{new}$ may not be the maximum flow. So we augment it by Ford-Fulkerson method. If at the end of augmentation $|f|=\sum_kf_k$, then it is possible to make a shipping plan without $s_1$. Otherwise, such a plan is impossible.
 
 ~
 
 \noindent\textbf{Correctness}:
 
-For a randomly chosen $x$, if $\textup{gcd}(x,N)=1$, $x$ is coprime with $N$ and so is $a=x^2$. Thus $a\in\mathbb{Z}_p^*$ and we can call $\textsc{Sqrt}(a,N)$ to deterministically calculate one of its four square roots. By the theorem, $a$ has 4 distinct square roots. No matter which one is chosen as $x$, $\textsc{Sqrt}(a,N)$ gives the same $y$. Therefore, there exists an $x$ such that $y\not\equiv\pm x\textup{ (mod }N)$. Moreover, conditioned on $x$ being coprime with $N$, the probability of $y\not\equiv\pm x\textup{ (mod }N)$ is $1/2$.
+The new network $G_{new}$ is a flow network because we only delete $s_1$ as well as all $(d_i,s_1)$ and $(s_1,c_k)$. No backward edges are introduced.
 
-Suppose a randomly generated $x$ satisfies $y\not\equiv\pm x\textup{ (mod }N)$. Since $x^2\equiv y^2\textup{ (mod }N)$, $N|(x-y)(x+y)$. If $\textup{gcd}(x-y,N)=1$, $N|(x+y)$, which contradicts with $y\not\equiv-x\textup{ (mod }N)$. And $\textup{gcd}(x-y,N)=N$ contradicts with $y\not\equiv x\textup{ (mod }N)$. Therefore, $\textup{gcd}(x-y,N)$ must be a nontrivial factor of $N$. WLOG, $p=\textup{gcd}(x-y,N)$.
+$f_{new}$ still satisfies flux conservation at all $d_i$, because $f_{new}(s,d_i)=f_{old}(s,d_i)-f_{old}(d_i,s_1)=\sum_jf_{old}(d_i,s_j)-f_{old}(d_i,s_1)=\sum_{j\neq1}f_{old}(d_i,s_j)=\sum_{j\neq1}f_{new}(d_i,s_j)$. Similarly, flux conservation holds at all $c_k$. Flux conservation at $s_j$ other than $s_1$ is also maintained because all flows into and out of such an $s_j$ are not changed. Finally, capacity constraints are satisfied because $f_{new}(e)\leqslant f_{old}(e)$ for all $e$. Moreover, for those $f_{new}(e)$ that are reduced, they are still non-negative. This is because $f_{new}(s,d_i)=\sum_{j\neq1}f_{old}(d_i,s_j)\geqslant0$, and the same is true for $f_{new}(c_k,t)$. In conclusion, $f_{new}$ is a valid network flow on $G_{new}$.
 
-On the other hand, if the coprimality check gives $\textup{gcd}(x,N)\neq1$, we can discard $x$ and restart until we pass the coprimality check. A more efficient way is to notice that, since $0<x<N$ and $x$ is not coprime with $N$, $\textup{gcd}(x,N)\neq 1,N$ and is thus a nontrivial factor of $N$. WLOG, $p=\textup{gcd}(x,N)$.
-
-Once we get a nontrivial factor $p$, it is straightforward to calculate $q$ by division. Since $N$ is the product of exactly two primes, we complete the factorization of $N$.
-
-Due to the finite probability of getting $y\not\equiv\pm x\textup{ (mod }N)$, this algorithm terminates in finite time. Once it terminates, it always outputs the correct result. Therefore, the correctness of this algorithm is proved.
+Therefore, we can apply Ford-Fulkerson method to augment $f_{new}$. At the end we get a maximum flow $f$. If $|f|=\sum_kf_k$, then from the previous analysis, the demands of all cities can be satisfied. So a valid shipping plan still exists. Otherwise, we cannot find a valid shipping plan.
 
 ~
 
 \noindent\textbf{Runtime}:
 
-The group $\mathbb{Z}_N^*$ has order $|\mathbb{Z}_N^*|=N-(p+q)+1$ (removing multiples of $p$ and $q$ from all positive integers less than $N$). Randomly selecting an $x$ in $\mathbb{Z}_N-\{0\}$, we have a probability of $\frac{N-(p+q)+1}{N-1}$ to get an $x\in\mathbb{Z}_N^*$, and thus an $a\in\mathbb{Z}_N^*$. However, as is discussed above, half of such $x$ are equivalent to $\pm\textsc{Sqrt}(a,N)$ upto modulo $N$, which should be discarded. Therefore, the probability for a good $x$ is $P[good]=\frac{N-(p+q)+1}{2(N-1)}$.
+To avoid confusion, I use capital $K$ to replace the lowercase $k$ in the problem set. Suppose $s_1$ delivered in total $K$ supplies. Then the loss of $|f_{new}|$ is $\sum_i(f_{old}(s,d_i)-f_{new}(s,d_i))=\sum_if_{old}(d_i,s_1)=K$. Therefore, $|f_{new}|=\sum_kf_k-K$. By augmentation, we can at most improve the value of flow by $K$. Since each iteration of Ford-Fulkerson augments the flow by at least 1, $O(K)$ iterations are required. Each runs in $O(E)=O(m+n)=O(n)$ time. Therefore, the algorithm costs $T(K)=O(nK)$ time in all.
 
-Let us assume that the coprimality check is applied, so $P[bad]=P[good]$. $P[bad]$ excludes the probability of failing the check, which is given by $P[fail]=\frac{p+q-2}{N-1}$. A good choice of $x$ calls \textsc{Sqrt} and ends the Las Vegas algorithm, while a bad choice of $x$ calls \textsc{Sqrt} and continues the loop. A failed $x$ also ends the loop but does not call \textsc{Sqrt}. Therefore, the expected number of calls is given by
-\begin{align*}
-&P[good]+P[bad]+P[bad]E[k]=E[k]\\
-&E[k]=\frac{2(N-(p+q)+1)}{(N-(p+q)+1)+2(p+q-2)}\leqslant2
-\end{align*}
 
-For now, I will use 2 as an upper bound for $E[k]$. When $N\gg p,q\gg1$, $E[k]$ approaches this bound. Let $n=\log N$ be the size of input. The algorithm also involves $O(n^2)$ work on coprimality check (constant amount of checks are expected, each costing $O(n^2)$ time due to gcd calculation), $O(n^2)$ work on possibly failed $x$ (long division, for example, takes $O(n^2)$ time), and $O(n^2)$ work on factorization using gcd. Therefore, the overall runtime is $E[T]=2T_{\textsc{Sqrt}}(n)+O(n^2)$. Again notice that $n$ is the number of bits in $N$.
-
-Now I can answer the questions raised in this part.
-\begin{enumerate}
-\item{Q: How many calls of \textsc{Sqrt}?\\A: The expectation number is very close to, and bounded by, 2.}
-\item{Q: Expected running time?\\A: $E[T]=2T_{\textsc{Sqrt}}(n)+O(n^2)$, where $n=\log N$.}
-\item{Q: Relative difficulty of computing square roots modulo $N$ and factoring $N$?\\A: Once the square roots of quadratic residues are calculated, it becomes much easier to factor $N$. Since factoring is extremely difficult, calculating square roots modulo $N$ must be equally difficult.}
-\end{enumerate}
-
-\subsection{Part (c)}
+\section{Career Fair}
 \noindent\textbf{Description}:
 
-We first factor out powers of $2$ from $N$ until we get an odd $N'$. Check if $N'$ is a prime. If so, the algorithm terminates.
+We create a bipartite graph $G=(V,E)$, where $V=L\cup R$. $L$ is the set of student vertices and $R$ the set of employer vertices. $|L|=n$ and $|R|=m$. For every $l_i\in L$ and every $r_j\in R$, create a directed edge $(l_i,r_j)$. There are in total $mn$ edges.
 
-Otherwise, check if $N'$ is a prime power. This is done by the following: set the initial base $b$ as (at least) $2\lfloor\sqrt{N'}/2\rfloor+1$ and initial power $i$ as $2$. Iterate as follows: reduce $b$ by 2 until $b$ is prime. Calculate $b^i$. If $b^i>N'$, reduce $b$ by $2$. If $b^i<N'$, increase $i$ by 1. If $b^i=N'$, $N'$ is a prime power and break the loop. If the loop is not broken, it goes on until $b<3$ (since 2 is factored out, base 3 is sufficient). Breaking of the loop identifies a prime power.
+Construct a flow network by adding a source $s$ and a sink $t$. For every $l_i\in L$, create a directed edge $(s,l_i)$. For every $r_j\in R$, create a directed edge $(r_j,t)$. Let $V'$ and $E'$ be the new sets of vertices and edges, and $G'=(V',E')$. Let the capacity of every edge in $E'$ be 1.
 
-Another way to check prime power is, for all intergers $i$ ranging from $2$ to $\log_3N$, calculate the $i$-th root of $N'$, call it $\alpha_i$. This can be done by the fast converging $n$-th root algorithm. If $(\textsc{Round}(\alpha_i))^i=N'$, then $N'$ is a prime power. This method is faster than the previous one. But it involves more mathematics in the square root operation (see Wikipedia), making the analysis harder. Therefore, in the pseudocode and the proof of correctness below, I will refer to the first method, which does not involve taking square roots.
+Sort $t_{i,j}$ (break ties arbitrarily) and store them in an array $T$. Recursively reduce the size of $T$ by bisection to get rid of large $t_{i,j}$ until a student does not have any employer to talk to. We need to keep tract of the ``active subarray" of $T$ that is being bisected. Call this subarray $T'$. In reality we just store the start point and the end point of $T'$. Initially, set $T'=T$. If $n>m$, raise an exception saying that some students are unable to talk to any employer. Otherwise, do the following recursion.
 
-We then use the algorithm in the previous part (\textsc{SpecialFactor}) to factor $N'$. The difference is, this time the two factors may not be prime. So primality checks are performed. For every composite factor of $N'$, we also do a prime power check. If a composite factor is a prime power, this check automatically factors it. Otherwise, we recursively factor it with \textsc{SpecialFactor}. This process goes on until every output of \textsc{SpecialFactor} is either a prime or a prime power.
+Bisect $T'=T_1'\cup T_2'$, where $T_1'$ contains the smaller half of $T'$. For all the edges whose $t_{i,j}$ are stored in $T_2'$, set their capacities to 0, thus killing them in the flow network. Find a maximum bipartite matching of $G$ by solving the maximum flow problem in $G'$. If $|M|=n$, let $T'=T_1'$ and recurse. If $|M|<n$, for all the edges whose $t_{i,j}$ are stored in $T_2'$, set their capacities back to 1. Let $T'=T_2'$ and recurse. $|M|>n$ is impossible since the cut $\{s\}$-$(V'/\{s\})$ has capacity $n$.
 
-The pseudocode is shown below.
-\begin{algorithm}
-\caption{Factoring a general integer}
-\begin{algorithmic}[1]
-\Procedure{PrimePower}{$N$}
-\State{$b\gets2\lfloor\sqrt{N}/2\rfloor+1$}
-\State{$i\gets2$}
-\While{$b\geqslant3$}
-	\If{\textbf{not} $\textsc{IsPrime}(b)$}
-		\State{$b\gets b-2$, \textbf{continue}}
-	\EndIf
-	\If{$b^i=N$} \Return{$(b,i)$}
-	\EndIf
-	\If{$b^i>N$} {$b\gets b-2$}
-	\Else{} {$i\gets i+1$}
-	\EndIf
-\EndWhile
-\State{\Return{NULL}}
-\EndProcedure
-\Procedure{OddFactor}{$N$}
-\State{$factors\gets[~]$}
-\If{$\textsc{IsPrime}(N)$}
-	\State{$factors.append(N)$}
-	\State{\Return{$factors$}}
-\EndIf
-\State{$biPair=\textsc{PrimePower}(N)$}
-\If{$biPair=\textup{NULL}$}\Comment{$N$ is not a prime power}
-	\State{$(N1,N2)=\textsc{SpecialFactor}(N)$}
-	\State{$factors.append(\textsc{OddFactor}(N1))$}
-	\State{$factors.append(\textsc{OddFactor}(N2))$}
-\Else{}\Comment{$N$ is a prime power}
-	\State{$(b,i)\gets biPair$}
-	\State{Append $b$ to $factors$ for $i$ times}
-\EndIf
-\State{\Return{$factors$}}
-\EndProcedure
-\Procedure{GeneralFactor}{$N$}
-\State{$factors\gets[~]$}
-\State{Factor all powers of 2 out of $N$ and get an odd number $N'$, append all factors of 2 to $factors$}
-\If{$N'>1$}
-	\State{$factors.append(\textsc{OddFactor}(N'))$}
-\EndIf
-\State{\Return{$factors$}}
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+The recursion goes on until $T'$ contains only one entry $t_{i_0,j_0}$. Run the maximum flow solver on $G'$ (where the capacities of all edges beyond $(i_0,j_0)$ are already set to 0). The maximum bipartite matching assigns students to employers such that each student has an employer to speak with and the last student's travel time is minimized to $t_{i_0,j_0}$.
 
 ~
 
 \noindent\textbf{Correctness}:
 
-As long as we make sure that the input of \textsc{Factor} is odd and is neither a prime nor a prime power, \textsc{Factor} works and thus we can recursively call it on composite factors output by the previous run.
+Matching students with employers such that any two students do not go to the same employer and any student does not go to two different employers is a maximum-bipartite-matching problem between $L$ and $R$. This can be solved as a network flow problem by adding a source and a sink and setting all edge capacities to be 1. The rule that each student must speak with exactly one employer further requires that every vertex in $L$ is matched up with a vertex in $R$. Therefore, the maximum bipartite matching, i.e. the value of the maximum flow, must be exactly $n$. This can be achieved when $n\leqslant m$, which is checked at the beginning.
 
-Factoring out all the powers of 2 at the beginning guarantees that all subsequent inputs of \textsc{Factor} are odd. Therefore, before recursively calling \textsc{Factor}, all we need to do is a primality check and a prime power check. If the input is a prime, we do not need to factor it anymore. If the input is a prime power, it is automatically factored in the check. If neither holds, \textsc{Factor} factors the input down to two small integers. Since $N$ is finite, we only need finite number of recursions. So the algorithm will terminate. And by then all prime factors of $N$ are calculated.
+Suppose $n\leqslant m$ and let the minimized maximum of $t_{i,j}$ in a solution be $t^*=t_{i*,j*}$. The corresponding network flow forbids any edge $(i,j)$ whose $t_{i,j}>t^*$. Moreover, if we further forbid $(i^*,j^*)$ from carrying a flow, we do not get a solution with a smaller time because $t^*$ is already optimal. This means that we either get the same $t^*$ (which may happen if there are multiple edges with this time cost), or we cannot find any maximum bipartite matching such that $|M|=n$. In the first case, we can always keep on killing the most time-consuming edge until $|M|=n$ does not hold (which must happen no later than all edges of $t^*$ being killed). Therefore, a valid strategy is to sort $t_{i,j}$, break ties arbitrarily, and find the frontmost one (call it $t^{**}$) beyond which all edges can be killed without affecting $|M|=n$. This is achieved by bisection in the algorithm.
 
-The algorithm then relies on the correctness of the primality check and the prime power check. The former is given. The latter is proved here by induction.
-
-Claim: when the $k$-th iteration of the prime power check starts, where the base is $b_k$ and the power is $i_k$, (a) for every prime base $b>b_k$ and every power $i>1$, $b^i\neq N'$; (b) for every prime base $b$ and every power $1<i<i_k$, $b^i\neq N'$. This claim guarantees that in the end we do not miss any $(b,i)$ pair unchecked.
-
-At the beginning, $b_0=2\lfloor\sqrt{N'}/2\rfloor+1$ and $i_0=2$. So (a) for every prime base $b>b_0$ and every power $i>1$, $b^i>b_0^2\geqslant N'$; (b) there is no integer $i$ satisfying $1<i<2$. So the claim is true.
-
-If the claim is true at the $(k-1)$-th iteration, we prove that it continues to hold at the $k$-th iteration, provided that the loop is not broken by $b_{k-1}^{i_{k-1}}=N'$.
-
-Case 1: if in the $(k-1)$-th iteration, $b_{k-1}^{i_{k-1}}>N'$, then $b_k$ is assigned the prime that is smaller than and closest to $b_{k-1}$. So for every prime base $b>b_k$ (which means $b\geqslant b_{k-1}$) and every power $i\geqslant i_{k-1}$, $b^i\geqslant b_{k-1}^{i_{k-1}}>N'$. We also know from the induction hypothesis that for every prime base $b$ (thus including all $b>b_k$) and every power $1<i<i_{k-1}$, $b^i\neq N'$. Therefore, (a) holds, i.e., for every prime base $b>b_k$ and every power $i>1$, $b^i\neq N'$. Notice that $i_k=i_{k-1}$, so (b) also holds due to the induction hypothesis, i.e., for every prime base $b$ and every power $1<i<i_k$, $b^i\neq N'$.
-
-
-Case 2: if in the $(k-1)$-th iteration, $b_{k-1}^{i_{k-1}}<N'$, then $i_k=i_{k-1}+1$. So for every prime base $b\leqslant b_{k-1}$ and every power $1<i<i_k$ (which means $1<i\leqslant i_{k-1}$), $b^i\leqslant b_{k-1}^{i_{k-1}}<N'$. We also know from the induction hypothesis that for every prime base $b>b_{k-1}$ and every power $i>1$ (thus including all $1<i<i_k$), $b^i\neq N'$. Therefore, (b) holds, i.e., for every prime base $b$ and every power $1<i<i_k$, $b^i\neq N'$. Notice that $b_k=b_{k-1}$, so (a) also holds due to the induction hypothesis, i.e., for every prime base $b>b_k$ and every power $i>1$, $b^i\neq N'$.
-
-Therefore, if the loop is not broken, when it ends at $b<3$, according to part (a) of the claim, every $(b,i)$ pair is checked. So $N'$ cannot be a prime power. On the other hand, if the loop is broken, $N'$ must be a prime power.
+In the bisection process it is guaranteed that $t^{**}\in T'$. This claim is proved by induction as the following. At the beginning the claim holds because $T'=T$. Suppose $t^{**}\in T'$ in the $i$-th recursion. In the $(i+1)$-th recursion, if killing all edges in $T_2'$ preserves $|M|=n$, it must be that $t^{**}\in T_1'$. Otherwise $t^{**}\in T_2'$. By setting $T'=T_1'$ or $T_2'$ respectively, it is guaranteed that $t^{**}\in T'$ in this recursion. This means $t^{**}\in T'$ always holds. After finite recursions, $T'$ will be reduced to one element $t_{i_0,j_0}$. Then $t^{**}=t_{i_0,j_0}$ is the minimized maximum of travel time. The corresponding maximum bipartite matching $M$ gives a valid assignment of students to employers.
 
 ~
 
 \noindent\textbf{Runtime}:
 
-Suppose $N$ has $k$ prime factors. $k$ is upper bounded by $\log N$. $\textsc{OddFactor}$ is called $O(k)$ times. Besides, in each $\textsc{OddFactor}$ call, we have to do \textsc{IsPrime}, \textsc{PrimePower} and some other work like list appending. Putting \textsc{IsPrime} and \textsc{PrimePower} aside, the other work is upper bounded by $O(n)$ time, where $n=\log N$.
-
-As is discussed in class, the deterministic \textsc{IsPrime} runs in polynomial time.
-
-\textsc{PrimePower} in the pseudocode is not polynomial time in $n$, since all odd numbers from 3 to $2\lfloor\sqrt{N'}/2\rfloor+1$ are checked. This gives $O(\sqrt{N'})=O(\sqrt{N})$ time, which is exponential in terms of $n$. However, if we use square root calculations, we no longer loop over the base, but over the power. Then we only have $O(n)$ iterations. In each iteration, taking square root and exponentiation both cost polynomial time. The degree of this polynomial is in reality not important, because no matter how large it is, \textsc{PrimePower} always runs aymptotically faster than \textsc{SpecialFactor}.
-
-Here we give a rough upper bound for the polynomial $T_{\textsc{PrimePower}}$. For the exponentiation by squaring step, since the power is $O(n)$, $O(\log n)$ squarings are done. Each $n$-digit squaring costs $O(n\log n\log\log n)$ by some FFT tricks. So it costs $O(n\log^2n\log\log n)$ time. For the square root calculation step, say we use Newton's method. In each iteration, the most expensive step is still an exponentiation of power $O(n)$, which costs $O(n\log^2n\log\log n)$ time. Without rigorously proving here, sublinear iterations are required to reach convergence (we only require precision down to the first decimal point; Wikipedia provides more details). Therefore, we can take $O(n^2)$ as an upper bound for a single iteration in \textsc{PrimePower}. There are $O(n)$ iterations. Therefore, $T_{\textsc{PrimePower}}=O(n^3)$.
-
-In conclusion, the overall runtime is
-\begin{align*}
-E[T_{\textsc{GeneralFactor}}]&=O(n)(T_{\textsc{SpecialFactor}}+T_{\textsc{IsPrime}}+T_{\textsc{PrimePower}})\\
-&=O(n)T_{\textsc{Sqrt}}+O(n)T_{\textsc{IsPrime}}+O(n^4)\\
-&=O(n)T_{\textsc{Sqrt}}+O(n^\alpha)
-\end{align*}
-where $\alpha\geqslant4$ is a constant determined by $T_{\textsc{IsPrime}}$ and $n=\log N$.
-
-\section{Fun with the Skiplist}
-\subsection{Part (a)}
-\begin{enumerate}
-\item{Q: Probability of a node rising to the top level?\\A: $\frac{1}{\log u}$}
-\item{Q: Expected number of keys between two top-level nodes?\\A: $\log u$}
-\item{Q: Expected number of keys on the top level?\\A: $\frac{n}{\log u}$}
-\item{Q: Expected running time of \textsc{Find} and \textsc{Insert}?\\A: $E[T_{\textsc{Find}}]=O(\frac{n}{\log u}+\log\log u)$; $E[T_{\textsc{Insert}}]=O(\frac{n}{\log u}+\log\log u)$}
-\end{enumerate}
-
-\subsection{Part (b)}
-\subsubsection{Subpart i}
-The runtime is $T_{\textsc{Successor}}=O(1)$. This is because each leaf node (except for the rightmost one who does not have a successor) is directly linked to its successor by a pointer.
-
-\subsubsection{Subpart iii}
-\noindent\textbf{Description}:
-
-Assume the trie is nonempty. First we try to find $x$ in the trie by calling $\textsc{H}_h(x)$, where $h=\log u$ is the height of the trie and length of a key. If $x$ is in the trie, hashing returns a pointer to $x$ and we have access to its successor (or if $x$ is the largest key in the trie, we know $x$ does not have a successor) in $O(1)$ time.
-
-If $x$ is not in the trie, we bisect its digits to find the internal node $n$ who has the longest prefix matched with $x$. Specifically, we keep a ``matched prefix" $m$ which is initially set to empty. We also keep an ``unchecked substring" $uc$ which is a substring of $x$ and is initially set as $x$ (no need to store as an extra copy, just pin down the start and end on $x$). Each time we cut $uc$ in half: $uc=uc_1+uc_2$. If $m+uc_1$ is in the trie (we check this by hashing), append $uc_1$ to $m$ and set $uc_2$ as the new $uc$. Otherwise, set $uc_1$ as the new $uc$. This bisection is done until the base case where $uc$ has only one digit (in the base case if $m+uc$ is in the trie, append $uc$ to $m$). Then we can locate $n$ by hashing with $m$ (or if $m$ is empty, $n$ is the root $r$).
-
-$n$ must have only one branch. So it also has a pointer connecting to a leaf node $l$. If the branch that $n$ has is the left branch, the successor of $l$ is the successor of $x$ (or if $l$ does not have a successor, neither does $x$). Otherwise, $l$ itself is the successor of $x$.
-
-~
-
-\noindent\textbf{Correctness}:
-
-If $x$ is in the trie, hashing returns a pointer to $x$ and we can locate its successor by the pointer from $x$ to its successor.
-
-We focus on the case where $x$ is not in the trie. Since $m$ is initially empty and is extended by appending $uc_1$ to it, $m$ is the substring of $x$ that directly precedes $uc$. Since each time $uc_2$ is discarded only when $m+uc_1$ does not match $x$, the discarded substring (the substring that follows $uc$) cannot contribute to extend the prefix match. Therefore, in each bisection, the longest matched prefix of $x$ is a substring of $m+uc$.
-
-Since $uc$ is bisected in each iteration, it takes finite number of iterations to cut $uc$ down to the base case. After dealing with the base case, the longest matched prefix of $x$ is a substring of $m$. But $m$ itself is a matched prefix. So $m$ is the longest matched prefix. So the node $n$ acquired by hashing with $m$ is the internal node with the longest prefix matched with $x$.
-
-$n$ does not have the branch corresponding to $x$, otherwise one of its children will match $x$ with a longer prefix. Therefore, $n$ has a pointer connecting either to the minimum key in its right subtree or the maximum key in its left subtree, depending on which subtree it has. If it has a left subtree, then $x$ corresponds to its right subtree. This means that the maximum key in its left subtree is the largest key in the trie that is smaller than $x$. So its successor is the successor of $x$ (if this node does not have a successor, neither does $x$). If it has a right subtree, then $x$ corresponds to its left subtree. This means that the minimum key in its right subtree is the smallest key in the trie that is larger than $x$. So it is the successor of $x$. This proves the correctness of the algorithm.
-
-~
-
-\noindent\textbf{Runtime}:
-
-When $x$ is in the trie, the runtime is $O(1)$. When $x$ is not in the trie, the runtime recursion is the same as bisection search.
-\begin{equation*}
-T(h)=T(h/2)+O(1)
-\end{equation*}
-which implies that $T(h)=O(\log h)$. Since $h=\log u$, we have $T_{\textsc{Successor}}(u)=O(\log\log u)$.
-
-\subsection{Part (c)}
-\subsubsection{Subpart i}
-Since $\frac{n}{\log u}$ keys are expected to rise to the top level of the skiplist, $\frac{n}{\log u}$ keys will be stored in the top-level trie, on expectation.
-
-\subsubsection{Subpart ii}
-\noindent\textbf{Description}:
-
-To deal with edge cases, suppose the skiplist has $-\infty$ nodes on its far left and $\infty$ nodes on its far right.
-
-First call $\textsc{TrieFind}(x)$, which simply uses the hash table on the bottom level of the trie. If $x$ is in the trie, this is an $O(1)$ operation. The algorithm returns a pointer to $x$ and terminates. If $\textsc{TrieFind}(x)$ reports that $x$ does not exist in the trie, call $\textsc{TriePredecessor}(x)$. This returns a node $y$ on the bottom level of the trie, which is also the top level of the skiplist (suppose \textsc{TriePredecessor}(x) returns the pointer to $-\infty$ if $x$ does not have a predecessor in the trie).
-
-We enter the second level of the skiplist from $y$ and do a regular key search inside the skiplist. In other words, on each level we go to the next node until we either find $x$ or find a key larger than $x$. In the first case the algorithm returns a pointer to $x$ and terminates. In the second case we go down a level from the rightmost node in the current level whose key is smaller than $x$. We keep doing this until we either find $x$ or find that $x$ does not exist down to the bottom level (in which case we can give a warning and return the predecessor of $x$ on the bottom level of the skiplist).
-
-~
-
-\noindent\textbf{Correctness}:
-
-
-If $x$ is in the trie, its pointer can be obtained by hashing in constant time, which completes \textsc{Find}. Otherwise, symmetric to \textsc{TrieSuccessor} described above, we can use \textsc{TriePredecessor} to obtain the predecessor of $x$ in the trie, which is named $y$. The successor of $y$ in the trie, as well as on the top level of the skiplist, must be larger than $x$. Therefore, $y$ is the node from which we should go down a level in the skiplist. After that, we go back to the usual searching strategy in a skiplist.
-
-~
-
-\noindent\textbf{Runtime}:
-
-If $x$ is in the trie, $\textsc{TrieFind}(x)$ finishes the job in $O(1)$ time due to the Hash table structure. If $x$ is not in the trie, $\textsc{TriePredecessor}(x)$, just like $\textsc{TrieSuccessor}(x)$, finds the predecessor of $x$ in $O(\log\log u)$ time by bisecting the prefixes.
-
-When searching inside the skiplist, since the entrance from the top level to the second level is already determined by $\textsc{TrieSuccessor}(x)$, we save $O(\frac{n}{\log u})$ time finding this entrance. On each level constant number of nodes (2 nodes) are visited on expectation. And there are $O(\log\log u)$ levels. Therefore, the search time inside the skiplist is also $O(\log\log u)$.
-
-The probability for an $O(1)$ runtime is $\frac{1}{\log u}$, while the probability for an $O(\log\log u)$ runtime is $1-\frac{1}{\log u}$. Therefore, the expected runtime is $E[T_\textsc{Find}]=\frac{1}{\log u}O(1)+(1-\frac{1}{\log u})O(\log\log u)=O(\log\log u)$.
-
-
-\subsubsection{Subpart iii}
-\noindent\textbf{Description}:
-
-For simplicity assume the structure is doubly linked.
-
-First call \textsc{Find}$(x)$. If $x$ already exists in the structure, there is no need to insert it. Otherwise we can get the predecessor of $x$ on the bottom level of the skiplist. We do the usual skiplist inserting procedure. Specifically, insert $x$ on the bottom level (create a new node and set the pointers correctly). Decide by a random value if $x$ should be promoted to the level above. If so, trace back to the first existing node that is promoted to the level above and insert $x$ right after it on the level above. Keep doing this until either in a random value generation $x$ is not promoted further up, or $x$ has reached the top level of the skiplist. In the first case, the algorithm terminates. In the second case, we need to add $x$ into the trie.
-
-When $x$ is inserted into the top level of the skiplist, it automatically appears on the bottom level of the trie. Add $x$ to the bottom-level hash table. Keep tract of the newly created subtree, which for now is just the leaf $x$. Let the root of this subtree be $y$. Do the following procedure to enlarge this subtree. Take off the last digit in the prefix and use the hash table to detect if this new prefix node exists on the level above. If so, call it $n$. Delete the augmented node-leaf link that connects $n$ to either the minimum key of its rightmost subtree or the maximum key of its leftmost subtree, and link $n$ to $y$. Otherwise, create a new node $z$ with the shortened prefix and add it to the hash table on the level above. Link $z$ with $y$ and create an augmented pointer from $z$ to $x$. Then update $y$ to be $z$. Repeat this procedure until the prefix node already exists.
-
-Once we get the pre-existing node $n$, we need to update the augmented pointers on the path from the root $r$ to $n$. Start from $n$ and go upwards. Keep tract of whether $x$ is the minimum key or the maximum key of the current node by two flags $isMin$ and $isMax$. For $n$, if $x$ is in its left subtree, $isMin$ is set True and $isMax$ is set False. Otherwise $isMin$ is set False and $isMax$ is set True. Say we go up to node $m$ along this path. If $m$ has two children, $isMin$ and $isMax$ are updated in the following way: if $x$ is in the left subtree and $isMax$ is \textsc{True}, update $isMax$ to \textsc{False}; if $x$ is in the right subtree and $isMin$ is \textsc{True}, update $isMin$ to \textsc{False}. If $m$ has only one child, $isMin$ and $isMax$ do not need to be updated, but the augmented pointer is updated in the following way: if $m$ has a left child and $isMax$ is \textsc{True}, or if $m$ has a right child and $isMin$ is \textsc{True}, update the augmented pointer of $m$ to $x$.
-
-The pseudocode is shown below.
-\begin{algorithm}
-\caption{Inserting into the combined structure}
-\begin{algorithmic}[1]
-\Procedure{Insert}{$x$}
-\State{$y\gets\textsc{Find}(x)$}
-\If{$y=x$} {Report $x$ already exists}
-\Else{} {Insert $x$ into the skiplist bottom-up}
-\EndIf
-\If{$x$ is promoted to the top level}
-	\State{$pre\gets\textup{the key stored in }x$, add $pre$ into the hash table of level $\textsc{Len}(pre)$}
-	\State{$y\gets x$, $n\gets\textup{NULL}$}
-	\While{$n=\textup{NULL}$}\Comment{Create a new branch containing $x$}
-		\State{$last\gets\textup{last digit of }pre$}
-		\State{$pre\gets\textup{first $\textsc{Len}(pre)-1$ digits of }pre$}
-		\If{$\textsc{Len}(pre)=0$} {$n\gets r$}
-		\Else{} {$n\gets\textsc{Hash}_{\textsc{Len}(pre)}(pre)$}
-		\EndIf
-		\If{$n=\textup{NULL}$}
-			\State{Add $pre$ into the hash table of level $\textsc{Len}(pre)$ and create a corresponding node $z$}
-			\If{$last=0$} {$z.leftChild=y$}
-			\Else{} {$z.rightChild=y$}
-			
-			\EndIf
-			\State{$z.augPointer\gets x$}
-			\State{$y\gets z$}
-		\EndIf
-	\EndWhile
-	\State{$n.augPointer\gets\textup{NULL}$}
-	\If{$last=0$}\State{$n.leftChild\gets y$, $isMin\gets\textup{True}$, $isMax\gets\textup{False}$}
-	\Else{}\State{$n.leftChild\gets y$, $isMin\gets\textup{False}$, $isMax\gets\textup{True}$}
-	\EndIf
-	\While{$n\neq r$}\Comment{Update the augmented pointers}
-		\State{$m\gets n.father$}
-		\If{$m.leftChild\neq\textup{NULL}$ \textbf{and} $m.rightChild\neq\textup{NULL}$}
-			\If{$n=m.leftChild$ \textbf{and} $isMax=\textup{True}$} {$isMax\gets\textup{False}$}
-			\ElsIf{$n=m.rightChild$ \textbf{and} $isMin=\textup{True}$} {$isMin\gets\textup{False}$}
-			\EndIf
-		\Else{}
-			\If{$n=m.leftChild$ \textbf{and} $isMax=\textup{True}$} {$m.augPointer\gets x$}
-			\ElsIf{$n=m.rightChild$ \textbf{and} $isMin=\textup{True}$} {$m.augPointer\gets x$}
-			\EndIf
-		\EndIf
-	\EndWhile
-\EndIf
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-~
-
-\noindent\textbf{Correctness}:
-
-Suppose $x$ does not exist in the structure. Then $\textsc{Find}(x)$ returns the predecessor of $x$ on the bottom level of the skiplist. Inserting $x$ into the skiplist is just as usual: a bottom-up insertion using randomness to decide if $x$ is promoted to the level above. If $x$ gets promoted into the topmost level of the skiplist, it must be further inserted into the trie. This is also done in a bottom-up fashion. Besides the leaf node $x$, all the internal nodes that previously do not exist have to be created. The algorithm guarantees that these nodes are linked in the correct order. Moreover, all such nodes have only path to go down to the leaf level. So their augmented pointers should all point to $x$.
-
-Since we do this bottom-up, we eventually get to the pre-existing node $n$ whose prefix has the longest match with $x$. The newly created subtree must be a branch of $n$. By adding this subtree, $n$ has now two children and no longer needs an augmented pointer. So the algorithm deletes it.
-
-Finally, all the nodes above $n$ that contains this new subtree are updated in terms of their augmented pointers. This is necesssary when a node has exactly one child (so it needs such a pointer) and if either $x$ becomes the new maximum key in the left subtree, or $x$ becomes the new minimum key in the right subtree. This is the reason why we keep two flags $isMin$ and $isMax$. These two flags are updated only if there is another branch whose leaf takes over $x$ as the minimum key or the maximum key.
-
-After all these steps, it is guaranteed that (a) a path is established from $r$ to $x$ (b) all the nodes on this path with only one child has the correct augmented pointer. The nodes not on this path are not affected because their subtrees do not contain $x$. This proves the correctness of the algorithm.
-
-~
-
-\noindent\textbf{Runtime}:
-
-If $x$ is not promoted to the top level of the skiplist, the insertion only happens in the skiplist. The expected rumtime in this case is proportional to its height, $O(\log\log u)$. The probability for this case is $1-\frac{1}{\log u}$
-
-If $x$ is promoted to the top level of the skiplist, then besides $O(\log\log u)$ time inserting inside the skiplist, additional time is spent inserting $x$ into the trie. Since the algorithm does this bottom-up, spending only constant time in each level, the additional runtime is linear in the trie height, $O(\log u)$. The probability for this case is $\frac{1}{\log u}$.
-
-Therefore, the overall expected runtime is
-\begin{equation*}
-E[T_{\textsc{Insert}}]=\left(1-\frac{1}{\log u}\right)O(\log\log u)+\frac{1}{\log u}(O(\log\log u)+O(\log u))=O(\log\log u)
-\end{equation*}
+$|V'|=O(m+n)$ and $|E'|=O(mn)$. Construction of $G'$ costs $O(V'+E')=O(mn)$. $|T|=mn$, so bisection requires $O(\log(mn))$ recursions. In each recursion, reseting capacities costs $O(mn)$ time, and solving a maximum-bipartite matching problem by a network flow algorithm (e.g. Ford-Fulkerson) costs $O(V'E')=O(mn(m+n))$ time. Other work (e.g. comparisons) costs constant time. In conclusion, the total time cost is $T=O(mn(m+n)\log(mn))$. Notice that $n\leqslant m$ is required for a solution to exist. This simplifies the time cost to $T=O(m^2n\log m)$.
 
 \end{document}
