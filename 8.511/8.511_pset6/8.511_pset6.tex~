@@ -24,18 +24,26 @@
 \maketitle
 \section{Breakdown of Semiclassical Theory: Zener Tunneling}
 \subsection{Part (a)}
-\textcolor{red}{QUESTION! If $k$ is complex, the wavefunction is not normalizable?}
-
-Even though $k$ is now a general complex number, since $V(x)$ is periodic, the conclusion of Bloch theorem is still valid. Namely, the wavefunction is some function with the period of the lattice, modulated by a spatially linear phase. The only difference is that now this phase becomes complex. Then we can still write
+Since the potential $V(x)$ is perodic, we can expand it into discrete Fourier components,
 \begin{equation*}
-\Psi_k(x)=e^{ikx}u_k(x)
-\end{equation*}
-where $u_k(x)$ is periodic and can be Fourier decomposed as
-\begin{equation*}
-u_k(x)=\sum_Ga_{k,G}e^{-iGx}
+V(x)=\sum_GV_Ge^{iGx}
 \end{equation*}
 
-Since $k$ is defined upto $G$, $a_{k,G}$ can be labeled by $k-G$. In conclusion, the wavefunction labeled by a general $k$ can be expanded as
+The Fourier transform of $\Psi(x)$ is (suppose the system is finite, so the integral is replaced by a summation)
+\begin{equation*}
+\Psi(x)=\sum_ka_ke^{ikx}
+\end{equation*}
+where in general $k$ is complex. Plugging these expansions into the Schr\"{o}dinger equation, we have
+\begin{equation*}
+\sum_k\frac{\hbar^2}{2m}k^2a_ke^{ikx}+\sum_k\sum_GV_Ga_{k-G}e^{ikx}=\sum_kEa_ke^{ikx}
+\end{equation*}
+
+We can see that only those $k$ differ by $G$ are coupled.
+\begin{equation*}
+\frac{\hbar^2k^2}{2m}a_k+\sum_GV_Ga_{k-G}=E_ka_k
+\end{equation*}
+
+The corresponding wavefunction can be labelled as $\Psi_k$, where $\textup{Re}(k)$ is taken within the first Brillouin zone.
 \begin{equation*}
 \Psi_k(x)=\sum_Ga_{k-G}e^{i(k-G)x}
 \end{equation*}
@@ -57,41 +65,61 @@ which simplifies to
 \end{align*}
 
 \subsection{Part (b)}
-When the electron tunnels, its $\kappa$ changes with $x$, such that its total energy is conserved. From A in the valance band to B in the conduction band, the energy gap $\Delta$ must be compensated by the electric potential $eEd_{AB}$. Therefore, the distance between $A$ and $B$ is thus $d_{AB}=\Delta/eE$.
+%When the electron tunnels, its $\kappa$ changes with $x$, such that its total energy is conserved. From A in the valance band to B in the conduction band, the energy gap $\Delta$ must be compensated by the electric potential $eEd_{AB}$. Therefore, the distance between $A$ and $B$ is thus $d_{AB}=\Delta/eE$.
+%
+Inside the band, $\kappa(x)$ is real. During the tunneling, $\kappa(x)$ is imaginary. At the start and the end of tunneling, $\kappa$ must reach its critical value, which is 0. This gives $(eEx_A)^2=(eEx_B)^2=|V_{G_0}|^2$. Therefore,
+\begin{align*}
+&x_A=-\frac{|V_{G_0}|}{eE}=-\frac{\Delta}{2eE}\\
+&x_B=\frac{|V_{G_0}|}{eE}=\frac{\Delta}{2eE}\\
+&d=x_B-x_A=\frac{2|V_{G_0}|}{eE}=\frac{\Delta}{eE}
+\end{align*}
 
 \subsection{Part (c)}
+%\begin{equation*}
+%\varepsilon_{\pm}(x)=\sqrt{\frac{\hbar^2}{2m}4E_0\kappa^2(x)+\left(\frac{\Delta}{2}\right)^2}
+%\end{equation*}
+%
+%During the tunneling, the change in the energy gap must be compenstated by the electric potential.
+%\begin{equation*}
+%\varepsilon_+-\varepsilon_-=\Delta-eE(x_B-x)
+%\end{equation*}
+%
+%Therefore,
+%\begin{align*}
+%\kappa(x)&=\sqrt{\frac{m}{8E_0\hbar^2}\left((\Delta-eE(x_B-x))^2-\Delta^2\right)}\\
+%&=\frac{i\Delta}{2\hbar}\sqrt{\frac{m}{2E_0}\left(1-\left(1-(x_B-x)/d_{AB})^2\right)\right)}
+%\end{align*}
+%
+%Let $x'=x_B-x$.
+%\begin{equation*}
+%|\kappa(x)|=\frac{\Delta}{2\hbar}\sqrt{\frac{m}{2E_0}\left(1-\left(1-(x'/d_{AB})^2\right)\right)}
+%\end{equation*}
+%
+%Therefore,
+%\begin{align*}
+%P&=\exp\left(-2\int_A^B|\kappa(x)|dx\right)\\
+%&=\exp\left(-\frac{\Delta}{\hbar}\sqrt{\frac{m}{2E_0}}\int_0^{d_{AB}}\sqrt{\left(1-\left(1-(x'/d_{AB})^2\right)\right)}dx'\right)\\
+%&=\exp\left(-\frac{\Delta^2}{\hbar eE}\sqrt{\frac{m}{2E_0}}\int_0^1\sqrt{1-(1-x'')^2}dx''\right)\\
+%&=\exp\left(-\frac{\Delta^2}{\hbar eE}\sqrt{\frac{m}{2E_0}}\frac{\pi}{4}\right)
+%\end{align*}
+%
+Let $\varepsilon(x)=eEx$. Then during the tunneling,
 \begin{equation*}
-\varepsilon_{\pm}(x)=\sqrt{\frac{\hbar^2}{2m}4E_0\kappa^2(x)+\left(\frac{\Delta}{2}\right)^2}
-\end{equation*}
-
-During the tunneling, the change in the energy gap must be compenstated by the electric potential.
-\begin{equation*}
-\varepsilon_+-\varepsilon_-=\Delta-eE(x_B-x)
+|\kappa(x)|=\sqrt{\frac{2m}{4E_0\hbar^2}\left(|V_{G_0}|^2-(eE)^2x^2\right)}
 \end{equation*}
 
 Therefore,
 \begin{align*}
-\kappa(x)&=\sqrt{\frac{m}{8E_0\hbar^2}\left((\Delta-eE(x_B-x))^2-\Delta^2\right)}\\
-&=\frac{i\Delta}{2\hbar}\sqrt{\frac{m}{2E_0}\left(1-\left(1-(x_B-x)/d_{AB})^2\right)\right)}
+\int_{x_A}^{x_B}|\kappa(x)|dx&=\sqrt{\frac{2m}{4E_0\hbar^2}}\int_{-|V_{G_0}|/eE}^{|V_{G_0}|/eE}\sqrt{|V_{G_0}|^2-(eE)^2x^2}dx\\
+&=\sqrt{\frac{m}{2E_0\hbar^2}}\frac{|V_{G_0}|^2}{eE}\int_{-1}^1\sqrt{1-x'^2}dx'\\
+&=\sqrt{\frac{m}{2E_0\hbar^2}}\frac{\pi\Delta^2}{8eE}
 \end{align*}
 
-Let $x'=x_B-x$.
-\begin{equation*}
-|\kappa(x)|=\frac{\Delta}{2\hbar}\sqrt{\frac{m}{2E_0}\left(1-\left(1-(x'/d_{AB})^2\right)\right)}
-\end{equation*}
-
-Therefore,
+Using $m=\hbar^2G_0^2/8E_0$ and $G_0=2\pi/a$, we get
 \begin{align*}
-P&=\exp\left(-2\int_A^B|\kappa(x)|dx\right)\\
-&=\exp\left(-\frac{\Delta}{\hbar}\sqrt{\frac{m}{2E_0}}\int_0^{d_{AB}}\sqrt{\left(1-\left(1-(x'/d_{AB})^2\right)\right)}dx'\right)\\
-&=\exp\left(-\frac{\Delta^2}{\hbar eE}\sqrt{\frac{m}{2E_0}}\int_0^1\sqrt{1-(1-x'')^2}dx''\right)\\
-&=\exp\left(-\frac{\Delta^2}{\hbar eE}\sqrt{\frac{m}{2E_0}}\frac{\pi}{4}\right)
+P&=\exp\left(-2\int_{x_A}^{x_B}|\kappa(x)|dx\right)\\
+&=\exp\left(-\frac{\pi^2\Delta^2}{8E_0eEa}\right)
 \end{align*}
-
-Using $E_0=\hbar^2G_0^2/8m$ and $G_0=2\pi/a$, we get
-\begin{equation*}
-P=\exp(-\pi^2\Delta^2/8E_0eEa)
-\end{equation*}
 
 Breakdown of the semiclassical theory happens when $P\ll1$ no longer holds, i.e., when we no longer have $E\ll\Delta^2/eE_0a$. When $E$ becomes comparable with $\Delta^2/eE_0a$, we must take interband tunneling into account.
 
@@ -156,7 +184,7 @@ The eigenvector for band $E_+(\mathbf{k})$ is
 \end{equation*}
 
 \subsection{Part (c)}
-Since $E_{\pm}(\mathbf{k})$ depends only on $|\mathbf{k}|$, the Fermi surfaces are two concentric circles. $E_+(\mathbf{k}_F)$ corresponds to the smaller radius and $E_-(\mathbf{k}_F)$ corresponds to the larger radius. This is shown in Fig.\ref{Fermi}.
+Since $E_{\pm}(\mathbf{k})$ depends only on $|\mathbf{k}|$, the Fermi surfaces are two concentric circles. $E_+$ corresponds to the smaller radius and $E_-$ corresponds to the larger radius. This is shown in Fig.\ref{Fermi}.
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=12cm]{Fermi.eps}

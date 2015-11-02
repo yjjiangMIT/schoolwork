@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  24 OCT 2015 16:27
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.27)  27 OCT 2015 17:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -284,16 +284,16 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ] [2]
 File: bands.eps Graphic file (type eps)
  <bands.eps>
-[3]
 File: Fermi.eps Graphic file (type eps)
- <Fermi.eps> [4] (./8.511_pset6.aux) ) 
+
+<Fermi.eps> [3] [4] [5] (./8.511_pset6.aux) ) 
 Here is how much of TeX's memory you used:
- 2682 strings out of 493918
- 35182 string characters out of 6150563
- 103688 words of memory out of 5000000
- 5943 multiletter control sequences out of 15000+600000
+ 2683 strings out of 493918
+ 35190 string characters out of 6150563
+ 107688 words of memory out of 5000000
+ 5944 multiletter control sequences out of 15000+600000
  16414 words of font info for 61 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 42i,15n,43p,337b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,15n,43p,329b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 8.511_pset6.pdf (4 pages).
+Output written on 8.511_pset6.pdf (5 pages).

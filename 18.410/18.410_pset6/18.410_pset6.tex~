@@ -75,7 +75,9 @@ Because of this, $\sum_\alpha f^j(d_i,c_{k_\alpha})=f^j(s,d_i)=c^j(s,d_i)=f(d_i,
 
 \noindent\textbf{Runtime}:
 
-Suppose \textsc{IfPlanExists} returns a valid $f$. Notice that for every $s_j$, the flow network $G_j$ is of constant size: at most $7+5+2=14$ vertices. Therefore, solving the maximum flow problem in $G_j$ costs $O(1)$ time. Since we iterate over all $s_j$, the total runtime is $T=O(m)$. We see that determining a shipping plan is of linear time once \textsc{IfPlanExists} is already executed. If not, or if somehow $f$ is discarded, we have to run \textsc{IfPlanExists} first and altogher $O(n^3)$ time is required.
+Suppose \textsc{IfPlanExists} returns a valid $f$. Notice that for every $s_j$, the flow network $G_j$ is of constant size: at most $7+5+2=14$ vertices. Therefore, solving the maximum flow problem in $G_j$ costs $O(1)$ time. Since we iterate over all $s_j$, the total runtime is $T=O(m)$.
+
+We see that determining a shipping plan is of linear time once \textsc{IfPlanExists} is already executed. If not, or if somehow $f$ is discarded, we have to run \textsc{IfPlanExists} first and altogher $O(n^3)$ time is required.
 
 \subsection{Part (b)}
 \noindent\textbf{Description}:
@@ -110,9 +112,9 @@ Construct a flow network by adding a source $s$ and a sink $t$. For every $l_i\i
 
 Sort $t_{i,j}$ (break ties arbitrarily) and store them in an array $T$. Recursively reduce the size of $T$ by bisection to get rid of large $t_{i,j}$ until a student does not have any employer to talk to. We need to keep tract of the ``active subarray" of $T$ that is being bisected. Call this subarray $T'$. In reality we just store the start point and the end point of $T'$. Initially, set $T'=T$. If $n>m$, raise an exception saying that some students are unable to talk to any employer. Otherwise, do the following recursion.
 
-Bisect $T'=T_1'\cup T_2'$, where $T_1'$ contains the smaller half of $T'$. For all the edges whose $t_{i,j}$ are stored in $T_2'$, set their capacities to 0, thus killing them in the flow network. Find a maximum bipartite matching of $G$ by solving the maximum flow problem in $G'$. If $|M|=n$, let $T'=T_1'$ and recurse. If $|M|<n$, for all the edges whose $t_{i,j}$ are stored in $T_2'$, set their capacities back to 1. Let $T'=T_2'$ and recurse. $|M|>n$ is impossible since the cut $\{s\}$-$(V'/\{s\})$ has capacity $n$.
+Bisect $T'=T_1'\cup T_2'$, where $T_1'$ contains the smaller half of $T'$. For all the edges whose $t_{i,j}$ are stored in $T_2'$, set their capacities to 0, thus killing them in the flow network. Find a maximum bipartite matching of $G$ by running Ford-Fulkerson on $G'$. If $|M|=n$, let $T'=T_1'$ and recurse. If $|M|<n$, for all the edges whose $t_{i,j}$ are stored in $T_2'$, set their capacities back to 1. Let $T'=T_2'$ and recurse. $|M|>n$ is impossible since the cut $\{s\}$-$(V'/\{s\})$ has capacity $n$.
 
-The recursion goes on until $T'$ contains only one entry $t_{i_0,j_0}$. Run the maximum flow solver on $G'$ (where the capacities of all edges beyond $(i_0,j_0)$ are already set to 0). The maximum bipartite matching assigns students to employers such that each student has an employer to speak with and the last student's travel time is minimized to $t_{i_0,j_0}$.
+The recursion goes on until $T'$ contains only one entry $t_{i_0,j_0}$. Run Ford-Fulkerson on $G'$ (where the capacities of all edges beyond $(i_0,j_0)$ are already set to 0). The maximum bipartite matching assigns students to employers such that each student has an employer to speak with and the last student's travel time is minimized to $t_{i_0,j_0}$.
 
 ~
 
@@ -128,6 +130,6 @@ In the bisection process it is guaranteed that $t^{**}\in T'$. This claim is pro
 
 \noindent\textbf{Runtime}:
 
-$|V'|=O(m+n)$ and $|E'|=O(mn)$. Construction of $G'$ costs $O(V'+E')=O(mn)$. $|T|=mn$, so bisection requires $O(\log(mn))$ recursions. In each recursion, reseting capacities costs $O(mn)$ time, and solving a maximum-bipartite matching problem by a network flow algorithm (e.g. Ford-Fulkerson) costs $O(V'E')=O(mn(m+n))$ time. Other work (e.g. comparisons) costs constant time. In conclusion, the total time cost is $T=O(mn(m+n)\log(mn))$. Notice that $n\leqslant m$ is required for a solution to exist. This simplifies the time cost to $T=O(m^2n\log m)$.
+$|V'|=O(m+n)$ and $|E'|=O(mn)$. Construction of $G'$ costs $O(V'+E')=O(mn)$. $|T|=mn$, so bisection requires $O(\log(mn))$ recursions. In each recursion, reseting capacities costs $O(mn)$ time, and running Ford-Fulkerson costs $O(E'f)$ time. Since $|f|\leqslant n$, this time is $O(mn^2)$. Other work (e.g. comparisons) costs constant time. Summing over all iterations, the final time cost is $T=O(mn^2\log(mn))$. Notice that $n\leqslant m$ is required for a solution to exist. This simplifies the time cost to $T=O(mn^2\log m)$.
 
 \end{document}

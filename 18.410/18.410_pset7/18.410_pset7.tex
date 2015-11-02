@@ -35,7 +35,7 @@ We design a verification algorithm $V_{BP}(x,y)=V_{BP}((A,m),y)$. The certificat
 
 $V_{BP}$ works as follows. (1) Check if $y$ contains $m$ subsets and if the union of these subsets equals $A$. (2) Sum over each group and check if all $m$ sums are no greater than unity. If both checks are passed, return YES. Otherwise, return NO.
 
-Check (1) costs at most $O(n^2)$ time to identify the union of all subsets with $A$ (say neither the union nor $A$ is ordered). Check (2) costs $O(n)$ time because $O(n)$ additions and $O(m)$ comparisons are performed, and $m\leqslant n$ is assumed. Overall, the runtime of $V_{BP}$ is $O(n^2)$, which is a polynomial of the input size. In conclusion, $\textsc{Box-Packing}(A,M)$ is in NP.
+Check (1) costs at most $O(n^2)$ time to identify the union of all subsets with $A$ (say neither the union nor $A$ is ordered). Check (2) costs $O(n)$ time because $O(n)$ additions and $O(m)$ comparisons are performed, and $m\leqslant n$ is assumed. Overall, the runtime of $V_{BP}$ is $O(n^2)$, which is a polynomial of the input size. In conclusion, \textsc{Box-Packing} is in NP.
 
 %If we assume that $y$ is a proper partition of $A$, the first check is unnecessary. It is the second check that matters. However, this makes no difference since $V_{BP}$ runs in polynomial time anyway.
 
@@ -48,7 +48,7 @@ We design a verification algorithm $V_{EW}(x,y)=V_{EW}(B,y)$. The certificate $y
 
 $V_{EW}$ works as follows. (1) Check if $y$ contains 2 subsets and if the union of these subsets equals $B$. (2) Sum over the first group and the second group, and check if both sums are equal. If both checks are passed, return YES. Otherwise, return NO.
 
-Check (1) costs at most $O(n^2)$ time to identify the union of both subsets with $B$ (say neither the union nor $B$ is ordered). Check (2) costs $O(n)$ time because $O(n)$ additions are performed. Overall, the runtime of $V_{EW}$ is $O(n^2)$, which is a polynomial of the input size. In conclusion, $\textsc{Equal-Weight}(B)$ is in NP.
+Check (1) costs at most $O(n^2)$ time to identify the union of both subsets with $B$ (say neither the union nor $B$ is ordered). Check (2) costs $O(n)$ time because $O(n)$ additions are performed. Overall, the runtime of $V_{EW}$ is $O(n^2)$, which is a polynomial of the input size. In conclusion, \textsc{Equal-Weight} is in NP.
 
 \subsubsection{$\textsc{Desired-Weight}(C,w)$}
 \noindent\textbf{Proof}:
@@ -59,7 +59,7 @@ We design a verification algorithm $V_{DW}(x,y)=V_{DW}((C,w),y)$. The certificat
 
 $V_{DW}$ works as follows. (1) Check if $y$ is a subset of $C$. (2) Sum over this subset and check if the sum equals $w$. If both checks are passed, return YES. Otherwise, return NO.
 
-Check (1) costs at most $O(n^2)$ time to verify a subset of $C$ (say neither the subset nor $C$ is ordered). Check (2) costs $O(n)$ time because $O(n)$ additions are performed. Overall, the runtime of $V_{DW}$ is $O(n^2)$, which is a polynomial of the input size. In conclusion, $\textsc{Desired-Weight}(C)$ is in NP.
+Check (1) costs at most $O(n^2)$ time to verify a subset of $C$ (say neither the subset nor $C$ is ordered). Check (2) costs $O(n)$ time because $O(n)$ additions are performed. Overall, the runtime of $V_{DW}$ is $O(n^2)$, which is a polynomial of the input size. In conclusion, \textsc{Desired-Weight} is in NP.
 
 \subsection{Part (b)}
 \subsubsection{$\textsc{Desired-Weight}\leqslant_p\textsc{Equal-Weight}$}
@@ -134,7 +134,7 @@ If $w>nk$, the algorithm terminates in constant time. Therefore, we focus on the
 
 \noindent(1) Decision version of \textsc{Swap-Flow}
 
-Instead of finding the maximum flow across all valid capacity functions, we are given an input $g>0$ and the YES/NO question is, does a valid capacity function $c$ exist such that the maximum flow $f$ is no less than $g$?
+Instead of finding the maximum flow across all valid capacity functions, we are given an input $g>0$ and the YES/NO question is, does a valid capacity function $c$ exist such that the maximum flow $|f|$ is no less than $g$?
 
 ~
 
@@ -174,6 +174,45 @@ After this procedure, there may be some $x_i$ left unassigned. They can be assig
 
 ~
 
-Next, we prove the opposite direction. If $x=\phi$ is a YES-input for \textsc{3-SAT}, there exists a assignment of True or False to $x_i$ for all $i$ such that $\phi$ is satisfied. According to this assignment, we show that there is a valid capacity function $c$ for \textsc{Swap-Flow} that makes $|f|=g$. This capacity function works as follows. For each $i$, if $x_i$ is assigned True, then $c(u_i,p_i)=\infty$ and $c(u_i,n_i)=1$. Otherwise, $c(u_i,p_i)=1$ and $c(u_i,n_i)=\infty$. $c(s,u_i)=\infty$ for all $i$, and the capacities for the rest of the edges
-are set to unity (the swap is nontrivial only at $u_i$).
+Next, we prove the opposite direction. If $x=\phi$ is a YES-input for \textsc{3-SAT}, there exists a assignment of True or False to $x_i$ for all $i$ such that $\phi$ is satisfied. According to this assignment, we show that there is a valid capacity function $c$ for \textsc{Swap-Flow} that makes $|f|=g$. This capacity function works as follows. For each $i$, if $x_i$ is assigned True, then $c(u_i,p_i)=\infty$ and $c(u_i,n_i)=1$. Otherwise, $c(u_i,p_i)=1$ and $c(u_i,n_i)=\infty$. $c(s,u_i)=\infty$ for all $i$, and the capacities for the rest of the edges are set to unity (the swap is nontrivial only at $u_i$).
+
+\textcolor{red}{unfinished}
+
+\subsection{Part (b): \textsc{All-Or-None-Flow}}
+\noindent\textbf{Proof}:
+
+\noindent(1) Decision version of \textsc{All-Or-None-Flow}
+
+Instead of finding the maximum flow under the restriction that $f(e)=0$ or $f(e)=c(e)$ for all edges $e$, we are given an input $g>0$ and the YES/NO question is, does a flow $f$ under this restriction exist such that $|f|\geqslant g$?
+
+~
+
+\noindent(2) Proof of $\textsc{All-Or-None-Flow}\in\textup{NP}$
+
+The input is $x=(G,c(e),g)$, where $G=(V,E)$ is the flow network and $c(e)$ is the capacity function that assigns each edge a positive capacity. The input size is $|x|=\Theta(|V|+|E|)$.
+
+We design a verification algorithm $V_{AONF}(x,y)=V_{ANOF}((G,c(e),g),y)$. The certificate $y$ is a flow $f$ over $G$ such that $f(e)=0$ or $f(e)=c(e)$ for all $e\in E$, and $|f|\geqslant g$ holds. The certificate size is $|y|=\Theta(|E|)$ because the flow is determined by its values on all edges. It is a polynomial of $|x|$.
+
+$V_{ANOF}$ works as follows. (1) Check that $f(e)$ is either 0 or $c(e)$ for all $e\in E$. (2) Check that $|f|\geqslant g$. If both checks are passed, return YES. Otherwise, return NO.
+
+Check (1) costs $\Theta(|E|)$ time because it loops over $E$. Check (2) costs $O(|V|)$ time if we use $|f|=\sum_uf(s,u)$. Overall, the runtime of $V_{ANOF}$ is $O(|V|+|E|)$, which is a polynomial of the input size. In conclusion, \textsc{All-Or-None-Flow} is in NP.
+
+~
+
+\noindent(3) Construction of a reduction function $R(x)$
+
+Given an input $x=B=\{b_1,b_2,\cdots,b_n\}$ for \textsc{Equal-Weight}, we design a reduction function $R(x)$ that returns an input $x'=(G,c(e),g)$ for \textsc{All-Or-None-FLow} as follows. Create a source $s$, a sink $t$ and an intermediate vertex $m$. Create $n$ edges from $s$ to $m$. Label them as $e_{sm}^i$, where $i=1,2,\cdots,n$, and let $c(e_{sm}^i)=2b_i$. Also create $n$ edges from $m$ to $t$. Label them as $e_{mt}^i$, where $i=1,2,\cdots,n$, and let $c(e_{mt}^i)=b_i$. Let $g=\sum_ib_i$. $|R(x)|=\Theta(|V|+|E|)=\Theta(n)$, which is a polynomial of $|x|=\Theta(n)$. The runtime of $R(x)$ is also $\Theta(|V|+|E|)$, which is a polynomial of $|x|$. In order to reduce \textsc{Equal-Weight} to \textsc{All-Or-None-Flow}, we need to prove that \textsc{Equal-Weight} returns YES if and only if \textsc{All-Or-None-Flow} returns YES.
+
+~
+
+\noindent(4) Proof of $\textsc{Equal-Weight}\leqslant_p\textsc{All-Or-None-Flow}$
+
+If $R(x)=(G,c(e),g)$ is a YES-input of \textsc{All-Or-None-Flow}, there exists a flow $f$ such that $|f|\geqslant g$. By construction, $\sum_ic(e_{mt}^i)=\sum_ib_i=g$, so $|f|\leqslant g$. Therefore, it must be that $|f|=g$.
+
+This means that $\sum_if(e_{sm}^i)=g$. Notice that $\sum_ic(e_{sm}^i)=\sum_i2b_i=2g$. Because $f$ is restricted such that $f(e)$ is either 0 or $c(e)$, we conclude that some edges between $s$ and $m$ are fully utilized and the others are empty. Let $B_1=\{b_j|e_{sm}^j\textup{ is fully utilized}\}$ and $B_2=B-B_1$. $\sum_{b_j\in B_1}2b_j=\sum_{b_j\in B_1}c(e_{sm}^j)=|f|=g$. Therefore, $B_1$ sums up to $g/2$, and so does $B_2$. This means that $B$ can be partitioned into two equi-sum subsets. So $x=B$ is a YES-input for \textsc{Equal-Weight}.
+
+On the other hand, if $x=B$ is a YES-input of \textsc{Equal-Weight}, there exists a partition of $B$ into two subsets, $B_1$ and $B_2$, such that the sum over $B_1$ equals the sum over $B_2$.
+
+For each $j$ such that $b_j\in B_1$, we push $c(e_{sm}^j)=2b_j$ flow through the edge $e_{sm}^j$. All other edges between $s$ and $m$ are not used. This produces an incoming flow of $\sum_{b_j\in B_1}2b_j=\sum_ib_i=g$For all edges $e_{mt}^i$, we push $c(e_{mt}^i)=b_i$ flow through them
+
 \end{document}

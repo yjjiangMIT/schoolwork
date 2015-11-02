@@ -1,0 +1,49 @@
+*********************** Log Started 2015-10-26T18:57:44Z ***********************
+18:57:44:************************* Folding@home Client *************************
+18:57:44:    Website: http://folding.stanford.edu/
+18:57:44:  Copyright: (c) 2009-2014 Stanford University
+18:57:44:     Author: Joseph Coffland <joseph@cauldrondevelopment.com>
+18:57:44:       Args: 
+18:57:44:     Config: /home/yjjiang/Documents/my_files/schoolwork/config.xml
+18:57:44:******************************** Build ********************************
+18:57:44:    Version: 7.4.4
+18:57:44:       Date: Mar 4 2014
+18:57:44:       Time: 12:02:38
+18:57:44:    SVN Rev: 4130
+18:57:44:     Branch: fah/trunk/client
+18:57:44:   Compiler: GNU 4.4.7
+18:57:44:    Options: -std=gnu++98 -O3 -funroll-loops -mfpmath=sse -ffast-math
+18:57:44:             -fno-unsafe-math-optimizations -msse2
+18:57:44:   Platform: linux2 3.2.0-1-amd64
+18:57:44:       Bits: 64
+18:57:44:       Mode: Release
+18:57:44:******************************* System ********************************
+18:57:44:        CPU: Intel(R) Core(TM) i5-5200U CPU @ 2.20GHz
+18:57:44:     CPU ID: GenuineIntel Family 6 Model 61 Stepping 4
+18:57:44:       CPUs: 4
+18:57:44:     Memory: 7.71GiB
+18:57:44:Free Memory: 892.40MiB
+18:57:44:    Threads: POSIX_THREADS
+18:57:44: OS Version: 3.13
+18:57:44:Has Battery: true
+18:57:44: On Battery: true
+18:57:44: UTC Offset: -4
+18:57:44:        PID: 29894
+18:57:44:        CWD: /home/yjjiang/Documents/my_files/schoolwork
+18:57:44:         OS: Linux 3.13.0-65-generic x86_64
+18:57:44:    OS Arch: AMD64
+18:57:44:       GPUs: 0
+18:57:44:       CUDA: Not detected
+18:57:44:***********************************************************************
+18:57:44:<config>
+18:57:44:  <!-- Folding Slots -->
+18:57:44:  <slot id='0' type='CPU'/>
+18:57:44:</config>
+18:57:44:Trying to access database...
+18:57:44:Successfully acquired database lock
+18:57:44:Enabled folding slot 00: PAUSED cpu:2 (on battery)
+[91m18:57:44:ERROR:Exception: Could not bind socket to 0.0.0.0:7396: Address already in use[0m
+[91m18:57:44:ERROR:Exception: Could not bind socket to 0.0.0.0:36330: Address already in use[0m
+18:59:45:Caught signal SIGINT(2) on PID 29894
+18:59:45:Exiting, please wait. . .
+18:59:47:Clean exit
