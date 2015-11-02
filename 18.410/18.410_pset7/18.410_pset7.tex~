@@ -175,5 +175,5 @@ After this procedure, there may be some $x_i$ left unassigned. They can be assig
 ~
 
 Next, we prove the opposite direction. If $x=\phi$ is a YES-input for \textsc{3-SAT}, there exists a assignment of True or False to $x_i$ for all $i$ such that $\phi$ is satisfied. According to this assignment, we show that there is a valid capacity function $c$ for \textsc{Swap-Flow} that makes $|f|=g$. This capacity function works as follows. For each $i$, if $x_i$ is assigned True, then $c(u_i,p_i)=\infty$ and $c(u_i,n_i)=1$. Otherwise, $c(u_i,p_i)=1$ and $c(u_i,n_i)=\infty$. $c(s,u_i)=\infty$ for all $i$, and the capacities for the rest of the edges
-are set to unity (the swap is nontrivial only at $u_i$).
+are all set to unity (the swap is nontrivial only at $u_i$).
 \end{document}
