@@ -1,0 +1,112 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{epstopdf}
+\usepackage{indentfirst}
+\usepackage{geometry}
+\usepackage{bm}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\title{8.511 Problem Set 7}
+\author{Yijun Jiang}
+%\email{yjjiang@mit.edu}
+\date{\today}
+
+\pagestyle{fancy}
+\lhead{Yijun Jiang}
+\rhead{8.511 Problem Set 7}
+
+\begin{document}
+\maketitle
+
+\section{Graphene in a Magnetic Field}
+\subsection{Part (a)}
+Letting $|H-EI|=0$, we have
+\begin{equation*}
+E^2=(\hbar v)^2(k_x-ik_y)(k_x+ik_y)=(\hbar v|\mathbf{k}|)^2
+\end{equation*}
+
+Therefore, we recover the linear spectrum
+\begin{equation*}
+E_{\mathbf{k}}^{\pm}=\pm\hbar v|\mathbf{k}|
+\end{equation*}
+
+\subsection{Part (b)}
+\begin{align*}
+\pi_x&=-i\partial_x+\frac{e}{\hbar c}A_x=-i\partial_x\\
+\pi_y&=-i\partial_y+\frac{e}{\hbar c}A_y=-i\partial_y+\frac{eB}{\hbar c}x
+\end{align*}
+
+Therefore, the Schr\"{o}dinger equation is
+\begin{equation*}
+\hbar v\left(\begin{array}{cc}0&-i\partial_x-\partial_y-i\frac{eB}{\hbar c}x\\-i\partial_x+\partial_y+i\frac{eB}{\hbar c}x&0\end{array}\right)\left(\begin{array}{c}\phi_1\\ \phi_2\end{array}\right)=E\left(\begin{array}{c}\phi_1\\ \phi_2\end{array}\right)
+\end{equation*}
+
+Acting by $H$ on both sides, we have
+\begin{equation*}
+(\hbar v)^2\left(\begin{array}{cc}(-i\partial_x-\partial_y-i\frac{eB}{\hbar c}x)(-i\partial_x+\partial_y+i\frac{eB}{\hbar c}x)&0\\0&(-i\partial_x+\partial_y+i\frac{eB}{\hbar c}x)(-i\partial_x-\partial_y-i\frac{eB}{\hbar c}x)\end{array}\right)\left(\begin{array}{c}\phi_1\\ \phi_2\end{array}\right)=E^2\left(\begin{array}{c}\phi_1\\ \phi_2\end{array}\right)
+\end{equation*}
+which simplifies to
+\begin{equation*}
+(\hbar v)^2\left(\begin{array}{cc}-\partial_{xx}+(i\partial_y-\frac{eB}{\hbar c}x)^2+\frac{eB}{\hbar c}[\partial_x,x]&0\\0&-\partial_{xx}+(i\partial_y-\frac{eB}{\hbar c}x)^2-\frac{eB}{\hbar c}[\partial_x,x]\end{array}\right)\left(\begin{array}{c}\phi_1\\ \phi_2\end{array}\right)=E^2\left(\begin{array}{c}\phi_1\\ \phi_2\end{array}\right)
+\end{equation*}
+
+Since $[\partial_x,x]=1$, the equation for $\phi_2$ is thus
+\begin{equation*}
+(\hbar v)^2\left(-\partial_{xx}+\left(i\partial_y-\frac{eB}{\hbar c}x\right)^2-\frac{eB}{\hbar c}\right)\phi_2=E^2\phi_2
+\end{equation*}
+
+\subsection{Part (c)}
+The $y$ dependence only enters by a phase $e^{ik_yy}$. Replacing $\partial_y\rightarrow ik_y$,
+\begin{equation*}
+(\hbar v)^2\left(-\partial_{xx}+\left(k_y+\frac{eB}{\hbar c}x\right)^2-\frac{eB}{\hbar c}\right)f(x)=E^2f(x)
+\end{equation*}
+
+This is just a harmonic oscillator equation,
+\begin{equation*}
+\left(-\frac{\hbar^2}{2m}\partial_{xx}+\frac{1}{2}m\omega^2\left(x+\frac{\hbar c}{eB}k_y\right)^2\right)f(x)=E'f(x)
+\end{equation*}
+where
+\begin{align*}
+&\omega=\frac{eB}{mc}\\
+&E'=\frac{E^2}{2mv^2}+\frac{1}{2}\hbar\omega
+\end{align*}
+
+The eigenvalues are
+\begin{equation*}
+E'_n=\left(n+\frac{1}{2}\right)\hbar\omega\quad\quad(n=0,1,2\cdots)
+\end{equation*}
+which means
+\begin{equation*}
+E^2_n=2nmv^2\hbar\omega=\frac{2n\hbar eBv^2}{c}\quad\quad(n=0,1,2\cdots)
+\end{equation*}
+
+So we get the Landau levels
+\begin{equation*}
+E_n^{\pm}=\pm v\sqrt{\frac{2e\hbar}{c}Bn}\quad\quad(n=0,1,2\cdots)
+\end{equation*}
+
+Plugging in numerical values,
+\begin{equation*}
+E_1^+\approx9.18\times10^{-2}\textup{ eV}\sim10^3\textup{ K}
+\end{equation*}
+
+This gap is much larger than the Landau level spacing for a free 2DEG under the same magnetic field,
+\begin{equation*}
+\Delta E_{free}=\frac{\hbar eB}{mc}\approx1.16\times10^{-3}\textup{ eV}\sim13.4\textup{ K}
+\end{equation*}
+
+\subsection{Part (d)}
+
+\subsection{Part (e)}
+
+\section{Shubnikov-de Haas Oscillation}
+\subsection{Part (a)}
+
+\subsection{Part (b)}
+
+\end{document}

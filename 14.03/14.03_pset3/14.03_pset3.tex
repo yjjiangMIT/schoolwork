@@ -275,6 +275,10 @@ For Boston, however, since there are no excess brokers in the fixed commission m
 Lower skilled brokers does less work but shares the commission with others. If they are not in the market, they can probably create more values in other fields that they are better at. Therefore, I believe more social resource is wasted if there are skill differences across brokers. This is an upward bias.
 
 \subsection{Part 4}
-\textcolor{red}{TODO}
+Let the treatment be implementation of a fixed commission ($X=1$ for fixed commission and $X=0$ for competitive market). Let the observable $Y$ be the average time houses spend on the market. First consider the city of New York, which represents the boom times. Leave the real estate market in its fixed commission mode and measure $E[Y_{1,NY}|X_{NY}=1]$. Then introduce a policy that forbids fixed commission and measure $E[Y_{0,NY}|X_{NY}=0]$. Calculate $\Delta Y_{NY}=E[Y_{1,NY}|X_{NY}=1]-E[Y_{0,NY}|X_{NY}=0]$. This is the causal effect of a fixed commission on quality dimension during boom times.
+
+In order to make a DID measurement, we do the same thing to the Boston real estate market, parallel to that in New York. We measure $E[Y_{1,B}|X_B=1]$ before the policy and $E[Y_{0,B}|X_B=0]$ after the policy. The difference $\Delta Y_B=E[Y_{1,B}|X_B=1]-E[Y_{0,B}|X_B=0]$ is the causal effect of a fixed commission on quality dimension during non-boom times.
+
+The measurements before and after the policy may involve some time effects since they do not happen in the same background environment. By doing a DID we can reduce this time effect. So we calculate $DID=\Delta Y_{NY}-\Delta Y_B=(E[Y_{1,NY}|X_{NY}=1]-E[Y_{0,NY}|X_{NY}=0])-(E[Y_{1,B}|X_B=1]-E[Y_{0,B}|X_B=0])$. The magnitude of the result shows the importance of quality dimension. In other words, a bigger DID means more low skilled brokers entering the market, and thus a bigger deadweight loss, in the boom times.
 
 \end{document}
