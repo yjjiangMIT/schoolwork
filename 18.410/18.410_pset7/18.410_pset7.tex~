@@ -105,11 +105,23 @@ This completes the proof that $\textsc{Equal-Weight}\leqslant_p\textsc{Box-Packi
 
 If $w>nk$, return NO. Otherwise, use dynamic programming. Let $D(i,v)$ be the answer to the following True/False question: is it possible to get weight $v\in\mathbb{Z}$ from a subset of $[c_1,c_2,\cdots,c_i]$? We build up a matrix of $D$ as follows.
 
-Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leqslant v\leqslant w$ (this is to make sure the edge cases are correct). Start from $i=1$ and do the following loop: use $D(i,v)=D(i-1,v)\textup{ OR }D(i-1,v-c_i)$ to get $D(i,v)$ for all $0\leqslant v\leqslant w$, then increase $i$ by 1. Iterate until $i=n$. Return $D(n,w)$ as the solution (YES for True, NO for False).
+Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leqslant v\leqslant w$ (this is to make sure the edge cases are correct). Start from $i=1$ and do the following loop: use $D(i,v)=D(i-1,v)\textup{ OR }((v\geqslant c_i)\textup{ AND }D(i-1,v-c_i))$ to get $D(i,v)$ for all $0\leqslant v\leqslant w$, then increase $i$ by 1. Iterate until $i=n$. Return $D(n,w)$ as the solution (YES for True, NO for False). The details are shown in the pseudocode below.
+\begin{algorithm}
+\caption{Deside if the desired subset $G$ of $k$-bounded and interger-valued $C$ exists in polynomial time}
+\begin{algorithmic}[1]
+\Procedure{$k$-Bounded-Integer-Desired-Weight}{$C,w$}
+
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 ~
 
 \noindent\textbf{Correctness}:
+
+If $w>nk$, it is impossible to find the desired subset, for the sum over entire $C$ is bounded above by $nk$. In the following discussion we focus on $w\leqslant nk$.
+
+$D(i,v)$ is the possibility to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$. There are two ways to make $D(i,v)=\textup{True}$. The first one is, if $D(i-1,v)=\textup{True}$, the desired subset for $C_{i-1}$ can be used as the desired subset of $C_i$. The second one is, if $v\geqslant c_i$ (so we can legally talk about $D(i-1,v-c_i)$) and if $D(i-1,v-c_i)=\textup{True}$, the desired subset for $C_{i-1}$, unioned with $\{c_i\}$, is the desired subset of $C_i$. Since by the time we iterate to $i$, all $D(i-1,v)$ is already calculated, we can obtain $D(i,v)$ for all $v$, where $v\leqslant w\leqslant nk$. When the iteration comes to $i=n$, we can get $D(n,w)$, which is exactly the existence of the desired subset for input $(C,w)$. This proves the correctness of the algorithm.
 
 ~
 
@@ -152,7 +164,7 @@ Say in a resursion, $C$ has been shortened to $C_i=\{c_1,c_2,\cdots,c_i\}$, and 
 
 On the other hand, if in a recursion there is a subset $G_i$ in $C_i$ such that the sum over $G_i$ is $w_i$, then in the previous recursion, if $c_{i+1}>w_{i+1}$, then $w_{i+1}=w_i$ and $G_{i+1}=G_i$; if $c_{i+1}\leqslant w_{i+1}$, then $w_{i+1}=w_i+c_{i+1}$ and $G_{i+1}=G_i\cup\{c_{i+1}\}$. In both cases we can construct a desired subset for the previous recursion.
 
-Thus, the proof is done for both directions. So we can reduce the original YES/NO problem down to base cases. If $w_{base}=0$, then $G_{base}=[~]$ is the desired subset and we return True. This means that for the original input $(C,w)$, there is a desired subset $G$. The answer is YES and we do output YES. On the other hand, if $w_{base}\neq0$ and $C_{base}=[~]$, a desired subset $G_{base}$ does not exist and we return False. This means that for the original input $(C,w)$, there is no such desired subset $G$. The answer is NO and we do output NO. COnsequently, the algorithm \textsc{Superincreasing-Desired-Weight} is correct.
+Thus, the proof is done for both directions. So we can reduce the original YES/NO problem down to base cases. If $w_{base}=0$, then $G_{base}=[~]$ is the desired subset and we return True. This means that for the original input $(C,w)$, there is a desired subset $G$. The answer is YES and we do output YES. On the other hand, if $w_{base}\neq0$ and $C_{base}=[~]$, a desired subset $G_{base}$ does not exist and we return False. This means that for the original input $(C,w)$, there is no such desired subset $G$. The answer is NO and we do output NO. Consequently, the algorithm \textsc{Superincreasing-Desired-Weight} is correct.
 
 ~
 
@@ -169,19 +181,19 @@ First we call $\textsc{Decision-Desired-Weight}(C,w)$. If it returns False, the 
 \begin{algorithmic}[1]
 \Procedure{Search-Desired-Weight}{$C,w$}
 \State\Comment{Only works if the desired subset exists: need to check by \textsc{Decision-Desired-Weight} first!}
-\State{$KeepList\gets[~]$}
+\State{$G\gets[~]$}
 \If{$C\neq\varnothing$}
 	\State{$c\gets C[1]$}
 	\State{Remove $C[1]$ from $C$}\Comment{Suppose labeling starts from 1}
 	\State{$IfDiscard\gets\textsc{Decision-Desired-Weight}(C,w)$}
 	\If{$IfDiscard$}
-		\State{$KeepList.append(\Call{Search-Desired-Weight}{C,w})$}
+		\State{$G.append(\Call{Search-Desired-Weight}{C,w})$}
 	\Else{}
-		\State{$KeepList.append(c)$}
-		\State{$KeepList.append(\Call{Search-Desired-Weight}{C,w-c})$}
+		\State{$G.append(c)$}
+		\State{$G.append(\Call{Search-Desired-Weight}{C,w-c})$}
 	\EndIf
 \EndIf
-\State\Return{$KeepList$}
+\State\Return{$G$}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -189,6 +201,14 @@ First we call $\textsc{Decision-Desired-Weight}(C,w)$. If it returns False, the 
 ~
 
 \noindent\textbf{Correctness}:
+
+We prove that if a desired subset $G$ exists, \textsc{Search-Desired-Weight} finds such a $G$ (there can be multiple such subsets and one of them is returned). The existence of such a $G$ is checked by calling $\textsc{Decision-Desired-Weight}(C,w)$ beforehand. In the proof below we assume this decision problem outputs YES.
+
+The algorithm recursively calls itself. In each recursion, $C$ is shortened and $w$ is reduced if possible. Say in the $i$-th recursion $C=C_i=\{c_i,c_{i+1},\cdots,c_n\}$ and $w=w_i$. We claim that for each $i$, at the start of the $i$-th recursion, $C_i$ has a desired subset $G_i$ that sums up to $w_i$. This is proved by induction.
+
+This claim is guaranteed by the YES answer of \textsc{Decision-Desired-Weight} at the beginning. Now suppose the claim is correct for the $i$-th recursion. In this recursion, we remove $c_i$ to get $C_{i+1}$. If \textsc{Decision-Desired-Weight} outputs YES ($IfDiscard=\textup{True}$), we can find the desired subset without using $c_i$. So in the next recursion there is a subset of $C_{i+1}$ that sums up to $w_{i+1}=w_i$. On the other hand, if \textsc{Decision-Desired-Weight} outputs NO ($IfDiscard=\textup{False}$), we conclude that to reach a sum of $w_i$, the desired subset exists with $c_i$ and does not exist without $c_i$. So $c_i$ must be in the desired subset. The rest of $G_i$ sums up to $w_i-c_i$. So in the next recursion there is a subset of $C_{i+1}$ that sums up to $w_{i+1}=w_i-c_i$. In both cases, the claim continues to hold in the next recursion. Therefore, the claim holds for all $i$.
+
+Moreover, if $w_i$ is reduced to $w_i-c_i$ in the $i$-th recursion, then the desired subset $G_i$ is obtained by appending $c_i$ to the desired subset $G_{i+1}$ in the $(i+1)$-th iteration. This is obvious since the sum over $G_{i+1}$ is $w_{i+1}=w_i-c_i$. On the other hand, if $w_i$ is not reduced in the $i$-th recursion, we can simply take $G_{i+1}$ as $G_i$. Therefore, we can construct the desired subset from the result of the deeper-level recursion. In the base case where $C_{base}=[~]$, obviously $G_{base}=[~]$. By returning to upper and upper recursion levels, this desired subset grows until its sum reaches $w$ in the first call of \textsc{Search-Desired-Weight}. Thus the algorithm is correct.
 
 ~
 
