@@ -110,7 +110,22 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 \caption{Deside if the desired subset $G$ of $k$-bounded and interger-valued $C$ exists in polynomial time}
 \begin{algorithmic}[1]
 \Procedure{$k$-Bounded-Integer-Desired-Weight}{$C,w$}
-
+\State\Comment{Initialization}
+\State{Create $(n+1)$-by-$(w+1)$ matrix $D$}
+\State{$D(0,0)\gets\textup{True}$}
+\For{$v=1:w$}
+	\State{$D(0,v)\gets\textup{False}$}
+\EndFor
+\State\Comment{Iteration}
+\For{$i=1:n$}
+	\For{$v=0:w$}
+		\If{$D(i-1,v)$} {$D(i,v)=\textup{True}$}
+		\ElsIf{$v\geqslant c_i$} {$D(i,v)=D(i-1,v-c_i)$}
+		\Else{} {$D(i,v)=\textup{False}$}
+		\EndIf
+	\EndFor
+\EndFor
+\State\Return{$D(n,w)$}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
@@ -133,7 +148,6 @@ If $w>nk$, the algorithm terminates in constant time. Therefore, we focus on the
 \noindent\textbf{Description}:
 
 Check the elements of $C$ one by one in reverse order. Instead of a loop, we recursively call \textsc{Superincreasing-Desired-Weight} to achieve this. As we recurse, we shorten $C$ by removing its last element and reduce $w$ if possible. Specifically, let the last element of $C$ be $c$. If $w\geqslant c$, we recurse on $(C-\{c\},w-c)$. Otherwise, we recurse on $(C-\{c\},w)$. The base cases are $w=0$ and $w\neq0,C=[~]$. In the first case, the desired subset exists and we output YES. In the second case, the desired subset does not exist and we output NO. The details are shown in the pseudocode below.
-
 \begin{algorithm}
 \caption{Deside if the desired subset $G$ of super-increasing $C$ exists in polynomial time}
 \begin{algorithmic}[1]

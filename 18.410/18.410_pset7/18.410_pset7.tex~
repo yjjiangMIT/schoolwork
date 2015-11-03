@@ -110,7 +110,22 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 \caption{Deside if the desired subset $G$ of $k$-bounded and interger-valued $C$ exists in polynomial time}
 \begin{algorithmic}[1]
 \Procedure{$k$-Bounded-Integer-Desired-Weight}{$C,w$}
-
+\State\Comment{Initialization}
+\State{Create $(n+1)$-by-$(w+1)$ matrix $D$}
+\State{$D(0,0)\gets\textup{True}$}
+\For{$v=1:w$}
+	\State{$D(0,v)\gets\textup{False}$}
+\EndFor
+\State\Comment{Iteration}
+\For{$i=1:n$}
+	\For{$v=0:w$}
+		\If{$D(i-1,v)$} {$D(i,v)=\textup{True}$}
+		\ElsIf{$v\geqslant c_i$} {$D(i,v)=D(i-1,v-c_i)$}
+		\Else{} {$D(i,v)=\textup{False}$}
+		\EndIf
+	\EndFor
+\EndFor
+\State\Return{$D(n,w)$}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
