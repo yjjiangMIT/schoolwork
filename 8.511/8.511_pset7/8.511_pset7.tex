@@ -85,7 +85,7 @@ which means
 E^2_n=2nmv^2\hbar\omega=\frac{2n\hbar eBv^2}{c}\quad\quad(n=0,1,2\cdots)
 \end{equation*}
 
-So we get the Landau levels
+So we get the Landau levels (LL hereafter)
 \begin{equation*}
 E_n^{\pm}=\pm v\sqrt{\frac{2e\hbar}{c}Bn}\quad\quad(n=0,1,2\cdots)
 \end{equation*}
@@ -95,18 +95,66 @@ Plugging in numerical values,
 E_1^+\approx9.18\times10^{-2}\textup{ eV}\sim10^3\textup{ K}
 \end{equation*}
 
-This gap is much larger than the Landau level spacing for a free 2DEG under the same magnetic field,
+This gap is much larger than LL spacing for a free 2DEG under the same magnetic field,
 \begin{equation*}
 \Delta E_{free}=\frac{\hbar eB}{mc}\approx1.16\times10^{-3}\textup{ eV}\sim13.4\textup{ K}
 \end{equation*}
 
 \subsection{Part (d)}
+The degeneracy comes from three factors. (1) There are two inequivalent Dirac cones. (2) Spin degeneracy. Zeeman effect is on the order of $\mu_BB\sim10^{-4}$ eV for $B\sim10$ T, which is much smaller than LL spacing. So we think of spin degeneracy as not being lifted. (3) $E_n^{\pm}$ does not depend on $k_y$.
+
+Since the sample is of finite size, $k_y$ takes discrete values $k_y=\frac{2\pi N'}{L_y}$. Moreover, $k_y$ is bounded, for the localization in $x$ direction must stay within the sample.
+\begin{equation*}
+\frac{\hbar c}{eB}(k_{y,\max}-k_{y,\min})=\frac{h c}{eBL_y}N'=L_x
+\end{equation*}
+
+Therefore,
+\begin{equation*}
+N'=\frac{eBL_xL_y}{hc}=\frac{AB}{\phi_0}
+\end{equation*}
+where $A$ is the size of the sample. Considering two inequivalent Dirac cones and two spins, the degeneracy is
+\begin{equation*}
+N=4N'=\frac{4AB}{\phi_0}
+\end{equation*}
 
 \subsection{Part (e)}
+Suppose $n$ LLs are filled at field intensity $B$. Since LL degeneracy is linear in $B$, $cnB$ electrons are accommodated, where $c$ is a porprotional constant. This means that
+\begin{equation*}
+\int_0^{E_F}g(\varepsilon)d\varepsilon=cnB
+\end{equation*}
+
+The fact $g(\varepsilon)\propto\varepsilon$ implies that $E_F\propto\sqrt{nB}$. Since $E_F=E_n$, we conclude that LLs scale with $\sqrt{B}$.
 
 \section{Shubnikov-de Haas Oscillation}
 \subsection{Part (a)}
+In SI units, Shubnikov-de Haas relation gives
+\begin{equation*}
+\Delta\left(\frac{1}{B}\right)=\frac{2\pi e}{\hbar S_F}
+\end{equation*}
+where $S_F$ is the extremal cross-sectional area of the Fermi surface. In free electron model, the Fermi surface is a sphere whose radius is $k_F$. To calculate $k_F$, we have
+\begin{equation*}
+\frac{1}{V}\frac{\frac{4}{3}\pi k_F^3\times 2}{\left(\frac{2\pi}{L}\right)^3}=n
+\end{equation*}
+
+Therefore, $k_F=\sqrt[3]{3\pi^2n}$, where $n$ is the spatial density of electrons. Since Na has bcc lattice and is of valence 1,
+\begin{equation*}
+n=\frac{2}{a^3}=\frac{2}{(429.06\textup{ pm})^3}=2.532\times 10^{28}\textup{ m}^{-3}
+\end{equation*}
+
+Therefore, $k=9.08\times 10^9\textup{ m}^{-1}$, and the period is
+\begin{equation*}
+\Delta\left(\frac{1}{B}\right)=\frac{2e}{\hbar k_F^2}=3.68\times 10^{-5}\textup{ T}^{-1}
+\end{equation*}
 
 \subsection{Part (b)}
+$B=10\textup{ T}$ corresponds to
+\begin{equation*}
+n=\frac{\frac{1}{B}}{\Delta\left(\frac{1}{B}\right)}\approx 2716
+\end{equation*}
+
+Therefore, the area enclosed by the real space orbital is
+\begin{equation*}
+A=\frac{\Phi}{B}=\frac{n\Phi_0}{B}=\frac{nh}{eB}=1.12\times 10^{-12}\textup{ m}^2
+\end{equation*}
 
 \end{document}
