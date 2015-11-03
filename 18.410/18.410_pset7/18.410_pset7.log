@@ -1,8 +1,8 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.27)  2 NOV 2015 17:53
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  3 NOV 2015 10:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**18.410_pset7.tex
+**18.410_pset7
 (./18.410_pset7.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
@@ -853,28 +853,29 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 25.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-]
-Overfull \hbox (1.63524pt too wide) in paragraph at lines 97--98
-[]\T1/cmr/m/n/10 This com-pletes the proof that $[] \U/msa/m/n/10 6[] []$\T1/cm
-r/m/n/10 . Since \T1/cmr/m/sc/10 Equal-Weight \T1/cmr/m/n/10 is NP-complete,
+] [2]
+Overfull \hbox (9.049pt too wide) in paragraph at lines 123--124
+[]\T1/cmr/m/n/10 Check the el-e-ments of $\OML/cmm/m/it/10 C$ \T1/cmr/m/n/10 on
+e by one in re-verse or-der. In-stead of a loop, we re-cur-sively call \T1/cmr/
+m/sc/10 Superincreasing-
  []
 
-[2]
+[3] [4]
+File: figure.jpg Graphic file (type QTm)
+ <use  "figure.jpg" >
+LaTeX Font Info:    Try loading font information for U+euf on input line 215.
 
-LaTeX Warning: Reference `example' on page 3 undefined on input line 143.
-
-[3] [4] [5] (./18.410_pset7.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
+File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
+) [5] [6] [7] [8]
+(./18.410_pset7.aux) ) 
 Here is how much of TeX's memory you used:
- 16241 strings out of 493918
- 335186 string characters out of 6150563
- 417846 words of memory out of 5000000
- 19233 multiletter control sequences out of 15000+600000
- 23248 words of font info for 58 fonts, out of 8000000 for 9000
+ 16293 strings out of 493918
+ 335962 string characters out of 6150563
+ 416854 words of memory out of 5000000
+ 19274 multiletter control sequences out of 15000+600000
+ 24720 words of font info for 62 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 62i,12n,66p,873b,211s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,12n,66p,832b,305s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 18.410_pset7.pdf (5 pages).
+Output written on 18.410_pset7.pdf (8 pages).
