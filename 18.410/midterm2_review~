@@ -1,0 +1,153 @@
+Topic 1: Skiplists and B-trees
+
+Skiplist: in-memory storage
+B-tree: disk storage
+
+Data structure: dictionary
+-INSERT, DELETE
+-FIND
+-SUCCESSOR, PREDECESSOR, RANGE
+
+1.1 Review of B-trees (of order m)
+Paremeter m decides
+-how many keys per node
+-how many children each node has
+Parameter n: number of keys inserted
+
+Invariants:
+(1) Root is either a leaf or has between 2 and m children
+(2) Every other internal node (except the root) has between floor(m/2) and m children
+(3) All leaves are at the same depth and have between floor(m/2)-1 and m-1 keys
+
+(3) also holds for internal nodes
+
+Manipulation techniques
+-Key rotation
+-Node split
+-Node merge
+
+Key rotation:
+(xxp)r(qxx) --> (xx)p(rqxx)
+
+Node split:
+Child node overflows: too many keys
+Take the middle key r, bump r into the parent, split into less than r and greater than r
+(xxprqxx) --> (xxp)r(qxx)
+
+INSERT(k):
+(1) FIND(k) get to the leaf that we want to add to (where k should be inserted)
+(2) Add k to the leaf
+(3) If leaf overflow: attempt key rotation with neighbors
+(4) If neighbors are full (cannot accept another key): do node split, which adds a key to the parent
+(5) Check if parent overflows and recurse
+
+B-tree grows from the top of the tree, not from the bottom
+
+1.2 Skiplists
+-Randomized structure
+-Many levels of linked lists
+-Keys inserted at bottom and promoted with probability 1/2
+
+Expected number of levels is O(log n)
+Expected size is O(n)
+Expected find time is O(log n)
+
+T[i] = number of steps to get to an element on level i (i levels from the top)
+T[i] = 1 + T[i-1]/2 + T[i]/2 --> T[i] = 2i
+T[log n] = O(log n)
+
+Topic 2: Randomized algorithms and number theory
+
+2.1 Randomized algorithms
+x random variable
+Analyzing a random variable: distributions
+-Bernoulli Pr[x=1] = p
+-Binomial Pr[k events] = nchoosek(n,k) * p^k * (1-p)^(n-k)
+-Geometric Pr[Z=k] = (1-p)^(k-1) * p
+
+Union bound Pr[Union(X_k)]<=sum(Pr[X_k])
+Markov bound (only non-negative random variables) Pr[x>=a] <= E[x]/a
+Another Markov Pr[x>=(aE[x])] <= 1/a
+
+Monte Carlo algorithms
+-There exists a probabiliy for mistakes
+-Polynomial time
+
+Two types: one-sided error and two-sided error
+One-sided: may say YES when actually NO but never say NO when actually YES, or the opposite
+Two-sided: may say YES when actually NO and may say NO when actually YES
+
+Las Vegas algorithm
+-Might run forever
+-Always correct
+-E[T(n)] is polynomial
+
+Check matrix multiplication AB = C
+-Select r from {0,1}^n
+-A(Br) = Cr? YES/NO
+
+Idea: for every bad r (reports AB=C when actually AB!=C) there is a good r
+
+2.2 Number theory
+Euclid algorithm: computing gcd
+gcd(a,b) = gcd(b,a-b)
+Say a<b, runtime O(log b)
+
+Primality
+Fermat's little theorem: for all a, a^(N-1) = 1 (mod N), where N is a prime
+Carmichael number: a composite N' that satisfies the equation above
+
+If exists a, a^(N-1) != 1 (mod N), then N is composite
+
+Miller, Rabin:
+Chooses random b in {2,...,N}
+if gcd(b,N) != 1 (nontrivial divisor): return composite
+if b^(N-1) != 1 (mod N): return composite
+b^2 = 1 (mod N) AND b != +/-1: return composite
+
+b is a nontrivial solution to b^2 = 1 (mod N)
+{a_1,...,a_n}={b^((N-1)/2),b^((N-1)/4),...} until cannot go on
+If find nontrivial solution, return composite
+
+Topic 3: Flow network
+-Digraph G, source s, sink t, capacity c(u,v)
+-Flow f:E-->R, such that (1) edge (capacity) constraint (2) conservation flow
+-Skew symmetry
+
+Max flow: find f, |f| is maximized
+Residual network
+c_f(u,v) = c(u,v) - f(u,v)
+
+Ford-Fulkerson
+(1) Compute residual network G_f
+(2) Find some augmenting path from s to t in G_f
+(3) Push the most possible low through it
+(4) Repeat from (1) until no more path
+
+Runtime O(E|f^*|), where f^* is max flow
+
+Edmonds-Karp 1
+Find the max-capacity path
+Runtime O(E^2 log |f^*|)
+
+Edmonds-Karp 2
+Find shortest path (BFS)
+O(VE) iterations (how many critical edges)
+Each iteration takes O(E) time
+Runtime O(VE^2)
+
+-delta(s,t) decreases by at least 2 iterations before the same edge becomes critical
+-Cannot have same edge be critical more than O(V) times, otherwise delta(s,t)<1
+
+Topic 4: NP-completeness
+NP-hardness
+-Problem A is NP-hard if every problem in NP can be solved through A (with additional polynomial time)
+
+Reduction
+B <=_p A if:
+given an instance of B, we can construct an instance of A, such that:
+original instance of A is YES if and only if instance of B is also a YES
+
+Questions:
+(1) Definition of flow network
+(2) Definition of 3SAT
