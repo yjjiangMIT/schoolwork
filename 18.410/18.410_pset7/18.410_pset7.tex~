@@ -107,7 +107,7 @@ If $w>nk$, return NO. Otherwise, use dynamic programming. Let $D(i,v)$ be the an
 
 Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leqslant v\leqslant w$ (this is to make sure the edge cases are correct). Start from $i=1$ and do the following loop: use $D(i,v)=D(i-1,v)\textup{ OR }((v\geqslant c_i)\textup{ AND }D(i-1,v-c_i))$ to get $D(i,v)$ for all $0\leqslant v\leqslant w$. As we calculate $D(i,v)$, we also update $E(i,v)$: $E(i,v)=\textup{True}$ if and only if $D(i-1,v-c_i)=\textup{True}$ (when $v\geqslant c_i$). At the end of each iteration, increase $i$ by 1. Iterate until $i=n$. Return $D(n,w)$ as the solution to the decision problem (YES for True, NO for False). If the decision problem gives a YES answer, the search problem is solved by backwards tracing $E(i,v)$. Initially set $i=n$ and $v=w$. Iterate as follows. If $E(i,v)=\textup{True}$, store $c_i$ into $G$ and reduce $v$ by $c_i$. Otherwise keep $v$ unchanged. At the end of each iteration reduce $i$ by 1. When $i$ is reduced to zero, output $G$ as the desired subset. The details are shown in the pseudocode below.
 \begin{algorithm}
-\caption{Deside if the desired subset $G$ of $k$-bounded and interger-valued $C$ exists in polynomial time}
+\caption{Deside if the desired subset $G$ of $k$-bounded and interger-valued $C$ exists, and if the answer is YES find $G$, in polynomial time}
 \begin{algorithmic}[1]
 \Procedure{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}
 \If{$w>nk$} \Return{False}
@@ -128,7 +128,7 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 			\EndIf
 		\EndFor
 	\EndFor
-	\State\Return{$D(n,w),E$}
+	\State\Return{$D(n,w),E$}\Comment{$D(n,w)$ answers the YES/NO question}
 \EndIf
 \EndProcedure
 
