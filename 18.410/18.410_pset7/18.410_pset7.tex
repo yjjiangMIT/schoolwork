@@ -133,8 +133,8 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 \EndProcedure
 
 \Procedure{Search-$k$-Bounded-Integer-Desired-Weight}{$C,w$}
-\State{$IfExist,E\gets$\Call{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}}
-\If{$!IfExist$}\Comment{$(C,w)$ is a NO-input}
+\State{$I\!fExist,E\gets$\Call{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}}
+\If{$!I\!fExist$}\Comment{$(C,w)$ is a NO-input}
 	\State{Raise exception: solution does not exist}
 \Else{}\Comment{$(C,w)$ is a YES-input}
 	\State{$G\gets[~],v\gets w$}
@@ -156,34 +156,47 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 
 If $w>nk$, it is impossible to find the desired subset, for the sum over entire $C$ is bounded above by $nk$. In the following discussion we focus on $w\leqslant nk$.
 
-$D(i,v)$ is the possibility to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$. There are two ways to make $D(i,v)=\textup{True}$. The first one is, if $D(i-1,v)=\textup{True}$, the desired subset for $C_{i-1}$ can be used as the desired subset of $C_i$. The second one is, if $v\geqslant c_i$ (so we can legally talk about $D(i-1,v-c_i)$) and if $D(i-1,v-c_i)=\textup{True}$, the desired subset for $C_{i-1}$, unioned with $\{c_i\}$, is the desired subset of $C_i$. Since by the time we iterate to $i$, all $D(i-1,v)$ is already calculated, we can obtain $D(i,v)$ for all $v$, where $v\leqslant w\leqslant nk$. When the iteration comes to $i=n$, we can get $D(n,w)$, which exactly indicates the existence of the desired subset $G$ for input $(C,w)$.
+$D(i,v)$ is the possibility to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$. There are two ways to make $D(i,v)=\textup{True}$. The first one is, if $D(i-1,v)=\textup{True}$, the desired subset for $C_{i-1}$ can be used as the desired subset of $C_i$. The second one is, if $v\geqslant c_i$ (so we can legally talk about $D(i-1,v-c_i)$) and if $D(i-1,v-c_i)=\textup{True}$, the desired subset for $C_{i-1}$, unioned with $\{c_i\}$, is the desired subset of $C_i$. Since by the time we iterate to $i$, all $D(i-1,v)$ is already calculated, we can obtain $D(i,v)$ for all $v$, where $v\leqslant w\leqslant nk$. When the iteration comes to $i=n$, we can get $D(n,w)$, which exactly indicates the existence of the desired subset $G$ for input $(C,w)$. This proves the correctness of the algorithm for the decision problem.
 
-If the desired subset $G$ exists, we can write it out by backwards tracing $E(i,v)$. During the construction of $D$ and $E$, $E(i,v)$ is set True if and only if $D(i-1,v-c_i)=\textup{True}$. Therefore, $E(i,v)$ is True if and only if $c_i$ is selected as a member of the desired subset $G$. As a result, we can start from $i=n$ and $v=w$ and trace backwards. $E(i,v)=\textup{False}$ implies that $c_i\notin G$, so we should reduce $i$ and keep $v$. $E(i,v)=\textup{True}$ implies that $c_i\in G$, so we should reduce $i$ and reduce $v$ by $c_i$, and we store $c_i$. The existence of $G$ guarantees that we can reduce both $i$ and $v$ down to zero. Once that is done, all the elements of $G$ will be recovered.
-
-This proves the correctness of the algorithm.
+If the desired subset $G$ exists, we can write it out by backwards tracing $E(i,v)$. During the construction of $D$ and $E$, $E(i,v)$ is set True if and only if $D(i-1,v-c_i)=\textup{True}$. Therefore, $E(i,v)$ is True if and only if $c_i$ is selected as a member of the desired subset $G$. As a result, we can start from $i=n$ and $v=w$ and trace backwards. $E(i,v)=\textup{False}$ implies that $c_i\notin G$, so we should reduce $i$ and keep $v$. $E(i,v)=\textup{True}$ implies that $c_i\in G$, so we should reduce $i$ and reduce $v$ by $c_i$, and we store $c_i$. The existence of $G$ guarantees that we can reduce both $i$ and $v$ down to zero. Once that is done, all the elements of $G$ will be recovered. This proves the correctness of the algorithm for the search problem.
 
 ~
 
 \noindent\textbf{Runtime}:
 
-If $w>nk$, the algorithm terminates in constant time. Therefore, we focus on the case where $w\leqslant nk$. Notice that we loop over all $i\leqslant n$ and all $v$ where $v\leqslant w\leqslant nk$. Therefore, the runtime of the decision problem is $O(n^2k)$. If the decision problem answers YES, to find the solution $G$, $O(n)$ additional time is required, since we iterate $n$ times. Since $k$ is a constant, this is polynomial time of $n$, which is also polynomial time of the input size $\Theta(n+\log w)$. So the algorithm belongs to P.
+If $w>nk$, \textsc{Decision-$k$-Bounded-Integer-Desired-Weight} terminates in constant time. Therefore, we focus on the case where $w\leqslant nk$. Notice that we loop over all $i\leqslant n$ and all $v$ where $v\leqslant w\leqslant nk$. Therefore, the runtime of the decision problem is $O(n^2k)$. Since $k$ is a constant, this is polynomial time of $n$, which is also polynomial time of the input size $\Theta(n+\log w)$.
+
+If the decision problem answers YES, to find the solution $G$, $O(n)$ additional time is required because we have to iterate $n$ times.
 
 \subsection{Part (d)}
 \noindent\textbf{Description}:
 
-Check the elements of $C$ one by one in reverse order. Instead of a loop, we recursively call \textsc{Superincreasing-Desired-Weight} to achieve this. As we recurse, we shorten $C$ by removing its last element and reduce $w$ if possible. Specifically, let the last element of $C$ be $c$. If $w\geqslant c$, we recurse on $(C-\{c\},w-c)$. Otherwise, we recurse on $(C-\{c\},w)$. The base cases are $w=0$ and $w\neq0,C=[~]$. In the first case, the desired subset exists and we output YES. In the second case, the desired subset does not exist and we output NO. The details are shown in the pseudocode below.
+Check the elements of $C$ one by one in reverse order. Instead of a loop, we recursively call \textsc{Decision-Superincreasing-Desired-Weight} to achieve this. As we recurse, we shorten $C$ by removing its last element and reduce $w$ if possible. We also keep a list $G$, initially empty, which will eventually give the desired subset if it exists. Specifically, let the last element of $C$ be $c$. If $w\geqslant c$, we add $c$ into $G$ and recurse on $(C-\{c\},w-c)$. Otherwise, we recurse on $(C-\{c\},w)$. The base cases are $w=0$ and $w\neq0,C=[~]$. In the first case, the desired subset exists and we return True. In the second case, the desired subset does not exist and we return False. If the decision problem has a YES answer, we output $G$ to answer the search problem. The details are shown in the pseudocode below.
 \begin{algorithm}
-\caption{Deside if the desired subset $G$ of super-increasing $C$ exists in polynomial time}
+\caption{Deside if the desired subset $G$ of super-increasing $C$ exists, and if the answer is YES find $G$, in polynomial time}
 \begin{algorithmic}[1]
-\Procedure{Superincreasing-Desired-Weight}{$C,w$}
-\If{$w=0$} \Return{True}
-\ElsIf{$C=[~]$} \Return{False}
+\Procedure{Decision-Superincreasing-Desired-Weight}{$C,w$}
+\State{$G\gets[~]$}
+\If{$w=0$} \Return{True, $G$}
+\ElsIf{$C=[~]$} \Return{False, $G$}
 \Else{}
 	\State{$c\gets C[end]$}
 	\State{Remove the last element from $C$}	
-	\If{$w\geqslant c$} {\Return\Call{Superincreasing-Desired-Weight}{$C,w-c$}}
-	\Else{} {\Return\Call{Superincreasing-Desired-Weight}{$C,w$}}
+	\If{$w\geqslant c$}
+		\State{$I\!fExist,G\gets$\Call{Decision-Superincreasing-Desired-Weight}{$C,w-c$}}
+		\State{$G.append(c)$}
+	\Else{}
+		\State{$I\!fExist,G\gets$\Call{Decision-Superincreasing-Desired-Weight}{$C,w$}}
 	\EndIf
+	\State{\Return{$I\!fExist,G$}}\Comment{$I\!fExist$ answers the YES/NO question}
+\EndIf
+\EndProcedure
+
+\Procedure{Search-Superincreasing-Desired-Weight}{$C,w$}
+\State{$I\!fExist,G\gets$\Call{Decision-Superincreasing-Desired-Weight}{$C,w$}}
+\If{$!I\!fExist$}\Comment{$(C,w)$ is a NO-input}
+	\State{Raise exception: solution does not exist}
+\Else{} \Return{$G$}\Comment{$(C,w)$ is a YES-input}
 \EndIf
 \EndProcedure
 \end{algorithmic}
@@ -202,13 +215,17 @@ Say in a resursion, $C$ has been shortened to $C_i=\{c_1,c_2,\cdots,c_i\}$, and 
 
 On the other hand, if in a recursion there is a subset $G_i$ in $C_i$ such that the sum over $G_i$ is $w_i$, then in the previous recursion, if $c_{i+1}>w_{i+1}$, then $w_{i+1}=w_i$ and $G_{i+1}=G_i$; if $c_{i+1}\leqslant w_{i+1}$, then $w_{i+1}=w_i+c_{i+1}$ and $G_{i+1}=G_i\cup\{c_{i+1}\}$. In both cases we can construct a desired subset for the previous recursion.
 
-Thus, the proof is done for both directions. So we can reduce the original YES/NO problem down to base cases. If $w_{base}=0$, then $G_{base}=[~]$ is the desired subset and we return True. This means that for the original input $(C,w)$, there is a desired subset $G$. The answer is YES and we do output YES. On the other hand, if $w_{base}\neq0$ and $C_{base}=[~]$, a desired subset $G_{base}$ does not exist and we return False. This means that for the original input $(C,w)$, there is no such desired subset $G$. The answer is NO and we do output NO. Consequently, the algorithm \textsc{Superincreasing-Desired-Weight} is correct.
+Thus, the proof is done for both directions. So we can reduce the original YES/NO problem down to base cases. If $w_{base}=0$, then $G_{base}=[~]$ is the desired subset and we return True. This means that for the original input $(C,w)$, there is a desired subset $G$. The answer is YES and we do output YES. On the other hand, if $w_{base}\neq0$ and $C_{base}=[~]$, a desired subset $G_{base}$ does not exist and we return False. This means that for the original input $(C,w)$, there is no such desired subset $G$. The answer is NO and we do output NO.  This proves the correctness of the algorithm for the decision problem.
+
+Notice that in the proof above we have shown that $c_i\in G$ whenever we reduce $w_i$ in the recursion. Therefore, we can store these $c_i$ into $G$ and use the final $G$ to answer the search problem, if the decision problem answers YES. This proves the correctness of the algorithm for the search problem.
 
 ~
 
 \noindent\textbf{Runtime}:
 
 The algorithm has $n$ iterations. In each iteration, operations on $c_i$ and $w_i$ costs $O(\log(\max_ic_i)+\log w)$ time. Therefore, the overall runtime is $O(n\log(\max_ic_i)+n\log w)$, which is a polynomial of the input size $|x|=n\log(\max_ic_i)+\log w$.
+
+If the decision problem answers YES, to find the solution $G$, constant additional time is required.
 
 \subsection{Part (e)}
 \noindent\textbf{Description}:
@@ -223,8 +240,8 @@ First we call $\textsc{Decision-Desired-Weight}(C,w)$. If it returns False, the 
 \If{$C\neq\varnothing$}
 	\State{$c\gets C[1]$}
 	\State{Remove $C[1]$ from $C$}\Comment{Suppose labeling starts from 1}
-	\State{$IfDiscard\gets\textsc{Decision-Desired-Weight}(C,w)$}
-	\If{$IfDiscard$}
+	\State{$I\!fDiscard\gets\textsc{Decision-Desired-Weight}(C,w)$}
+	\If{$I\!fDiscard$}
 		\State{$G.append(\Call{Search-Desired-Weight}{C,w})$}
 	\Else{}
 		\State{$G.append(c)$}
@@ -343,7 +360,7 @@ Check (1) costs $O(|E|\log(\max_ec(e)))$ time because it loops over $E$ and in e
 
 The input $x=B=\{b_1,b_2,\cdots,b_n\}$ for \textsc{Equal-Weight} has size $|x|=\Theta(n\log(\max_ib_i))$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=(G,c(e),g)$ for \textsc{All-Or-None-FLow} as follows. Create a source $s$, a sink $t$ and an intermediate vertex $m$. Create $n$ edges from $s$ to $m$ (see my note for parallel edges in the subsequent paragraph). Label them as $e_{sm}^i$, where $i=1,2,\cdots,n$, and let $c(e_{sm}^i)=2b_i$. Also create $n$ edges from $m$ to $t$. Label them as $e_{mt}^i$, where $i=1,2,\cdots,n$, and let $c(e_{mt}^i)=b_i$. Let $g=\sum_ib_i$. $|R(x)|=O(|V|+|E|+|E|\log(\max_ib_i)+\log g)=O(n\log(\max_ib_i))$, which is a polynomial of $|x|$. The runtime of $R(x)$ is $O(|V|+|E|+n\log(\max_ib_i))=O(n\log(\max_ib_i))$, which is also a polynomial of $|x|$.
 
-Note: by some definitions of flow network, we cannot have parallel edges between two vertices. This can be easily solved by adding an auxilliary vertex dividing each edge into two, both of the same capacity. Therefore, we will not worry about parallel edges in the following discussion.
+Note: by some definitions of flow network, we cannot have parallel edges between two vertices. This can be easily solved by adding an auxiliary vertex dividing each edge into two, both of the same capacity. Therefore, we will not worry about parallel edges in the following discussion.
 
 In order to reduce \textsc{Equal-Weight} to \textsc{All-Or-None-Flow}, we need to prove that \textsc{Equal-Weight} returns YES if and only if \textsc{All-Or-None-Flow} returns YES.
 
