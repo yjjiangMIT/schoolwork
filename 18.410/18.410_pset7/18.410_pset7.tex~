@@ -112,16 +112,19 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 \Procedure{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}
 \If{$w>nk$} \Return{False}
 \Else{}
-	\State{Create $(n+1)$-by-$(w+1)$ matrix $D$}
-	\State{$D(0,0)\gets\textup{True}$}
+	\State{Create $(n+1)$-by-$(w+1)$ matrices $D$ and $E$}
+	\State{$D(0,0)\gets\textup{True},E(0,0)\gets\textup{True}$}
 	\For{$v=1:w$}
-		\State{$D(0,v)\gets\textup{False}$}
+		\State{$D(0,v)\gets\textup{False},E(0,v)\gets\textup{False}$}
 	\EndFor
 	\For{$i=1:n$}
 		\For{$v=0:w$}
-			\If{$D(i-1,v)$} {$D(i,v)\gets\textup{True},E(i,v)\gets\textup{False}$}
-			\ElsIf{$v\geqslant c_i$} {$D(i,v)\gets D(i-1,v-c_i),E(i,v)\gets\textup{True})$}
-			\Else{} {$D(i,v)\gets\textup{False},E(i,v)\gets\textup{False}$}
+			\If{$D(i-1,v)$}
+				\State{$D(i,v)\gets\textup{True},E(i,v)\gets\textup{False}$}
+			\ElsIf{$v\geqslant c_i$}
+				\State{$D(i,v)\gets D(i-1,v-c_i),E(i,v)\gets D(i-1,v-c_i)$}
+			\Else{}
+				\State{$D(i,v)\gets\textup{False},E(i,v)\gets\textup{False}$}
 			\EndIf
 		\EndFor
 	\EndFor
@@ -131,9 +134,9 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 
 \Procedure{Search-$k$-Bounded-Integer-Desired-Weight}{$C,w$}
 \State{$IfExist,E\gets$\Call{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}}
-\If{$!IfExist$}\Comment{$C,w$ is a NO-input}
+\If{$!IfExist$}\Comment{$(C,w)$ is a NO-input}
 	\State{Raise exception: solution does not exist}
-\Else{}
+\Else{}\Comment{$(C,w)$ is a YES-input}
 	\State{$G\gets[~],v\gets w$}
 	\For{$i=n:-1:1$}
 		\If{$E(i,v)$}
