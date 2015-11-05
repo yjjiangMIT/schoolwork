@@ -35,20 +35,20 @@ We design a verification algorithm $V_{BP}(x,y)=V_{BP}((A,m),y)$. The certificat
 
 $V_{BP}$ works as follows. (1) Check if $y$ contains $m$ subsets and if the union of these subsets equals $A$. (2) Sum over each group and check if all $m$ sums are no greater than unity. If both checks are passed, return YES. Otherwise, return NO.
 
-Check (1) costs at most $O(n^2)$ time to identify the union of all subsets with $A$ (say neither the union nor $A$ is ordered). Check (2) costs $O(n)$ time because $O(n)$ additions and $O(m)$ comparisons are performed, and $m\leqslant n$ is assumed. Overall, the runtime of $V_{BP}$ is $O(n^2)$, which is a polynomial of $|x|$. In conclusion, \textsc{Box-Packing} is in NP.
+Check (1) costs at most $O(n^2)$ time to identify the union of all subsets with $A$ (naively check every element against $A$). I can do better than $O(n^2)$, but I will not bother because I just want something polynomial. Check (2) costs $O(n)$ time because $O(n)$ additions and $O(m)$ comparisons are performed, and $m\leqslant n$ is assumed. Overall, the runtime of $V_{BP}$ is $O(n^2)$, which is a polynomial of $|x|$. In conclusion, \textsc{Box-Packing} is in NP.
 
 %If we assume that $y$ is a proper partition of $A$, the first check is unnecessary. It is the second check that matters. However, this makes no difference since $V_{BP}$ runs in polynomial time anyway.
 
 \subsubsection{$\textsc{Equal-Weight}(B)$}
 \noindent\textbf{Proof}:
 
-The input size is $|x|=|B|=\Theta(n\log(\max_ib_i))$. Notice: here we assume that $b_i$ can be large. If we do not take this into account, then $|x|=\Theta(n)$, and in the following discussion simply remove all $\log(\max_ib_i)$ terms. This does NOT affect the final conclusion of polynomial verification. And the reason why we do not assume large $a_i$ in the previous part is that, from the problem, $a_i$ should be on the same or lower order of the capacity of a box.
+The input size is $|x|=|B|=\Theta(n\log(\max_ib_i))$. Note: here we assume that $b_i$ can be large, and all $b_i$ are represented by $\log(\max_ib_i)$ bits. If we do not take this into account, then $|x|=\Theta(n)$, and in the following discussion simply remove all $\log(\max_ib_i)$ terms. This does NOT affect the final conclusion of polynomial verification. And the reason why we do not assume large $a_i$ in the previous part is that, from the problem, $a_i$ should be on the same or lower order of the capacity of a box.
 
 We design a verification algorithm $V_{EW}(x,y)=V_{EW}(B,y)$. The certificate $y$ is a partition of $B$ into 2 subsets, such that the sum of the first group equals the sum of the second. The certificate size is $|y|=O(n\log(\max_ib_i))$, which is a polynomial of $|x|$.
 
 $V_{EW}$ works as follows. (1) Check if $y$ contains 2 subsets and if the union of these subsets equals $B$. (2) Sum over the first group and the second group, and check if both sums are equal. If both checks are passed, return YES. Otherwise, return NO.
 
-Check (1) costs at most $O(n^2\log(\max_ib_i))$ time to identify the union of both subsets with $B$ (say neither the union nor $B$ is ordered, and each comparison costs $O(\log(\max_ib_i))$). Check (2) costs $O(n\log(\max_ib_i))$ time because $O(n)$ additions are performed, each of which taking up $O(\log(\max_ib_i))$ time. Overall, the runtime of $V_{EW}$ is $O(n^2\log(\max_ib_i))$, which is a polynomial of $|x|$. In conclusion, \textsc{Equal-Weight} is in NP.
+Check (1) costs at most $O(n^2\log(\max_ib_i))$ time to identify the union of both subsets with $B$ (naively check every element against $B$). Check (2) costs $O(n\log(\max_ib_i))$ time because $O(n)$ additions are performed, each of which taking up $O(\log(\max_ib_i))$ time. Overall, the runtime of $V_{EW}$ is $O(n^2\log(\max_ib_i))$, which is a polynomial of $|x|$. In conclusion, \textsc{Equal-Weight} is in NP.
 
 \subsubsection{$\textsc{Desired-Weight}(C,w)$}
 \noindent\textbf{Proof}:
@@ -59,13 +59,13 @@ We design a verification algorithm $V_{DW}(x,y)=V_{DW}((C,w),y)$. The certificat
 
 $V_{DW}$ works as follows. (1) Check if $y$ is a subset of $C$. (2) Sum over this subset and check if the sum equals $w$. If both checks are passed, return YES. Otherwise, return NO.
 
-Check (1) costs at most $O(n^2\log(\max_ic_i))$ time to verify a subset of $C$ (say neither the subset nor $C$ is ordered, and each comparison costs $O(\log(\max_ic_i))$). Check (2) involves $O(n)$ additions, each of which taking up $O(\log(\max_ic_i))$ time. And we do a comparison of $O(\log w)$. Overall, the runtime of $V_{DW}$ is $O(n^2\log(\max_ic_i)+\log w)$, which is a polynomial of $|x|$. In conclusion, \textsc{Desired-Weight} is in NP.
+Check (1) costs at most $O(n^2\log(\max_ic_i))$ time to verify a subset of $C$ (naively check every element against $C$). Check (2) involves $O(n)$ additions, each of which taking up $O(\log(\max_ic_i))$ time. And we do a comparison of $O(\log w)$. Overall, the runtime of $V_{DW}$ is $O(n^2\log(\max_ic_i)+\log w)$, which is a polynomial of $|x|$. In conclusion, \textsc{Desired-Weight} is in NP.
 
 \subsection{Part (b)}
 \subsubsection{$\textsc{Desired-Weight}\leqslant_p\textsc{Equal-Weight}$}
 \noindent\textbf{Proof}:
 
-The input $x=(C,w)$ for \textsc{Desired-Weight} has size $|x|=\Theta(n\log(\max_ic_i)+\log w)$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=B$ for \textsc{Equal-Weight} as follows. Let $w'=\sum_ic_i$. If $w'\geqslant2w$, $R(x)$ returns $B=C\cup\{w'-2w\}$. Otherwise, $R(x)$ returns $B=C\cup\{2w-w'\}$. $R(x)$ involves $n$ additions, each of which taking up $O(\log(\max_ic_i))$ time. Also, $\log w$ work is done for the new element. Therefore, $R(x)$ runs in $O(n\log(\max_ic_i)+\log w)$ time, which is a polynomial of $|x|$. Moreover, $|R(x)|=O(n\log\max_i(c_i)+\log w)$ is a polynomial of $|x|$.
+The input $x=(C,w)$ for \textsc{Desired-Weight} has size $|x|=\Theta(n\log(\max_ic_i)+\log w)$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=B$ for \textsc{Equal-Weight} as follows. Let $w'=\sum_ic_i$. If $w'\geqslant2w$, $R(x)$ returns $B=C\cup\{w'-2w\}$. Otherwise, $R(x)$ returns $B=C\cup\{2w-w'\}$. By dividing into 2 cases, we guarantee that we do not add a negative weight. $R(x)$ involves $n$ additions, each of which taking up $O(\log(\max_ic_i))$ time. Also, $\log w$ work is done for the new element. Therefore, $R(x)$ runs in $O(n\log(\max_ic_i)+\log w)$ time, which is a polynomial of $|x|$. Moreover, $|R(x)|=O(n\log\max_i(c_i)+\log w)$ is a polynomial of $|x|$.
 
 In order to reduce \textsc{Desired-Weight} to \textsc{Equal-Weight}, we need to prove that \textsc{Desired-Weight} returns YES if and only if \textsc{Equal-Weight} returns YES.
 
@@ -103,13 +103,13 @@ This completes the proof that $\textsc{Equal-Weight}\leqslant_p\textsc{Box-Packi
 \subsection{Part (c)}
 \noindent\textbf{Description}:
 
-If $w>nk$, return NO. Otherwise, use dynamic programming. Let $D(i,v)$ be the answer to the following True/False question: is it possible to get weight $v\in\mathbb{Z}$ from a subset of $[c_1,c_2,\cdots,c_i]$? We build up a matrix of $D$ as follows.
+If $w>nk$, return NO. Otherwise, use dynamic programming. Let $D(i,v)$ be the answer to the following True/False question: is it possible to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$? We build up a matrix of $D$ as stated in the next paragraph. In order to recover the desired subset, we also maintain a matrix $E$. $E(i,v)$ answers the following True/False question: if we do get weight $v\in\mathbb{Z}$ from a subset of $C_i$, do we need to use $c_i$?
 
-Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leqslant v\leqslant w$ (this is to make sure the edge cases are correct). Start from $i=1$ and do the following loop: use $D(i,v)=D(i-1,v)\textup{ OR }((v\geqslant c_i)\textup{ AND }D(i-1,v-c_i))$ to get $D(i,v)$ for all $0\leqslant v\leqslant w$, then increase $i$ by 1. Iterate until $i=n$. Return $D(n,w)$ as the solution (YES for True, NO for False). The details are shown in the pseudocode below.
+Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leqslant v\leqslant w$ (this is to make sure the edge cases are correct). Start from $i=1$ and do the following loop: use $D(i,v)=D(i-1,v)\textup{ OR }((v\geqslant c_i)\textup{ AND }D(i-1,v-c_i))$ to get $D(i,v)$ for all $0\leqslant v\leqslant w$. As we calculate $D(i,v)$, we also update $E(i,v)$: $E(i,v)=\textup{True}$ if and only if $(v\geqslant c_i)\textup{ AND }D(i-1,v-c_i)=\textup{True}$. At the end of the iteration, increase $i$ by 1. Iterate until $i=n$. Return $D(n,w)$ as the solution to the decision problem (YES for True, NO for False). If the decision problem gives a YES answer, the search problem is solved by backwards tracing $E(i,v)$. Initially set $i=n$ and $v=w$. Iterate as follows. If $E(i,v)=\textup{True}$, store $c_i$ into $G$ and reduce $v$ by $c_i$. Otherwise keep $v$ unchanged. At the end of each iteration reduce $i$ by 1. When $i$ is reduced to zero, output $G$ as the desired subset. The details are shown in the pseudocode below.
 \begin{algorithm}
 \caption{Deside if the desired subset $G$ of $k$-bounded and interger-valued $C$ exists in polynomial time}
 \begin{algorithmic}[1]
-\Procedure{$k$-Bounded-Integer-Desired-Weight}{$C,w$}
+\Procedure{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}
 \If{$w>nk$} \Return{False}
 \Else{}
 	\State{Create $(n+1)$-by-$(w+1)$ matrix $D$}
@@ -119,13 +119,29 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 	\EndFor
 	\For{$i=1:n$}
 		\For{$v=0:w$}
-			\If{$D(i-1,v)$} {$D(i,v)\gets\textup{True}$}
-			\ElsIf{$v\geqslant c_i$} {$D(i,v)\gets D(i-1,v-c_i)$}
-			\Else{} {$D(i,v)\gets\textup{False}$}
+			\If{$D(i-1,v)$} {$D(i,v)\gets\textup{True},E(i,v)\gets\textup{False}$}
+			\ElsIf{$v\geqslant c_i$} {$D(i,v)\gets D(i-1,v-c_i),E(i,v)\gets\textup{True})$}
+			\Else{} {$D(i,v)\gets\textup{False},E(i,v)\gets\textup{False}$}
 			\EndIf
 		\EndFor
 	\EndFor
-	\State\Return{$D(n,w)$}
+	\State\Return{$D(n,w),E$}
+\EndIf
+\EndProcedure
+
+\Procedure{Search-$k$-Bounded-Integer-Desired-Weight}{$C,w$}
+\State{$(IfExist, E)=$\Call{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}}
+\If{$!IfExist$}\Comment{$C,w$ is a NO-input}
+	\State{Raise exception: solution does not exist}
+\Else{}
+	\State{$G\gets[~],v\gets w$}
+	\For{$i=n:-1:1$}
+		\If{$E(i,v)$}
+			\State{$G.append(C[i])$}
+			\State{$v\gets v-C[i]$}
+		\EndIf
+	\EndFor
+	\State{\Return{$G$}}
 \EndIf
 \EndProcedure
 \end{algorithmic}
@@ -137,13 +153,17 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 
 If $w>nk$, it is impossible to find the desired subset, for the sum over entire $C$ is bounded above by $nk$. In the following discussion we focus on $w\leqslant nk$.
 
-$D(i,v)$ is the possibility to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$. There are two ways to make $D(i,v)=\textup{True}$. The first one is, if $D(i-1,v)=\textup{True}$, the desired subset for $C_{i-1}$ can be used as the desired subset of $C_i$. The second one is, if $v\geqslant c_i$ (so we can legally talk about $D(i-1,v-c_i)$) and if $D(i-1,v-c_i)=\textup{True}$, the desired subset for $C_{i-1}$, unioned with $\{c_i\}$, is the desired subset of $C_i$. Since by the time we iterate to $i$, all $D(i-1,v)$ is already calculated, we can obtain $D(i,v)$ for all $v$, where $v\leqslant w\leqslant nk$. When the iteration comes to $i=n$, we can get $D(n,w)$, which is exactly the existence of the desired subset for input $(C,w)$. This proves the correctness of the algorithm.
+$D(i,v)$ is the possibility to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$. There are two ways to make $D(i,v)=\textup{True}$. The first one is, if $D(i-1,v)=\textup{True}$, the desired subset for $C_{i-1}$ can be used as the desired subset of $C_i$. The second one is, if $v\geqslant c_i$ (so we can legally talk about $D(i-1,v-c_i)$) and if $D(i-1,v-c_i)=\textup{True}$, the desired subset for $C_{i-1}$, unioned with $\{c_i\}$, is the desired subset of $C_i$. Since by the time we iterate to $i$, all $D(i-1,v)$ is already calculated, we can obtain $D(i,v)$ for all $v$, where $v\leqslant w\leqslant nk$. When the iteration comes to $i=n$, we can get $D(n,w)$, which exactly indicates the existence of the desired subset $G$ for input $(C,w)$.
+
+If the desired subset $G$ exists, we can write it out by backwards tracing $E(i,v)$. During the construction of $D$ and $E$, $E(i,v)$ is set True if and only if $D(i-1,v-c_i)=\textup{True}$. Therefore, $E(i,v)$ is True if and only if $c_i$ is selected as a member of the desired subset $G$. As a result, we can start from $i=n$ and $v=w$ and trace backwards. $E(i,v)=\textup{False}$ implies that $c_i\notin G$, so we should reduce $i$ and keep $v$. $E(i,v)=\textup{True}$ implies that $c_i\in G$, so we should reduce $i$ and reduce $v$ by $c_i$, and we store $c_i$. The existence of $G$ guarantees that we can reduce both $i$ and $v$ down to zero. Once that is done, all the elements of $G$ will be recovered.
+
+This proves the correctness of the algorithm.
 
 ~
 
 \noindent\textbf{Runtime}:
 
-If $w>nk$, the algorithm terminates in constant time. Therefore, we focus on the case where $w\leqslant nk$. Notice that we loop over all $i\leqslant n$ and all $v$ where $v\leqslant w\leqslant nk$. Therefore, the runtime is $\Theta(n^2k)$. Since $k$ is a constant, this is polynomial time of $n$, which is also polynomial time of the input size $\Theta(n+\log w)$. So the algorithm belongs to P.
+If $w>nk$, the algorithm terminates in constant time. Therefore, we focus on the case where $w\leqslant nk$. Notice that we loop over all $i\leqslant n$ and all $v$ where $v\leqslant w\leqslant nk$. Therefore, the runtime is $O(n^2k)$. Since $k$ is a constant, this is polynomial time of $n$, which is also polynomial time of the input size $\Theta(n+\log w)$. So the algorithm belongs to P.
 
 \subsection{Part (d)}
 \noindent\textbf{Description}:
@@ -306,7 +326,7 @@ Instead of finding the maximum flow under the restriction that $f(e)=0$ or $f(e)
 
 \noindent(2) Proof of $\textsc{All-Or-None-Flow}\in\textup{NP}$
 
-The input is $x=(G,c(e),g)$, where $G=(V,E)$ is the flow network and $c(e)$ is the capacity function that assigns each edge a positive capacity. The input size is $|x|=\Theta(|V|+|E|+|E|\log(\max_ec(e))+\log g)$. Notice: here we assume that $c(e)$ and $g$ can be large. If we do not take this into account, then $|x|=\Theta(|V|+|E|)$, and in the following discussion simply remove all $\log(\max_ec(e))$ and $\log g$ terms. This does NOT affect the final conclusion of polynomial verification.
+The input is $x=(G,c(e),g)$, where $G=(V,E)$ is the flow network and $c(e)$ is the capacity function that assigns each edge a positive capacity. The input size is $|x|=\Theta(|V|+|E|+|E|\log(\max_ec(e))+\log g)$. Note: here we assume that $c(e)$ and $g$ can be large. If we do not take this into account, then $|x|=\Theta(|V|+|E|)$, and in the following discussion simply remove all $\log(\max_ec(e))$ and $\log g$ terms. This does NOT affect the final conclusion of polynomial verification.
 
 We design a verification algorithm $V_{AONF}(x,y)=V_{ANOF}((G,c(e),g),y)$. The certificate $y$ is a flow $f$ over $G$ such that $f(e)=0$ or $f(e)=c(e)$ for all $e\in E$, and $|f|\geqslant g$ holds. The certificate size is $|y|=O(|E|\log(\max_ef(e)))=O(|E|\log(\max_ec(e)))$ because the flow is determined by its values on all edges. It is a polynomial of $|x|$.
 
@@ -318,7 +338,9 @@ Check (1) costs $O(|E|\log(\max_ec(e)))$ time because it loops over $E$ and in e
 
 \noindent(3) Construction of a reduction function $R(x)$
 
-The input $x=B=\{b_1,b_2,\cdots,b_n\}$ for \textsc{Equal-Weight} has size $|x|=\Theta(n\log(\max_ib_i))$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=(G,c(e),g)$ for \textsc{All-Or-None-FLow} as follows. Create a source $s$, a sink $t$ and an intermediate vertex $m$. Create $n$ edges from $s$ to $m$. Label them as $e_{sm}^i$, where $i=1,2,\cdots,n$, and let $c(e_{sm}^i)=2b_i$. Also create $n$ edges from $m$ to $t$. Label them as $e_{mt}^i$, where $i=1,2,\cdots,n$, and let $c(e_{mt}^i)=b_i$. Let $g=\sum_ib_i$. $|R(x)|=O(|V|+|E|+|E|\log(\max_ib_i)+\log g)=O(n\log(\max_ib_i))$, which is a polynomial of $|x|$. The runtime of $R(x)$ is $O(|V|+|E|+n\log(\max_ib_i))=O(n\log(\max_ib_i))$, which is also a polynomial of $|x|$.
+The input $x=B=\{b_1,b_2,\cdots,b_n\}$ for \textsc{Equal-Weight} has size $|x|=\Theta(n\log(\max_ib_i))$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=(G,c(e),g)$ for \textsc{All-Or-None-FLow} as follows. Create a source $s$, a sink $t$ and an intermediate vertex $m$. Create $n$ edges from $s$ to $m$ (see my note for parallel edges in the subsequent paragraph). Label them as $e_{sm}^i$, where $i=1,2,\cdots,n$, and let $c(e_{sm}^i)=2b_i$. Also create $n$ edges from $m$ to $t$. Label them as $e_{mt}^i$, where $i=1,2,\cdots,n$, and let $c(e_{mt}^i)=b_i$. Let $g=\sum_ib_i$. $|R(x)|=O(|V|+|E|+|E|\log(\max_ib_i)+\log g)=O(n\log(\max_ib_i))$, which is a polynomial of $|x|$. The runtime of $R(x)$ is $O(|V|+|E|+n\log(\max_ib_i))=O(n\log(\max_ib_i))$, which is also a polynomial of $|x|$.
+
+Note: by some definitions of flow network, we cannot have parallel edges between two vertices. This can be easily solved by adding an auxilliary vertex dividing each edge into two, both of the same capacity. Therefore, we will not worry about parallel edges in the following discussion.
 
 In order to reduce \textsc{Equal-Weight} to \textsc{All-Or-None-Flow}, we need to prove that \textsc{Equal-Weight} returns YES if and only if \textsc{All-Or-None-Flow} returns YES.
 
