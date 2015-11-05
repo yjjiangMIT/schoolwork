@@ -103,9 +103,9 @@ This completes the proof that $\textsc{Equal-Weight}\leqslant_p\textsc{Box-Packi
 \subsection{Part (c)}
 \noindent\textbf{Description}:
 
-If $w>nk$, return NO. Otherwise, use dynamic programming. Let $D(i,v)$ be the answer to the following True/False question: is it possible to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$? We build up a matrix of $D$ as stated in the next paragraph. In order to recover the desired subset, we also maintain a matrix $E$. $E(i,v)$ answers the following True/False question: if we do get weight $v\in\mathbb{Z}$ from a subset of $C_i$, do we need to use $c_i$?
+If $w>nk$, return NO. Otherwise, use dynamic programming. Let $D(i,v)$ be the answer to the following True/False question: is it possible to get weight $v\in\mathbb{Z}$ from a subset of $C_i=[c_1,c_2,\cdots,c_i]$? We construct a matrix of $D$ as stated in the next paragraph. In order to recover the desired subset, we also maintain a matrix $E$. $E(i,v)$ answers the following True/False question: if we do get weight $v\in\mathbb{Z}$ from a subset of $C_i$, do we need to use $c_i$?
 
-Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leqslant v\leqslant w$ (this is to make sure the edge cases are correct). Start from $i=1$ and do the following loop: use $D(i,v)=D(i-1,v)\textup{ OR }((v\geqslant c_i)\textup{ AND }D(i-1,v-c_i))$ to get $D(i,v)$ for all $0\leqslant v\leqslant w$. As we calculate $D(i,v)$, we also update $E(i,v)$: $E(i,v)=\textup{True}$ if and only if $(v\geqslant c_i)\textup{ AND }D(i-1,v-c_i)=\textup{True}$. At the end of the iteration, increase $i$ by 1. Iterate until $i=n$. Return $D(n,w)$ as the solution to the decision problem (YES for True, NO for False). If the decision problem gives a YES answer, the search problem is solved by backwards tracing $E(i,v)$. Initially set $i=n$ and $v=w$. Iterate as follows. If $E(i,v)=\textup{True}$, store $c_i$ into $G$ and reduce $v$ by $c_i$. Otherwise keep $v$ unchanged. At the end of each iteration reduce $i$ by 1. When $i$ is reduced to zero, output $G$ as the desired subset. The details are shown in the pseudocode below.
+Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leqslant v\leqslant w$ (this is to make sure the edge cases are correct). Start from $i=1$ and do the following loop: use $D(i,v)=D(i-1,v)\textup{ OR }((v\geqslant c_i)\textup{ AND }D(i-1,v-c_i))$ to get $D(i,v)$ for all $0\leqslant v\leqslant w$. As we calculate $D(i,v)$, we also update $E(i,v)$: $E(i,v)=\textup{True}$ if and only if $D(i-1,v-c_i)=\textup{True}$ (when $v\geqslant c_i$). At the end of each iteration, increase $i$ by 1. Iterate until $i=n$. Return $D(n,w)$ as the solution to the decision problem (YES for True, NO for False). If the decision problem gives a YES answer, the search problem is solved by backwards tracing $E(i,v)$. Initially set $i=n$ and $v=w$. Iterate as follows. If $E(i,v)=\textup{True}$, store $c_i$ into $G$ and reduce $v$ by $c_i$. Otherwise keep $v$ unchanged. At the end of each iteration reduce $i$ by 1. When $i$ is reduced to zero, output $G$ as the desired subset. The details are shown in the pseudocode below.
 \begin{algorithm}
 \caption{Deside if the desired subset $G$ of $k$-bounded and interger-valued $C$ exists in polynomial time}
 \begin{algorithmic}[1]
@@ -130,7 +130,7 @@ Initially, set $D(0,0)=\textup{True}$ and $D(0,v)=\textup{False}$ for all $1\leq
 \EndProcedure
 
 \Procedure{Search-$k$-Bounded-Integer-Desired-Weight}{$C,w$}
-\State{$(IfExist, E)=$\Call{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}}
+\State{$IfExist,E\gets$\Call{Decision-$k$-Bounded-Integer-Desired-Weight}{$C,w$}}
 \If{$!IfExist$}\Comment{$C,w$ is a NO-input}
 	\State{Raise exception: solution does not exist}
 \Else{}
@@ -163,7 +163,7 @@ This proves the correctness of the algorithm.
 
 \noindent\textbf{Runtime}:
 
-If $w>nk$, the algorithm terminates in constant time. Therefore, we focus on the case where $w\leqslant nk$. Notice that we loop over all $i\leqslant n$ and all $v$ where $v\leqslant w\leqslant nk$. Therefore, the runtime is $O(n^2k)$. Since $k$ is a constant, this is polynomial time of $n$, which is also polynomial time of the input size $\Theta(n+\log w)$. So the algorithm belongs to P.
+If $w>nk$, the algorithm terminates in constant time. Therefore, we focus on the case where $w\leqslant nk$. Notice that we loop over all $i\leqslant n$ and all $v$ where $v\leqslant w\leqslant nk$. Therefore, the runtime of the decision problem is $O(n^2k)$. If the decision problem answers YES, to find the solution $G$, $O(n)$ additional time is required, since we iterate $n$ times. Since $k$ is a constant, this is polynomial time of $n$, which is also polynomial time of the input size $\Theta(n+\log w)$. So the algorithm belongs to P.
 
 \subsection{Part (d)}
 \noindent\textbf{Description}:
