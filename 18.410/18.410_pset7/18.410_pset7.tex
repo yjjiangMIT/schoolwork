@@ -62,10 +62,10 @@ $V_{DW}$ works as follows. (1) Check if $y$ is a subset of $C$. (2) Sum over thi
 Check (1) costs at most $O(n^2\log(\max_ic_i))$ time to verify a subset of $C$ (naively check every element against $C$). Check (2) involves $O(n)$ additions, each of which taking up $O(\log(\max_ic_i))$ time. And we do a comparison of $O(\log w)$. Overall, the runtime of $V_{DW}$ is $O(n^2\log(\max_ic_i)+\log w)$, which is a polynomial of $|x|$. In conclusion, \textsc{Desired-Weight} is in NP.
 
 \subsection{Part (b)}
-\subsubsection{$\textsc{Desired-Weight}\leqslant_p\textsc{Equal-Weight}$}
-\noindent\textbf{Proof}:
+We do this reduction in two steps: (1) reduce \textsc{Desired-Weight} to \textsc{Equal-Weight} and (2) reduce \textsc{Equal-Weight} to \textsc{Box-Packing}. Suppose the first reduction function is $R_1(x)$ and the second one is $R_2(x)$, we construct $R(x)=R_2(R_1(x))$ to reduce \textsc{Desired-Weight} directly to \textsc{Box-Packing}. As we will show below, both $R_1(x)$ and $R_2(x)$ exists and they are of polynomial times. Therefore, their composite is of polynomial time. This means that $\textsc{Desired-Weight}\leqslant_p\textsc{Box-Packing}$. Since \textsc{Desired-Weight} is NP-complete and \textsc{Box-Packing} is in NP, we conclude that \textsc{Box-Packing} is also NP-complete.
 
-The input $x=(C,w)$ for \textsc{Desired-Weight} has size $|x|=\Theta(n\log(\max_ic_i)+\log w)$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=B$ for \textsc{Equal-Weight} as follows. Let $w'=\sum_ic_i$. If $w'\geqslant2w$, $R(x)$ returns $B=C\cup\{w'-2w\}$. Otherwise, $R(x)$ returns $B=C\cup\{2w-w'\}$. By dividing into 2 cases, we guarantee that we do not add a negative weight. $R(x)$ involves $n$ additions, each of which taking up $O(\log(\max_ic_i))$ time. Also, $\log w$ work is done for the new element. Therefore, $R(x)$ runs in $O(n\log(\max_ic_i)+\log w)$ time, which is a polynomial of $|x|$. Moreover, $|R(x)|=O(n\log\max_i(c_i)+\log w)$ is a polynomial of $|x|$.
+\subsubsection{Reduction from \textsc{Desired-Weight} to \textsc{Equal-Weight}}
+The input $x=(C,w)$ for \textsc{Desired-Weight} has size $|x|=\Theta(n\log(\max_ic_i)+\log w)$. Given $x$, we design a reduction function $R_1(x)$ that returns an input $x'=B$ for \textsc{Equal-Weight} as follows. Let $w'=\sum_ic_i$. If $w'\geqslant2w$, $R_1(x)$ returns $B=C\cup\{w'-2w\}$. Otherwise, $R_1(x)$ returns $B=C\cup\{2w-w'\}$. By dividing into 2 cases, we guarantee that we do not add a negative weight. $R_1(x)$ involves $n$ additions, each of which taking up $O(\log(\max_ic_i))$ time. Also, $\log w$ work is done for the new element. Therefore, $R_1(x)$ runs in $O(n\log(\max_ic_i)+\log w)$ time, which is a polynomial of $|x|$.
 
 In order to reduce \textsc{Desired-Weight} to \textsc{Equal-Weight}, we need to prove that \textsc{Desired-Weight} returns YES if and only if \textsc{Equal-Weight} returns YES.
 
@@ -73,32 +73,35 @@ In order to reduce \textsc{Desired-Weight} to \textsc{Equal-Weight}, we need to 
 
 \noindent(1) $w'\geqslant2w$.
 
-If $R(x)=B$ is a YES-input for \textsc{Equal-Weight}, there exists a partition of $B=C\cup\{w'-2w\}$ into two subsets, each of which sums up to $(\sum_ic_i+(w'-2w))/2=w'-w$. Say the newly added weight $w'-2w$ belongs to one subset $B_1$. Then the rest of $B_1$ sums up to $(w'-w)-(w'-2w)=w$. These rocks constitute the desired subset of $C$. Thus $x=(C,w)$ is a YES input for \textsc{Desired-Weight}.
+If $R_1(x)=B$ is a YES-input for \textsc{Equal-Weight}, there exists a partition of $B=C\cup\{w'-2w\}$ into two subsets, each of which sums up to $(\sum_ic_i+(w'-2w))/2=w'-w$. Say the newly added weight $w'-2w$ belongs to one subset $B_1$. Then the rest of $B_1$ sums up to $(w'-w)-(w'-2w)=w$. These rocks constitute the desired subset of $C$. Thus $x=(C,w)$ is a YES input for \textsc{Desired-Weight}.
 
-On the other hand, if $x=(C,w)$ is a YES-input for \textsc{Desired-Weight}, there exists a subset $G$ of $C$ whose sum is $w$. Then $B_1=G\cup\{w'-2w\}$ and $B_2=B-B_1$ have the same sum $w'-w$. Thus $R(x)=B$ is a YES input for \textsc{Equal-Weight}.
+On the other hand, if $x=(C,w)$ is a YES-input for \textsc{Desired-Weight}, there exists a subset $G$ of $C$ whose sum is $w$. Then $B_1=G\cup\{w'-2w\}$ and $B_2=B-B_1$ have the same sum $w'-w$. Thus $R_1(x)=B$ is a YES input for \textsc{Equal-Weight}.
 
 \noindent(2) $w'<2w$
 
-If $R(x)=B$ is a YES-input for \textsc{Equal-Weight}, there exists a partition of $B=C\cup\{2w-w'\}$ into two subsets, each of which sums up to $(\sum_ic_i+(2w-w'))/2=w$. Say the newly added weight $2w-w'$ belongs to one subset $B_1$. Then the other subset $B_2$ is the desired subset of $C$ that sums up to $w$. Thus $x=(C,w)$ is a YES input for \textsc{Desired-Weight}.
+If $R_1(x)=B$ is a YES-input for \textsc{Equal-Weight}, there exists a partition of $B=C\cup\{2w-w'\}$ into two subsets, each of which sums up to $(\sum_ic_i+(2w-w'))/2=w$. Say the newly added weight $2w-w'$ belongs to one subset $B_1$. Then the other subset $B_2$ is the desired subset of $C$ that sums up to $w$. Thus $x=(C,w)$ is a YES input for \textsc{Desired-Weight}.
 
-On the other hand, if $x=(C,w)$ is a YES-input for \textsc{Desired-Weight}, there exists a subset $G$ of $C$ whose sum is $w$. Then $B_1=G$ and $B_2=B-G$ have the same sum $w$. Thus $R(x)=B$ is a YES input for \textsc{Equal-Weight}.
+On the other hand, if $x=(C,w)$ is a YES-input for \textsc{Desired-Weight}, there exists a subset $G$ of $C$ whose sum is $w$. Then $B_1=G$ and $B_2=B-G$ have the same sum $w$. Thus $R_1(x)=B$ is a YES input for \textsc{Equal-Weight}.
 
 ~
 
-This completes the proof that $\textsc{Desired-Weight}\leqslant_p\textsc{Equal-Weight}$. Since \textsc{Desired-Weight} is NP-complete and \textsc{Equal-Weight} is in NP, we conclude that \textsc{Equal-Weight} is NP-complete. Finally, notice that the only reason for us to consider whether $w'\geqslant2w$ is that, we are not informed if negative weights are allowed for \textsc{Equal-Weight}. If they are allowed, we do not need to divide $R(x)$ into two cases.
+This completes the proof that $\textsc{Desired-Weight}\leqslant_p\textsc{Equal-Weight}$. Since \textsc{Desired-Weight} is NP-complete and \textsc{Equal-Weight} is in NP, we conclude that \textsc{Equal-Weight} is NP-complete.
 
-\subsubsection{$\textsc{Equal-Weight}\leqslant_p\textsc{Box-Packing}$}
-\noindent\textbf{Proof}:
-
-The input $x=B$ for \textsc{Equal-Weight} has size $|x|=\Theta(n\log(\max_ib_i))$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=(A,m)$ for \textsc{Box-Packing} as follows. Let $\alpha=2/\sum_ib_i$. Rescale $B'=[\alpha b_1,\alpha b_2,\cdots,\alpha b_n]$. Let $R(x)$ return $(A,m)=(B',2)$. $R(x)$ involves $n$ additions and rescalings, each of which taking up $O(\log(\max_ib_i))$ time. Therefore, $R(x)$ runs in $O(n\log(\max_ib_i))$ time, which is a polynomial of $|x|$. Moreover, say we keep $a_i=\alpha b_i$ to $\log(\max_ib_i)$ digits after the decimal point, then $|R(x)|=O(n\log(\max_ib_i))$ is a polynomial of $|x|$.
+\subsubsection{Reduction from \textsc{Equal-Weight} to \textsc{Box-Packing}}
+The input $x=B$ for \textsc{Equal-Weight} has size $|x|=\Theta(n\log(\max_ib_i))$. Given $x$, we design a reduction function $R_2(x)$ that returns an input $x'=(A,m)$ for \textsc{Box-Packing} as follows. Let $\alpha=2/\sum_ib_i$. Rescale $B'=[\alpha b_1,\alpha b_2,\cdots,\alpha b_n]$. Let $R_2(x)$ return $(A,m)=(B',2)$. $R_2(x)$ involves $n$ additions and rescalings, each of which taking up $O(\log(\max_ib_i))$ time. Therefore, $R_2(x)$ runs in $O(n\log(\max_ib_i))$ time, which is a polynomial of $|x|$.
 
 In order to reduce \textsc{Equal-Weight} to \textsc{Box-Packing}, we need to prove that \textsc{Equal-Weight} returns YES if and only if \textsc{Box-Packing} returns YES.
 
-If $R(x)=(A,m)$ is a YES-input for \textsc{Box-Packing}, there exists a partition of $A=B'$ into $m=2$ subsets, such that the sum of each subset does not exceed unity. Since $\sum_ia_i=\alpha\sum_ib_i=2$, we conclude that both subsets sum up to exactly unity. This means that an equal-weight partition of $B'$ exists. Rescaling does not change this equality. Thus $x=B$ is a YES-input for \textsc{Equal-Weight}.
+If $R_2(x)=(A,m)$ is a YES-input for \textsc{Box-Packing}, there exists a partition of $A=B'$ into $m=2$ subsets, such that the sum of each subset does not exceed unity. Since $\sum_ia_i=\alpha\sum_ib_i=2$, we conclude that both subsets sum up to exactly unity. This means that an equal-weight partition of $B'$ exists. Rescaling does not change this equality. Thus $x=B$ is a YES-input for \textsc{Equal-Weight}.
 
-On the other hand, if $x=B$ is a YES-input for \textsc{Equal-Weight}, then there exist a partition $B=B_1\cup B_2$ such that $B_1$ and $B_2$ has the same sum. Correspondingly, there exist a partition $B'=B_1'\cup B_2'$ such that $B_1'$ and $B_2'$ has the same sum. Since $A=B'$ sums up to 2, $B_1'$ and $B_2'$ each sums up to unity. So they can be packed into $m=2$ boxes. Thus $R(x)=(A,m)$ is a YES-input for \textsc{Box-Packing}.
+On the other hand, if $x=B$ is a YES-input for \textsc{Equal-Weight}, then there exist a partition $B=B_1\cup B_2$ such that $B_1$ and $B_2$ has the same sum. Correspondingly, there exist a partition $B'=B_1'\cup B_2'$ such that $B_1'$ and $B_2'$ has the same sum. Since $A=B'$ sums up to 2, $B_1'$ and $B_2'$ each sums up to unity. So they can be packed into $m=2$ boxes. Thus $R_2(x)=(A,m)$ is a YES-input for \textsc{Box-Packing}.
 
 This completes the proof that $\textsc{Equal-Weight}\leqslant_p\textsc{Box-Packing}$. Since \textsc{Equal-Weight} is NP-complete and \textsc{Box-Packing} is in NP, we conclude that \textsc{Box-Packing} is NP-complete.
+
+\subsubsection{Explicit reduction from \textsc{Desired-Weight} to \textsc{Box-Packing}}
+From the discussion above, we can write out $R(x)=R_2(R_1(x))$ explicitly.
+
+Let the input for \textsc{Desired-Weight} be $x=(C,w)$. Calculate $w'=\sum_ic_i$. Add an element of weight $|w'-2w|$ to the array, and rescale it by $\alpha=2/(w'+|w'-2w|)$. The resulting array $A$ is the input for \textsc{Box-Packing}. We have already discussed that this reduction function runs in polynomial time.
 
 \subsection{Part (c)}
 \noindent\textbf{Description}:
@@ -303,7 +306,7 @@ For each $p_i$ or $n_i$, count its out-degree (denoted by $d$). Let $C(p_i)=\{\u
 
 This completes the construction of $G$. Notice that by this construction, the sink $t$ has in-degree $g=m+2n$, for there are edges $(v_j,t)$ for all $j\leqslant m$, as well as $(p_i,t)$ and $(n_i,t)$ for all $i\leqslant n$. All incoming edges of $t$ have unit capacity for any valid capacity function. Therefore, the maximum flow cannot exceed $g$. The decision problem, in this context, is actually asking if this maximum flow can equal $g$.
 
-The size and runtime of $R(x)$ are calculated here. $|V|=3n+m+2$ and $|E|=n+2n+3m+m=3n+4m$. So $|G|=O(|V|+|E|)=O(m+n)=O(m)$. The size of $C$ is $O(|E|)=O(m+n)=O(m)$. The size of $g$ is $\log(m+2n)=O(\log m)$. Thus, the total size of $R(x)$ is $O(m)$, a polynomial of $|x|$. Each vertex and edge of $G$, as well as each element in $C(u)$ for each $u$, is created in constant time. So the runtime of $R(x)$ is linear with respect to its size. It is also $O(m)$, a polynomial of $|x|$.
+The runtime of $R(x)$ is calculated here. $|V|=3n+m+2$ and $|E|=n+2n+3m+m=3n+4m$. So $|G|=O(|V|+|E|)=O(m+n)=O(m)$. The size of $C$ is $O(|E|)=O(m+n)=O(m)$. The size of $g$ is $\log(m+2n)=O(\log m)$. Each vertex and edge of $G$, as well as elements in $C(u)$ for each $u$, needs to be created by $R(x)$. So the runtime of $R(x)$ is $O(m)$, which is a polynomial of $|x|$.
 
 ~
 
@@ -358,7 +361,7 @@ Check (1) costs $O(|E|\log(\max_ec(e)))$ time because it loops over $E$ and in e
 
 \noindent(3) Construction of a reduction function $R(x)$
 
-The input $x=B=\{b_1,b_2,\cdots,b_n\}$ for \textsc{Equal-Weight} has size $|x|=\Theta(n\log(\max_ib_i))$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=(G,c(e),g)$ for \textsc{All-Or-None-FLow} as follows. Create a source $s$, a sink $t$ and an intermediate vertex $m$. Create $n$ edges from $s$ to $m$ (see my note for parallel edges in the subsequent paragraph). Label them as $e_{sm}^i$, where $i=1,2,\cdots,n$, and let $c(e_{sm}^i)=2b_i$. Also create $n$ edges from $m$ to $t$. Label them as $e_{mt}^i$, where $i=1,2,\cdots,n$, and let $c(e_{mt}^i)=b_i$. Let $g=\sum_ib_i$. $|R(x)|=O(|V|+|E|+|E|\log(\max_ib_i)+\log g)=O(n\log(\max_ib_i))$, which is a polynomial of $|x|$. The runtime of $R(x)$ is $O(|V|+|E|+n\log(\max_ib_i))=O(n\log(\max_ib_i))$, which is also a polynomial of $|x|$.
+The input $x=B=\{b_1,b_2,\cdots,b_n\}$ for \textsc{Equal-Weight} has size $|x|=\Theta(n\log(\max_ib_i))$. Given $x$, we design a reduction function $R(x)$ that returns an input $x'=(G,c(e),g)$ for \textsc{All-Or-None-FLow} as follows. Create a source $s$, a sink $t$ and an intermediate vertex $m$. Create $n$ edges from $s$ to $m$ (see my note for parallel edges in the subsequent paragraph). Label them as $e_{sm}^i$, where $i=1,2,\cdots,n$, and let $c(e_{sm}^i)=2b_i$. Also create $n$ edges from $m$ to $t$. Label them as $e_{mt}^i$, where $i=1,2,\cdots,n$, and let $c(e_{mt}^i)=b_i$. Let $g=\sum_ib_i$. The runtime of $R(x)$ is $O(|V|+|E|+n\log(\max_ib_i))=O(n\log(\max_ib_i))$, which is a polynomial of $|x|$.
 
 Note: by some definitions of flow network, we cannot have parallel edges between two vertices. This can be easily solved by adding an auxiliary vertex dividing each edge into two, both of the same capacity. Therefore, we will not worry about parallel edges in the following discussion.
 

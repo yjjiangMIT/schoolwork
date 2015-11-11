@@ -1,0 +1,126 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{epstopdf}
+\usepackage{indentfirst}
+\usepackage{geometry}
+\usepackage{bm}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\title{8.511 Problem Set 8}
+\author{Yijun Jiang}
+%\email{yjjiang@mit.edu}
+\date{\today}
+
+\pagestyle{fancy}
+\lhead{Yijun Jiang}
+\rhead{8.511 Problem Set 8}
+
+\begin{document}
+\maketitle
+\section{Hartree-Fock}
+Define one-body Hamiltonian
+\begin{equation*}
+H_1=-\frac{\hbar^2}{2m}\nabla^2-\frac{Ze^2}{r}
+\end{equation*}
+
+I use $J_i$ instead of $V_H$ to denote the Hartree potential. Then the Hartree-Fock equation is written as
+\begin{equation*}
+H_1u_i(1)+J_iu_i(1)-\sum_{j\neq i,\textup{spin}\parallel}\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(1)u_i(2)=\varepsilon_iu_i(1)
+\end{equation*}
+
+The parallel-spin constraint in the exchange summation can be removed, for the integral vanishes whenever $i$ and $j$ have anti-parallel spins.
+
+The Hartree potential is
+\begin{align*}
+J_i&=\sum_{j\neq i}\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(2)\\
+&=\left(\sum_j\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(2)\right)-\int d\mathbf{r}_2u_i^*(2)\frac{e^2}{r_{12}}u_i(2)\\
+&=J'-\Delta J
+\end{align*}
+where
+\begin{align*}
+&J'=\sum_j\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(2)\\
+&\Delta J=\int d\mathbf{r}_2u_i^*(2)\frac{e^2}{r_{12}}u_i(2)
+\end{align*}
+
+The exchange term is (the spin constraint removed)
+\begin{align*}
+\hat{K_i}u_i(1)&=\sum_{j\neq i}\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(1)u_i(2)\\
+&=\left(\sum_j\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(1)u_i(2)\right)-\int d\mathbf{r}_2u_i^*(2)\frac{e^2}{r_{12}}u_i(1)u_i(2)\\
+&=\hat{K'}u_i(1)-\Delta\hat{K}u_i(1)
+\end{align*}
+where
+\begin{align*}
+&\hat{K'}u_i(1)=\sum_j\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(1)u_i(2)\\
+&\Delta\hat{K}u_i(1)=\int d\mathbf{r}_2u_i^*(2)\frac{e^2}{r_{12}}u_i(1)u_i(2)
+\end{align*}
+
+Notice that
+\begin{equation*}
+\Delta Ju_i(1)=\Delta\hat{K}u_i(1)
+\end{equation*}
+
+Therefore, the Hartree-Fock equation can be written as
+\begin{equation*}
+H_1u_i(1)+J'u_i(1)-\hat{K'}u_i(1)=\varepsilon_iu_i(1)
+\end{equation*}
+
+Taking dot product with $u_k(1)$, we get
+\begin{equation}
+\int d\mathbf{r}_1u^*_k(1)(H_1+J')u_i(1)-\sum_j\iint d\mathbf{r}_1d\mathbf{r}_2u_k^*(1)u_j^*(2)\frac{e^2}{r_{12}}u_j(1)u_i(2)=\varepsilon_i\int d\mathbf{r}_1u^*_k(1)u_i(1)\label{eq}
+\end{equation}
+
+Exchange $i$ and $k$, then take Hermitian conjugate. Notice that $H_1$ and $J'$ are both Hermitian. Therefore,
+\begin{equation}
+\int d\mathbf{r}_1u^*_k(1)(H_1+J')u_i(1)-\sum_j\iint d\mathbf{r}_1d\mathbf{r}_2u_k^*(2)u_j^*(1)\frac{e^2}{r_{12}}u_j(2)u_i(1)=\varepsilon^*_k\int d\mathbf{r}_1u^*_k(1)u_i(1)\label{hceq}
+\end{equation}
+
+Subtracting equation (\ref{hceq}) from equation (\ref{eq}), we have
+\begin{equation*}
+\sum_j\iint d\mathbf{r}_1d\mathbf{r}_2u_k^*(2)u_j^*(1)\frac{e^2}{r_{12}}u_j(2)u_i(1)-\sum_j\iint d\mathbf{r}_1d\mathbf{r}_2u_k^*(1)u_j^*(2)\frac{e^2}{r_{12}}u_j(1)u_i(2)=(\varepsilon_i-\varepsilon^*_k)\int d\mathbf{r}_1u^*_k(1)u_i(1)
+\end{equation*}
+
+The difference between the first term and the second term is a swap of arguments. Since $r_{12}=r_{21}$, we can exchange 1 and 2 in the first term, making it identical to the second. Therefore, the left hand side vanishes.
+\begin{equation*}
+(\varepsilon_i-\varepsilon^*_k)\int d\mathbf{r}_1u^*_k(1)u_i(1)=0
+\end{equation*}
+
+Let $i=k$, then $\varepsilon_i-\varepsilon^*_i=0$, which means $\varepsilon_i$ is real.
+
+Let $i\neq k$. If no degeneracy occurs, $\varepsilon_i\neq\varepsilon_k$, so $\langle u_i|u_k\rangle=0$. If $\varepsilon_i$ and $\varepsilon_k$ are degenerate, there is some unitary matrix $\mathbf{T}$ that diagonalizes the degenerate subspace. Later I will prove that this unitary transformation preserves the Hartree-Fock equation. Then there is a way to choose $u_i$ and $u_k$ such that $\langle u_i|u_k\rangle=0$ even if degeneracy occurs.
+
+Therefore, the solutions are orthonormal: $\langle u_i|u_j\rangle=\delta_{ij}$
+
+~
+
+\noindent\underline{Proof of the fact that $\mathbf{T}$ preserves the Hartree-Fock equation}:
+
+Let $\tilde{\mathbf{u}}=\mathbf{T}\mathbf{u}$, where $\mathbf{u}=(u_1,u_2,\cdots,u_n)^T$ are the original states, and $\tilde{\mathbf{u}}=(\tilde{u}_1,\tilde{u}_2,\cdots,\tilde{u}_n)^T$ are the diagonalized states. Since $H_1$ is linear, $H_1(\mathbf{T}\mathbf{u}(1))=\mathbf{T}H_1\mathbf{u}(1)$.
+
+The Hartree potential is unaffected by the uniform transformation, i.e. $\tilde{J'}(\mathbf{T}\mathbf{u}(1))=\mathbf{T}J'\mathbf{u}(1)$, for
+\begin{align*}
+\tilde{J'}(\mathbf{T}\mathbf{u}(1))&=\sum_j\int d\mathbf{r}_2\tilde{u}_j^*(2)\frac{e^2}{r_{12}}\tilde{u}_j(2)\tilde{\mathbf{u}}(1)\\
+&=\int d\mathbf{r}_2\frac{e^2}{r_{12}}(\mathbf{u}^\dag(2)\mathbf{T}^\dag)(\mathbf{T}\mathbf{u}(2))(\mathbf{T}\mathbf{u}(1))\\
+&=\int d\mathbf{r}_2\frac{e^2}{r_{12}}\mathbf{u}^\dag(2)\mathbf{u}(2)(\mathbf{T}\mathbf{u}(1))\\
+&=\mathbf{T}\sum_j\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(2)\mathbf{u}(1)\\
+&=\mathbf{T}J'\mathbf{u}(1)
+\end{align*}
+
+The exchange operator is also unaffected by the uniform transformation, i.e. $\hat{\tilde{K'}}(\mathbf{T}\mathbf{u}(1))=\mathbf{T}\hat{K'}\mathbf{u}(1)$, for
+\begin{align*}
+\hat{\tilde{K'}}(\mathbf{T}\mathbf{u}(1))&=\sum_j\int d\mathbf{r}_2\tilde{u}_j^*(2)\frac{e^2}{r_{12}}\tilde{u}_j(1)\tilde{\mathbf{u}}(2)\\
+&=\int d\mathbf{r}_2\frac{e^2}{r_{12}}(\mathbf{u}^\dag(2)\mathbf{T}^\dag)(\mathbf{T}\mathbf{u}(1))(\mathbf{T}\mathbf{u}(2))\\
+&=\int d\mathbf{r}_2\frac{e^2}{r_{12}}\mathbf{u}^\dag(2)\mathbf{u}(1)(\mathbf{T}\mathbf{u}(2))\\
+&=\mathbf{T}\sum_j\int d\mathbf{r}_2u_j^*(2)\frac{e^2}{r_{12}}u_j(1)\mathbf{u}(2)\\
+&=\mathbf{T}\hat{K'}\mathbf{u}(1)
+\end{align*}
+
+Therefore, the uniform transformation preserves the Hartree-Fock equation.
+
+\section{Schottky Barrier}
+
+\end{document}
