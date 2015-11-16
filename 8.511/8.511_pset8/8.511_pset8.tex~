@@ -121,4 +121,62 @@ The exchange operator is also unaffected by the uniform transformation, i.e. $\h
 
 Therefore, the uniform transformation preserves the Hartree-Fock equation.
 
+\section{Schottky Barrier}
+\subsection{Part (a)}
+Before contact, the conduction band $E_c$ of the semiconductor is higher than the chemical potential $\mu$ of the metal, and the valance band $E_v$ is lower than $\mu$. The chemical potential of the n-type semiconductor is close to $E_c$ and thus higher than $\mu$. In contact and in equilibrium, the semiconductor chemical potential equals $\mu$, since the electric potential in the metal-semiconductor junction bends $E_c$ and $E_v$ downwards. Close to $z=0$, in the semiconductor both $E_c$ and $E_d$ are way higher than $\mu$ relative to $k_BT$, which means almost no population of electrons. This leads to a depletion region.
+
+In the depletion region, the charge is dominated by ionized doner cores, whose density is $N_d$. The ionized electrons move to the metal side. In order to charge neutralize metal-semiconductor junction, these electrons will form a thin negatively charged layer on the metal boundary.
+
+The boundary conditions are $\phi'(z_0)=0$ and $\phi(z_0)-\phi(0)=E_B/e$. Define the zero point of $\phi$ at $z=0$. Then the solution to Poisson's equation has the form
+\begin{equation*}
+\phi(z)=-\frac{2\pi N_de}{\varepsilon}((z-z_0)^2-z_0^2)
+\end{equation*}
+where
+\begin{equation*}
+\phi(z_0)=\frac{2\pi N_de}{\varepsilon}z_0^2=\frac{E_B}{e}
+\end{equation*}
+
+Therefore,
+\begin{equation*}
+z_0=\frac{1}{e}\sqrt{\frac{\varepsilon E_B}{2\pi N_d}}
+\end{equation*}
+
+Plugging this into the expression for $\phi(z)$,
+\begin{align*}
+\phi(z)&=-\frac{E_B}{e}\left(\left(\frac{z}{z_0}-1\right)^2-1\right)\\
+&=-\left(\sqrt{\frac{2\pi N_de}{\varepsilon}}z-\sqrt{\frac{E_B}{e}}\right)^2+\frac{E_B}{e}
+\end{align*}
+
+Using the numerical values, we get
+\begin{equation*}
+z_0\approx5.76\times 10^{-7}\textup{ m}=5.76\times 10^3\textup{ \AA}
+\end{equation*}
+
+\subsection{Part (b)}
+The electrons see a potential barrier
+\begin{align*}
+V(z)&=\eta(z)E_B-e\phi(B)\\
+&=\left\{\begin{array}{ll}0&\quad\quad(z<0\textup{ or }z>z_0)\\E_B\left(\frac{z}{z_0}-1\right)^2&\quad\quad(0\leqslant z\leqslant z_0)\end{array}\right.
+\end{align*}
+where $\eta(z)=1$ if $z\geqslant 0$ and 0 otherwise.
+
+Then
+\begin{equation*}
+\kappa(z)=\frac{\sqrt{2mV(z)}}{\hbar}=\frac{\sqrt{2mE_B}}{\hbar}\left(1-\frac{z}{z_0}\right)
+\end{equation*}
+
+And WKB gives
+\begin{align*}
+P&=\exp\left(-2\int_0^{z_0}\kappa(z)dz\right)\\
+&=\exp\left(-\frac{2\sqrt{2mE_B}z_0}{\hbar}\int_0^1(1-x)dx\right)\\
+&=\exp\left(-\frac{\sqrt{2mE_B}z_0}{\hbar}\right)\\
+&=\exp\left(-\frac{E_B}{e\hbar}\sqrt{\frac{\varepsilon m}{\pi N_d}}\right)
+\end{align*}
+
+\subsection{Part (c)}
+Probability for an electron to flow from the metal side to the semiconductor side is $P(m\rightarrow s)=(\exp(E_B/kT)+1)^{-1}\approx\exp(-E_B/kT)$. Probability for an electron to flow from the semiconductor side to the metal side is $P(s\rightarrow m)=(\exp((E_B-eV)/kT)+1)^{-1}\approx\exp((eV-E_B)/kT)$. Therefore, the current is
+\begin{equation*}
+I\propto P(s\rightarrow m)-P(m\rightarrow s)=\exp(-E_B/kT)(\exp(eV/kT)-1)
+\end{equation*}
+
 \end{document}
