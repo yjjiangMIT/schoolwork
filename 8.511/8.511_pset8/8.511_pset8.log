@@ -1,8 +1,8 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  9 NOV 2015 00:58
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.27)  11 NOV 2015 18:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**8.511_pset8.tex
+**8.511_pset8
 (./8.511_pset8.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
@@ -281,15 +281,15 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 24.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-] [2] [3]
+] [2] [3] [4]
 (./8.511_pset8.aux) ) 
 Here is how much of TeX's memory you used:
- 2676 strings out of 493918
- 35132 string characters out of 6150563
+ 2678 strings out of 493918
+ 35143 string characters out of 6150563
  104688 words of memory out of 5000000
  5940 multiletter control sequences out of 15000+600000
  16414 words of font info for 61 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 42i,12n,43p,467b,212s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,16n,43p,644b,214s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 8.511_pset8.pdf (3 pages).
+Output written on 8.511_pset8.pdf (4 pages).
