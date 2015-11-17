@@ -1,8 +1,8 @@
-This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  15 NOV 2015 18:14
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013/Debian) (format=xelatex 2015.9.16)  17 NOV 2015 12:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**14.03_pset4.tex
+**14.03_pset4
 (./14.03_pset4.tex
 LaTeX2e <2011/06/27>
 Babel <3.9h> and hyphenation patterns for 78 languages loaded.
@@ -277,14 +277,14 @@ File: PPF.eps Graphic file (type eps)
  <PPF.eps> [1
 
 ]
-[2] [3] (./14.03_pset4.aux) ) 
+[2] [3] [4] [5] [6] (./14.03_pset4.aux) ) 
 Here is how much of TeX's memory you used:
- 2583 strings out of 493918
- 34135 string characters out of 6150563
+ 2587 strings out of 493918
+ 34167 string characters out of 6150563
  101446 words of memory out of 5000000
- 5864 multiletter control sequences out of 15000+600000
- 11195 words of font info for 44 fonts, out of 8000000 for 9000
+ 5865 multiletter control sequences out of 15000+600000
+ 11503 words of font info for 45 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
- 42i,12n,43p,517b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,12n,43p,664b,262s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on 14.03_pset4.pdf (3 pages).
+Output written on 14.03_pset4.pdf (6 pages).

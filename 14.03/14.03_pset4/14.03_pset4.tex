@@ -125,18 +125,110 @@ They fail to consider the fact that absolute productivity of labor / absolute ma
 
 \section{Externalities}
 \subsection{Part 1}
-The total revenue of company A is
+The producer surplus of company A is
 \begin{equation*}
-\textup{TR}_A=N(20N^{-1/2}-C)=20N^{1/2}-N
+\textup{PS}_A=N(20N^{-1/2}-C)=20N^{1/2}-N
 \end{equation*}
 
-To maximize $\textup{TR}_A$, set its partial derivative with respect to $N$ to zero.
+To maximize $\textup{PS}_A$, set its partial derivative with respect to $N$ to zero.
 \begin{equation*}
-\frac{\partial\textup{TR}_A}{\partial N}=10N^{-1/2}-1=0
+\frac{\partial\textup{PS}_A}{\partial N}=10N^{-1/2}-1=0
 \end{equation*}
 
 The solution is $N=100$. So company A should take 100 tourists per day.
 
 \subsection{Part 2}
+Since the company charges each tourist exactly his or her value of the experience, there is no consumer surplus. The social welfare is the producer surplus.
+\begin{equation*}
+\textup{PS}_A=20\times 100^{1/2}-100=100
+\end{equation*}
+
+\subsection{Part 3}
+No company will offer a price below $C$, and no company will offer a price above $C$ as well. This is because, if company A's price is higher than $C$, company B can set a lower price to let A out of business. Therefore, the equilibrium price is $C=1$. The companies will take as many tourists as possible. They are able to attract tourists until $V$ decreases to the market price. Setting $20N^{-1/2}=1$, we get $N=400$. So in perfect competition, 400 tourists will be served at a price of 1 for each.
+
+\subsection{Part 4}
+There is no consumer surplus since the price equals $V$. Moreover, there is no producer surplus since the price equals $C$ as well. This means there is no social welfare.
+
+\subsection{Part 5}
+No, it does NOT contradict the First Welfare Theorem. This is because the First Welfare Theorem holds only when there is no externality. Obviously, the theorem is not applicable in this case.
+
+\subsection{Part 6}
+It is a negative externality.
+
+The Coase theorem implies that the market will solve externalities all by itself if: (1) property rights are complete and (2) negotiating is essentially costless. In this case, the property rights are NOT complete. It is not specified which company has the right to cause conjestion. Therefore, this externality is not internalized.
+
+\subsection{Part 7}
+A transferrable license is more efficient. From the calculation above, if the license is nontransferrable, then only company A can serve the tourists and the social welfare is 100. If the license is transferrable, either company A or B can have it. It is better if company B has it, because by maximizing $\textup{PS}_B=20N^{1/2}-N/2$, company AB can serve 400 tourists and the social welfare becomes 200. It does not matter that company A is given the license at the beginning, for according to the Coase Theorem, the outcome is efficient no matter who owns the property rights. Company A can sell the license to company B at 200.
+
+Since a nontransferrable license is worth 100 to company A and a transferrable license is worth 200, company A would like to pay more for the transferrable license.
+
+\section{Causal Inference and Instrumental Variables}
+\subsection{Part 1}
+There might be self-selection involved. For example, those who are able to complete one more year of school may do so because their better capability (intellectually, financially, etc.). It may be this capability advantage rather than the additional year of education that leads to their higher wages.
+
+In causal inference notation,
+\begin{align*}
+T&=E[w|s=11]-E[w|s=10]\\
+&=E[w_{11}|s={11}]-E[w_{10}|s={10}]\\
+&=(E[w_{11}|s={11}]-E[w_{10}|s={11}])+(E[w_{10}|s={11}]-E[w_{10}|s={10}])\\
+&=T^*+bias
+\end{align*}
+
+$T$ is upwards biased due to the discussion above. Even if those who receive 11 years of education had not gong to school for the 11-th year, their possible advantage in capability could still lead to higher wages than their 10-school-year peers. So the bias is positive.
+
+The fact that $T$ is upwards biased should not depend on the value of $s$. But the magnitude of $T$ and the bias should. Specifically, $T$ will decrease as $s$ increases, until $s$ is large enough to make $T$ insignificant. This is caused by the marginal diminishing effect of education. Therefore, the bias should be relatively more significant for larger $s$. If I conduct this experiment at a very large $s$, it can be that a big portion of the income difference comes from reasons other than education itself.
+
+\subsection{Part 2}
+Figure 1 says that despite of a general increasing trend in education time, quarter of birth affects year of education periodically. Specifically, on average, fall-born children have the longest school periods, while the winter-born children have the shortest school periods.
+
+Figure 2 says that in year 30 - 40(45), which is exactly the time range in Figure 1, quarter of birth affects weekly wage periodically. Specifically, on average, fall-born children have the highest wages, while the winter-born children have the lowest wages. After year 45, however, the overall trend of decreasing wage overwhelms the periodicity that has just been described.
+
+I do find evidence convincing enough to use the quarter of birth as an instrumental variable. Because from the data in Figure 1, the first stage is satisfied. From the data in Figure 2, quarter of birth does affect weekly wage, and it is plausible to assume that length of educational period is the only channel through which quarter of birth can affect weekly wage. This means that exclusion restriction is satisfied.
+
+\subsection{Part 3}
+\subsubsection{Subpart (a)}
+First stage: being born in winter instead of fall decreases the expectation of school time.
+\begin{equation*}
+E[s|Z=1]<E[s|Z=0]
+\end{equation*}
+
+Exclusion restriction: quarter of birth only affects weekly wage through school time.
+\begin{equation*}
+E[w|s=k,Z=1]=E[w|s=k,Z=0]
+\end{equation*}
+
+\subsubsection{Subpart (b)}
+First stage is testable. I just average over school time of those born in winter ($Z=1$), and compare with the average over school time of those born in fall ($Z=0$). Check if $E[s|Z=1]<E[s|Z=0]$ holds.
+
+\subsubsection{Subpart (c)}
+I need this assumption. Because the treatment and the control groups must be balanced. The randomness of quarter of birth is likely to be a valid assumption.
+
+\subsection{Part 4}
+\subsubsection{Subpart (a)}
+\begin{equation*}
+\pi_1=E[s|Z=1]-E[s|Z=0]=12.4-12.6=-0.2
+\end{equation*}
+
+\subsubsection{Subpart (b)}
+\begin{equation*}
+\pi_2=E[w|Z=1]-E[w|Z=0]=41300-42100=-800
+\end{equation*}
+
+\subsubsection{Subpart (c)}
+\begin{equation*}
+\gamma=\frac{\pi_2}{\pi_1}=\frac{-800}{-0.2}=4000
+\end{equation*}
+
+On average, one additional year of education increases earning by \$4000.
+
+\subsection{Part 5}
+No, the instrumental variable estimation is still valid. Whenever there are dropout-rule-binding population involved, their years of education as well as earnings will enter the analysis by averaging, possible with others for whom the rule is not binding. This does not matter. The existence of the unbinding samples will only tempt to wash out the averaged effect. As long as they do not dominate the sample, we can still use this instrumental variable to correctly analysis the causal effect.
+
+\subsection{Part 6}
+We can use the following as an instrumental variable: whether or not ($Z=1$ or $Z=0$) there is a school in the neighborhood of a residential society.
+
+The treatment and the control groups can be balanced if all the societies we study have similar environments and the only difference is the existence of a nearby school. It is expected that children living close to a school will tend to enroll in this school for a rather long time, while children living far away from their schools are more motivated to drop out early. Therefore, this instrumental variable has a good first stage. Moreover, it is plausible that living near a school or not does not directly affect someone's future success. The only channel of influence is the length of attending the school. So exclusion restriction is satisfied.
+
+Therefore, the conditions for instrument validity would be likely to hold.
 
 \end{document}
