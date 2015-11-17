@@ -1,0 +1,169 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{epstopdf}
+\usepackage{indentfirst}
+\usepackage{geometry}
+\usepackage{bm}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+\title{8.511 Problem Set 9}
+\author{Yijun Jiang}
+%\email{yjjiang@mit.edu}
+\date{\today}
+
+\pagestyle{fancy}
+\lhead{Yijun Jiang}
+\rhead{8.511 Problem Set 9}
+
+\begin{document}
+\maketitle
+\section{Hartree-Fock}
+The Fock operator is
+\begin{equation*}
+F(\mathbf{r}_1)=h(\mathbf{r}_1)+V_{coul}(\mathbf{r}_1)+V_{exch}(\mathbf{r}_1)
+\end{equation*}
+where
+\begin{align*}
+&h(\mathbf{r}_1)=\frac{\mathbf{p}_1^2}{2m}-\int\frac{e\rho_{_{+}}}{|\mathbf{r}_1-\mathbf{R}|}d\mathbf{R}\\
+&V_{coul}(\mathbf{r}_1)=\sum_j\langle\psi_j(\mathbf{r}_2)|\frac{e^2}{|\mathbf{r}_1-\mathbf{r}_2|}|\psi_j(\mathbf{r}_2)\rangle\\
+&V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle=\sum_{j(j\parallel i)}\langle\psi_j(\mathbf{r}_2)|\frac{e^2}{|\mathbf{r}_1-\mathbf{r}_2|}|\psi_i(\mathbf{r}_2)\rangle|\psi_j(\mathbf{r}_1)\rangle
+\end{align*}
+
+The eigen-energies of the Fock operator are
+\begin{align*}
+\varepsilon_i&=\langle\psi_i(\mathbf{r}_1)|F(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle\\
+&=\langle\psi_i(\mathbf{r}_1)|\frac{\mathbf{p}_1^2}{2m}|\psi_i(\mathbf{r}_1)\rangle+\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle-\langle\psi_i(\mathbf{r}_1)|\int\frac{e\rho_{_{+}}}{|\mathbf{r}_1-\mathbf{R}|}d\mathbf{R}|\psi_i(\mathbf{r}_1)\rangle+\langle\psi_i(\mathbf{r}_1)|V_{coul}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle
+\end{align*}
+
+The last two terms cancel. Therefore,
+\begin{equation*}
+\varepsilon_i=\langle\psi_i(\mathbf{r}_1)|\frac{\mathbf{p}_1^2}{2m}|\psi_i(\mathbf{r}_1)\rangle+\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle
+\end{equation*}
+
+And the total ground state energy is
+\begin{align*}
+E^{H\!F}=&\sum_i\varepsilon_i-\frac{1}{2}\sum_i\langle\psi_i(\mathbf{r}_1)|V_{coul}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle-\frac{1}{2}\sum_i\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle\\
+=&\sum_i\langle\psi_i(\mathbf{r}_1)|\frac{\mathbf{p}_1^2}{2m}|\psi_i(\mathbf{r}_1)\rangle+\frac{1}{2}\sum_i\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle-\frac{1}{2}\sum_i\langle\psi_i(\mathbf{r}_1)|V_{coul}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle\\
+\end{align*}
+
+This does not take into account the repulsive energy between the background charges. After including this additional term, the total energy becomes
+\begin{align*}
+E^{H\!F}_{tot}=&E^{H\!F}+\frac{1}{2}\iint\frac{\rho_{_+}^2}{|\mathbf{R}_1-\mathbf{R}_2|}d\mathbf{R}_1d\mathbf{R}_2\\
+=&\sum_i\langle\psi_i(\mathbf{r}_1)|\frac{\mathbf{p}_1^2}{2m}|\psi_i(\mathbf{r}_1)\rangle+\frac{1}{2}\sum_i\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle-\frac{1}{2}\sum_i\langle\psi_i(\mathbf{r}_1)|V_{coul}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle+\frac{1}{2}\iint\frac{\rho_{_+}^2}{|\mathbf{R}_1-\mathbf{R}_2|}d\mathbf{R}_1d\mathbf{R}_2
+\end{align*}
+
+The last two terms cancel. Therefore,
+\begin{equation*}
+E^{H\!F}_{tot}=\sum_i\langle\psi_i(\mathbf{r}_1)|\frac{p_1^2}{2m}|\psi_i(\mathbf{r}_1)\rangle+\frac{1}{2}\sum_i\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle
+\end{equation*}
+
+Choose $|\psi_i(\mathbf{r}_1)\rangle=e^{i\mathbf{k}_i\cdot\mathbf{r}_1}/\sqrt{V}$. The first term is the total kinetic energy $E_{kin}$ in the Fermi sea. Since the average kinetic energy in the Fermi sphere is $3E_F/5$, this term gives
+\begin{equation*}
+E_{kin}=\sum_i\langle\psi_i(\mathbf{r}_1)|\frac{\mathbf{p}_1^2}{2m}|\psi_i(\mathbf{r}_1)\rangle=\frac{3}{5}N\frac{\hbar^2k_F^2}{2m}
+\end{equation*}
+
+The summand in the second term is
+\begin{align*}
+\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle&=-\frac{1}{V^2}\int e^{-i\mathbf{k}_i\cdot\mathbf{r}_1}\sum_j\left(\int e^{i(\mathbf{k}_i-\mathbf{k}_j)\cdot\mathbf{r}_2}\frac{e^2}{|\mathbf{r}_2-\mathbf{r}_1|}d\mathbf{r}_2\right)e^{i\mathbf{k}_j\cdot\mathbf{r}_1}d\mathbf{r}_1\\
+&=-\frac{1}{V^2}\int d\mathbf{r}_1\sum_j\left(\int e^{i(\mathbf{k}_i-\mathbf{k}_j)\cdot(\mathbf{r}_2-\mathbf{r}_1)}\frac{e^2}{|\mathbf{r}_2-\mathbf{r}_1|}d\mathbf{r}_2\right)\\
+&=-\frac{e^2}{V^2}\int d\mathbf{r}_1\sum_j\int\frac{e^{i(\mathbf{k}_i-\mathbf{k}_j)\cdot\mathbf{r}}}{r}d\mathbf{r}\\
+&=-\frac{4\pi e^2}{V}\sum_j\frac{1}{|\mathbf{k}_i-\mathbf{k}_j|^2}
+\end{align*}
+where I have used the fact that $\int r^{-1}e^{i\mathbf{k}\cdot\mathbf{r}}d\mathbf{r}=4\pi/k^2$.
+
+To evaluate the sum over $|\mathbf{k}_i-\mathbf{k}_j|^{-2}$, fix $\mathbf{k}_i$ in the $z$ direction. Then
+\begin{align*}
+\frac{1}{|\mathbf{k}_i-\mathbf{k}_j|^2}&=\frac{V}{(2\pi)^3}\int_0^{k_F}dk\int_0^\pi d\theta\int_0^{2\pi}d\phi\frac{1}{k_i^2+k^2-2k_ik\cos\theta}k^2\sin\theta\\
+&=\frac{V}{(2\pi)^2}\int_0^{k_F}dk\int_{-1}^1\frac{d(\cos\theta)}{\left(\frac{k_i}{k}\right)^2+1-2\left(\frac{k_i}{k}\right)\cos\theta}\\
+&=\frac{V}{(2\pi)^2}\int_0^{k_F}\frac{k}{k_i}\ln\left|\frac{k_i+k}{k_i-k}\right|dk\\
+&=\frac{Vk_i}{(2\pi)^2}\int_0^{\frac{k_F}{k_i}}x\ln\left|\frac{1+x}{1-x}\right|dx\\
+&=\frac{Vk_i}{(2\pi)^2}\left[x+\frac{1-x^2}{2}\ln\left|\frac{1-x}{1+x}\right|\right]_0^{\frac{k_F}{k_i}}\\
+&=\frac{Vk_i}{(2\pi)^2}\left(\frac{k_F}{k_i}+\frac{k_i^2-k_F^2}{2k_i^2}\ln\left|\frac{k_i-k_F}{k_i+k_F}\right|\right)\\
+&=\frac{Vk_F}{(2\pi)^2}\left(1+\frac{k_F^2-k_i^2}{2k_ik_F}\ln\left|\frac{k_F+k_i}{k_F-k_i}\right|\right)\\
+&=\frac{2Vk_F}{(2\pi)^2}\left(\frac{1}{2}+\frac{1-\left(\frac{k_i}{k_F}\right)^2}{4\left(\frac{k_i}{k_F}\right)}\ln\left|\frac{1+\left(\frac{k_i}{k_F}\right)}{1-\left(\frac{k_i}{k_F}\right)}\right|\right)\\
+\end{align*}
+
+Define
+\begin{equation*}
+F(x)=\frac{1}{2}+\frac{1-x^2}{4x}\ln\left|\frac{1+x}{1-x}\right|
+\end{equation*}
+
+Then we have
+\begin{equation*}
+\langle\psi_i(\mathbf{r}_1)|V_{exch}(\mathbf{r}_1)|\psi_i(\mathbf{r}_1)\rangle=-\frac{2e^2k_F}{\pi}F(k_i/k_F)
+\end{equation*}
+
+So the eigen-energies of the Fock operator are
+\begin{equation*}
+\varepsilon_i=\frac{\hbar^2k_i^2}{2m}-\frac{2e^2k_F}{\pi}F(k_i/k_F)
+\end{equation*}
+
+The total exchange energy is given below (there is a factor of $1/2$ eliminating double counting, and another factor of $2$ accounting for exchange interaction both between spin up electrons and between spin down electrons)
+\begin{align*}
+E_{exch}&=\frac{1}{2}\frac{V}{(2\pi)^3}\times 2\int_0^{k_F}\left(-\frac{2e^2k_F}{\pi}\right)F(k/k_F)d\mathbf{k}\\
+&=-\frac{2e^2k_F^4}{\pi}\frac{V}{(2\pi)^3}4\pi\int_0^1F(x)x^2dx\\
+&=-\frac{e^2k_F^4V}{\pi^3}\int_0^1x^2\left(\frac{1}{2}+\frac{1-x^2}{4x}\ln\left|\frac{1+x}{1-x}\right|\right)dx\\
+&=-\frac{e^2k_F^4V}{\pi^3}\left(\frac{1}{6}+\frac{1}{4}\int_0^1x(1-x^2)\ln\frac{1+x}{1-x}dx\right)\\
+&=-\frac{e^2k_F^4V}{\pi^3}\left(\frac{1}{6}+\frac{1}{4}\left[\frac{1}{6}x(3-x^2)-\frac{1}{4}(x^2-1)^2\ln\frac{1+x}{1-x}\right]_0^1\right)\\
+&=-\frac{e^2k_F^4V}{4\pi^3}\\
+&=-\frac{e^2k_F(3\pi^2n)V}{4\pi^3}\\
+&=-\frac{3}{4}N\frac{e^2k_F}{\pi}
+\end{align*}
+
+Therefore, the total ground state energy is
+\begin{equation*}
+E^{H\!F}_{tot}=E_{kin}+E_{exch}=N\left(\frac{3}{5}\frac{\hbar^2k_F^2}{2m}-\frac{3}{4}\frac{e^2k_F}{\pi}\right)
+\end{equation*}
+
+Since $k_F=(3\pi^2n)^{1/3}$, $dk_F/dN=k_F/3N$. Therefore,
+
+\begin{align*}
+\mu&=\frac{dE}{dN}\\
+&=\left(\frac{3}{5}\frac{\hbar^2k_F^2}{2m}-\frac{3}{4}\frac{e^2k_F}{\pi}\right)+N\frac{d}{dN}\left(\frac{3}{5}\frac{\hbar^2k_F^2}{2m}-\frac{3}{4}\frac{e^2k_F}{\pi}\right)\\
+&=\left(\frac{3}{5}\frac{\hbar^2k_F^2}{2m}-\frac{3}{4}\frac{e^2k_F}{\pi}\right)+\left(\frac{2}{5}\frac{\hbar^2k_F^2}{2m}-\frac{1}{4}\frac{e^2k_F}{\pi}\right)\\
+&=\frac{\hbar^2k_F^2}{2m}-\frac{e^2k_F}{\pi}
+\end{align*}
+
+\begin{align*}
+\frac{d\mu}{dn}&=\frac{d}{dn}\left(\frac{\hbar^2k_F^2}{2m}-\frac{e^2k_F}{\pi}\right)\\
+&=\frac{\hbar^2k_F^2}{3mn}-\frac{e^2k_F}{3\pi n}
+\end{align*}
+
+Therefore,
+\begin{equation*}
+\frac{dn}{d\mu}=\left(\frac{\hbar^2k_F^2}{3mn}-\frac{e^2k_F}{3\pi n}\right)^{-1}
+\end{equation*}
+
+Negative $dn/d\mu$ means
+\begin{align*}
+&\frac{\hbar^2k_F^2}{3mn}<\frac{e^2k_F}{3\pi n}\\
+&n<\frac{1}{3\pi^2}\left(\frac{me^2}{\pi\hbar^2}\right)^3\approx7.35\times 10^{27}\textup{ m}^{-3}
+\end{align*}
+
+Since $k_Fa_0=1.92/r_s$, we have
+\begin{align*}
+&E^{H\!F}_{tot}=N\frac{e^2}{2a_0}\left(\frac{2.21}{r_s^2}-\frac{0.916}{r_s}\right)\\
+&\mu=\frac{e^2}{2a_0}\left(\frac{3.68}{r_s^2}-\frac{1.22}{r_s}\right)\\
+&\frac{dn}{d\mu}=\left(\frac{e^2}{2a_0}\left(\frac{2.46}{r_s^2n}-\frac{0.407}{r_sn}\right)\right)^{-1}\\
+&r_s>6.03\textup{ for }\frac{dn}{d\mu}<0
+\end{align*}
+
+Compressibility is
+\begin{align*}
+\kappa&=-\frac{1}{V}\left(\frac{\partial V}{\partial P}\right)_{N,T}\\
+&=-\left(\frac{\partial\ln V}{\partial P}\right)_{N,T}\\
+&=\left(\frac{\partial\ln n}{\partial P}\right)_{N,T}\\
+&=\frac{1}{n}\left(\frac{\partial n}{\partial\mu}\right)_T\left(\frac{\partial\mu}{\partial P}\right)_T\\
+&=\frac{1}{n}\left(\frac{\partial n}{\partial\mu}\right)_T\frac{1}{N}\left(\frac{\partial G}{\partial P}\right)_{N,T}\\
+&=\frac{1}{n}\left(\frac{\partial n}{\partial\mu}\right)_T\frac{V}{N}\\
+&=\frac{1}{n^2}\left(\frac{\partial n}{\partial\mu}\right)_T
+\end{align*}
+
+Therefore, $\partial n/\partial\mu<0$ means negative compressibility.
+
+\end{document}
