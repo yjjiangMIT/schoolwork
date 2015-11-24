@@ -155,10 +155,10 @@ No, it does NOT contradict the First Welfare Theorem. This is because the First 
 \subsection{Part 6}
 It is a negative externality.
 
-The Coase theorem implies that the market will solve externalities all by itself if: (1) property rights are complete and (2) negotiating is essentially costless. In this case, the property rights are NOT complete. It is not specified which company has the right to cause conjestion. Therefore, this externality is not internalized.
+The Coase theorem implies that the market will solve externalities all by itself if: (1) property rights are complete and (2) negotiating is essentially costless. In this case, the property rights are NOT complete. It is not specified which company has the right to cause congestion. Therefore, this externality is not internalized.
 
 \subsection{Part 7}
-A transferrable license is more efficient. From the calculation above, if the license is nontransferrable, then only company A can serve the tourists and the social welfare is 100. If the license is transferrable, either company A or B can have it. It is better if company B has it, because by maximizing $\textup{PS}_B=20N^{1/2}-N/2$, company AB can serve 400 tourists and the social welfare becomes 200. It does not matter that company A is given the license at the beginning, for according to the Coase Theorem, the outcome is efficient no matter who owns the property rights. Company A can sell the license to company B at 200.
+A transferrable license is more efficient. From the calculation above, if the license is nontransferrable, then only company A can serve the tourists and the social welfare is 100. If the license is transferrable, either company A or B can have it. It is better if company B has it, because by maximizing $\textup{PS}_B=20N^{1/2}-N/2$, company B can serve 400 tourists and the social welfare becomes 200. It does not matter that company A is given the license at the beginning, for according to the Coase Theorem, the outcome is efficient no matter who owns the property rights. Company A can sell the license to company B at 200.
 
 Since a nontransferrable license is worth 100 to company A and a transferrable license is worth 200, company A would like to pay more for the transferrable license.
 
@@ -225,8 +225,10 @@ On average, one additional year of education increases earning by \$4000.
 No, the instrumental variable estimation is still valid. Whenever there are dropout-rule-binding population involved, their years of education as well as earnings will enter the analysis by averaging, possible with others for whom the rule is not binding. This does not matter. The existence of the unbinding samples will only tempt to wash out the averaged effect. As long as they do not dominate the sample, we can still use this instrumental variable to correctly analysis the causal effect.
 
 \subsection{Part 6}
-We can use the following as an instrumental variable: whether or not ($Z=1$ or $Z=0$) there is a school in the neighborhood of a residential society.
+We can use the following as an instrumental variable: whether or not ($Z=1$ or $Z=0$) there is a college in the neighborhood of a residential society.
 
-The treatment and the control groups can be balanced if all the societies we study have similar environments and the only difference is the existence of a nearby school. It is expected that children living close to a school will tend to enroll in this school for a rather long time, while children living far away from their schools are more motivated to drop out early. Therefore, this instrumental variable has a good first stage. Moreover, it is plausible that living near a school or not does not directly affect someone's future success. The only channel of influence is the length of attending the school. So exclusion restriction is satisfied.
+The treatment and the control groups can be balanced if all the societies we study have similar environments and the only difference is the existence of a nearby college. It is expected that children living close to a college will tend to enroll in the college's program and know more about the college, which rais, while children living far away from their schools are more motivated to drop out early. Therefore, this instrumental variable has a good first stage. Moreover, it is plausible that living near a school or not does not directly affect someone's future success. The only channel of influence is the length of attending the school. So exclusion restriction is satisfied.
+
+Therefore, the conditions for instrument validity would be likely to hold.
 
 \end{document}

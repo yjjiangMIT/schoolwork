@@ -45,6 +45,10 @@ which is impossible since the total wealth of clams should equal the total value
 
 ~
 
+\noindent\textbf{Runtime}: There are $n$ pearls, which correspond to $n$ iterations. In each iteration, naively choosing the poorest clam costs $O(m)$ time. Therefore, the overall runtime is $T=O(mn)$, which is a polynomial of input size.
+
+~
+
 \noindent\textbf{Proof of being 2-approximation}: We first prove by contradiction that the poorest clam has wealth at most $(\sum_{i=1}^np_i)/m$. Suppose this does not hold. Let the poorest clam has wealth $w_{\min}$, then
 \begin{equation*}
 \sum_{j=1}^mw_j\geqslant mw_{\min}>\sum_{i=1}^np_i
@@ -67,6 +71,10 @@ This shows that the algorithm is a 2-approximation.
 
 \subsection{Part (c)}
 \noindent\textbf{Description}: Take the list of pearls and sort it in decreasing order. For each pearl in this list, give it to the currently poorest clam (break ties arbitrarily). Do this until all the pearls are distributed to the clams.
+
+~
+
+\noindent\textbf{Runtime}: Sorting the pearls takes $O(n\log n)$ time. Once the pearls are sorted, $n$ iterations are performed. In each iteration, naively choosing the poorest clam costs $O(m)$ time. Therefore, the overall runtime is $T=O(n\log n+mn)$, which is a polynomial of input size.
 
 ~
 

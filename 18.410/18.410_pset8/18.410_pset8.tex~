@@ -45,6 +45,10 @@ which is impossible since the total wealth of clams should equal the total value
 
 ~
 
+\noindent\textbf{Runtime}: There are $n$ pearls, which correspond to $n$ iterations. In each iteration, naively choosing the poorest clam costs $O(m)$ time. Therefore, the overall runtime is $T=O(mn)$, which is a polynomial of input size.
+
+~
+
 \noindent\textbf{Proof of being 2-approximation}: We first prove by contradiction that the poorest clam has wealth at most $(\sum_{i=1}^np_i)/m$. Suppose this does not hold. Let the poorest clam has wealth $w_{\min}$, then
 \begin{equation*}
 \sum_{j=1}^mw_j\geqslant mw_{\min}>\sum_{i=1}^np_i
@@ -102,8 +106,8 @@ As a result, the approximation algorithm cannot give a $w_{\max}$ strictly large
 
 In conclusion,
 \begin{enumerate}
-\item{If $p_n\leqslant\textup{OPT}/3$, then $w_{\max}\leqslant\frac{4}{3}\textup{OPT}$}
-\item{If $p_n>\textup{OPT}/3$, then $w_{\max}=\frac{4}{3}\textup{OPT}$}
+\item{If $p_n\leqslant\textup{OPT}/3$, then $w_{\max}\leqslant4\textup{OPT}/3$.}
+\item{If $p_n>\textup{OPT}/3$, then $w_{\max}=\textup{OPT}$.}
 \end{enumerate}
 
 This shows that the algorithm is a 4/3-approximation.
